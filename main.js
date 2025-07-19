@@ -57,8 +57,76 @@ function getSectionKey(qid, sidx) {
   return `${qid}_${sidx}`;
 }
 
+    // Function to copy text to clipboard
+  function copyTextToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      // Use modern clipboard API
+      navigator.clipboard.writeText(text).then(() => {
+        showCopyFeedback();
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        fallbackCopyTextToClipboard(text);
+      });
+    } else {
+      // Fallback for older browsers
+      fallbackCopyTextToClipboard(text);
+    }
+  }
+  
+  // Fallback copy function
+  function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      showCopyFeedback();
+    } catch (err) {
+      console.error('Fallback copy failed: ', err);
+    }
+    
+    document.body.removeChild(textArea);
+  }
+  
+  // Show copy feedback
+  function showCopyFeedback() {
+    const feedback = document.createElement('div');
+    feedback.textContent = 'Copied!';
+    feedback.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--md-success);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    `;
+    
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => {
+      feedback.style.opacity = '0';
+      feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+      feedback.style.transition = 'all 0.3s ease';
+      
+      setTimeout(() => {
+        document.body.removeChild(feedback);
+      }, 300);
+    }, 1000);
+  }
+  
   // Function to create confetti
-function createConfetti() {
+  function createConfetti() {
   const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
   const confettiCount = 50;
   
@@ -91,29 +159,20 @@ function createConfetti() {
 }
 
 function renderTabs() {
-  return `<div class="tabs">
-    <div class="tabs-left">
-      <button class="tab-nav-btn" onclick="scrollTabs('left')" title="גלול שמאלה">‹</button>
-      ${questions
-        .map(
-          (q, i) =>
-            `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">שאלה ${i + 1}</button>`
-        )
-        .join('')}
-      <button class="tab-nav-btn" onclick="scrollTabs('right')" title="גלול ימינה">›</button>
+  return `<div class="header-container">
+    <div class="tabs">
+      <div class="tabs-left">
+        <button class="tab-nav-btn" onclick="scrollTabs('left')" title="גלול שמאלה">‹</button>
+        ${questions
+          .map(
+            (q, i) =>
+              `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">שאלה ${i + 1}</button>`
+          )
+          .join('')}
+        <button class="tab-nav-btn" onclick="scrollTabs('right')" title="גלול ימינה">›</button>
+      </div>
     </div>
-  </div>
-  <div class="controls-row">
-    <div class="mode-toggle">
-      <span class="mode-label">מצב:</span>
-      <label class="toggle-mode">
-        <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
-        <span class="toggle-slider"></span>
-      </label>
-      <span class="mode-text">${state.mode === 'advanced' ? 'מתקדם' : 'בסיס'}</span>
-    </div>
-    <div class="theme-toggle">
-      <span class="theme-label">ערכת נושא:</span>
+    <div class="theme-toggle-top">
       <label class="theme-toggle-mode">
         <input type="checkbox" ${state.theme === 'dark' ? 'checked' : ''} onchange="toggleTheme()">
         <span class="theme-toggle-slider"></span>
@@ -223,7 +282,7 @@ function renderAdvancedSection(section, qid, sidx) {
         const textAlign = isEng ? 'left' : 'right';
         const textTransform = isEng ? 'uppercase' : 'none';
         return `<div class="input-row">
-          <input class="input-sentence" type="text" style="direction:${direction};text-align:${textAlign};text-transform:${textTransform};font-weight:${isRadio ? 'bold' : 'normal'}" value="${val.replace(/"/g, '&quot;')}" oninput="updateAnswer('${key}',${idx},this.value)" data-key="${key}" data-idx="${idx}">
+          <textarea class="input-sentence" style="direction:${direction};text-align:${textAlign};text-transform:${textTransform};font-weight:${isRadio ? 'bold' : 'normal'};resize:none;min-height:60px;" oninput="updateAnswer('${key}',${idx},this.value)" data-key="${key}" data-idx="${idx}" rows="3">${val.replace(/"/g, '&quot;')}</textarea>
           <span class="accuracy" style="color:${acc === 100 ? '#388e3c' : acc > 60 ? '#fbc02d' : '#d32f2f'}">${val ? acc + '%' : ''}</span>
         </div>`;
       })
@@ -243,8 +302,17 @@ function renderQuestion(q) {
   return `
     <div class="content">
       <div class="sticky-question">
-        <div class="question-title">${q.title}</div>
-        <div class="question-description" style="border: 2px solid blue; padding: 15px; margin: 10px 0;">${q.description}</div>
+        <div class="question-header">
+          <div class="question-title">${q.title}</div>
+          <div class="mode-toggle">
+            <label class="toggle-mode">
+              <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="mode-toggle-text">${state.mode === 'advanced' ? '✏️' : '👁️'}</span>
+          </div>
+        </div>
+        <div class="question-description" style="padding: 15px; margin: 10px 0;">${q.description}</div>
       </div>
       ${q.sections
         .map((section, sidx) => {
@@ -284,7 +352,7 @@ function render() {
       // Save focus after render
   if (state.mode === 'advanced') {
     setTimeout(() => {
-      const inputs = document.querySelectorAll('.input-sentence');
+      const inputs = document.querySelectorAll('textarea.input-sentence');
       inputs.forEach(input => {
         const key = input.getAttribute('data-key');
         const idx = parseInt(input.getAttribute('data-idx'));
@@ -297,6 +365,13 @@ function render() {
 }
 
 function renderWithoutFocus() {
+  // Save scroll position and prevent scroll
+  const currentScroll = window.scrollY;
+  const scrollContainer = document.documentElement;
+  
+  // Temporarily disable scroll
+  scrollContainer.style.overflow = 'hidden';
+  
   app.innerHTML = `
     ${renderTabs()}
     ${renderQuestion(questions[state.tab])}
@@ -304,7 +379,7 @@ function renderWithoutFocus() {
   
       // Update values without saving focus
   if (state.mode === 'advanced') {
-    const inputs = document.querySelectorAll('.input-sentence');
+    const inputs = document.querySelectorAll('textarea.input-sentence');
     inputs.forEach(input => {
       const key = input.getAttribute('data-key');
       const idx = parseInt(input.getAttribute('data-idx'));
@@ -313,11 +388,17 @@ function renderWithoutFocus() {
       }
     });
   }
+  
+  // Restore scroll position and re-enable scroll
+  requestAnimationFrame(() => {
+    window.scrollTo(0, currentScroll);
+    scrollContainer.style.overflow = '';
+  });
 }
 
 function updateSingleInput(key, idx, val) {
-  // עדכן רק את האלמנט הספציפי
-  const inputElement = document.querySelector(`input[data-key="${key}"][data-idx="${idx}"]`);
+  // Update only the specific element
+  const inputElement = document.querySelector(`textarea[data-key="${key}"][data-idx="${idx}"]`);
   if (inputElement) {
     inputElement.value = val;
     
@@ -358,7 +439,7 @@ function updateScore(key) {
 
 window.selectTab = function (i) {
   state.tab = i;
-  render();
+  renderWithoutFocus();
 };
 
 window.toggleMode = function () {
@@ -376,16 +457,40 @@ window.revealSentence = function (key) {
   state.revealed[key] = (state.revealed[key] || 0) + 1;
   render();
   
-  // Auto scroll למשפט החדש
+  // Smart scroll to new sentence
   setTimeout(() => {
     const sentenceElements = document.querySelectorAll('.sentence-text');
     if (sentenceElements.length > 0) {
       const lastSentence = sentenceElements[sentenceElements.length - 1];
-      lastSentence.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center',
-        inline: 'nearest'
-      });
+      
+      // Smart scroll - only if the new sentence is not visible
+      const sentenceRect = lastSentence.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      if (sentenceRect.bottom > windowHeight || sentenceRect.top < 0) {
+        lastSentence.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }
+      
+      // Additional scroll to show buttons at the bottom
+      setTimeout(() => {
+        const buttons = document.querySelectorAll('button[onclick*="showNextSentence"], button[onclick*="showAllSentences"], button[onclick*="clearAllSentences"]');
+        if (buttons.length > 0) {
+          const lastButton = buttons[buttons.length - 1];
+          const buttonRect = lastButton.getBoundingClientRect();
+          
+          if (buttonRect.bottom > windowHeight) {
+            lastButton.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }
+        }
+      }, 200);
     }
   }, 100);
 };
@@ -403,7 +508,7 @@ window.showNextSentence = function (key) {
   state.revealed[key] = (state.revealed[key] || 0) + 1;
   render();
   
-      // Auto scroll to new sentence with animation
+      // Add highlight effect and smart scroll
   setTimeout(() => {
     const sentenceElements = document.querySelectorAll('.sentence-text');
     if (sentenceElements.length > 0) {
@@ -412,11 +517,34 @@ window.showNextSentence = function (key) {
       // Add highlight effect to new sentence
       lastSentence.style.animation = 'pulse 1s ease-in-out';
       
-      lastSentence.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center',
-        inline: 'nearest'
-      });
+      // Smart scroll - only if the new sentence is not visible
+      const sentenceRect = lastSentence.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      if (sentenceRect.bottom > windowHeight || sentenceRect.top < 0) {
+        lastSentence.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }
+      
+      // Additional scroll to show buttons at the bottom
+      setTimeout(() => {
+        const buttons = document.querySelectorAll('button[onclick*="showNextSentence"], button[onclick*="showAllSentences"], button[onclick*="clearAllSentences"]');
+        if (buttons.length > 0) {
+          const lastButton = buttons[buttons.length - 1];
+          const buttonRect = lastButton.getBoundingClientRect();
+          
+          if (buttonRect.bottom > windowHeight) {
+            lastButton.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }
+        }
+      }, 200);
       
       // Remove animation after one second
       setTimeout(() => {
@@ -513,10 +641,35 @@ render();
   // Apply theme as default
 document.body.setAttribute('data-theme', state.theme);
 
-  // Add event listeners for focus handling
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('input-sentence')) {
-    // Save focus on the clicked input
-    e.target.focus();
+// Prevent scroll to top on content changes
+let savedScrollPosition = 0;
+const observer = new MutationObserver(() => {
+  if (savedScrollPosition > 0) {
+    requestAnimationFrame(() => {
+      window.scrollTo(0, savedScrollPosition);
+    });
   }
-}); 
+});
+
+observer.observe(document.getElementById('app'), {
+  childList: true,
+  subtree: true
+});
+
+// Save scroll position before any content change
+document.addEventListener('scroll', () => {
+  savedScrollPosition = window.scrollY;
+});
+
+    // Add event listeners for focus handling
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('input-sentence')) {
+      // Save focus on the clicked textarea
+      e.target.focus();
+    }
+    
+    // Copy text on mobile tap
+    if (e.target.classList.contains('sentence-text')) {
+      copyTextToClipboard(e.target.textContent);
+    }
+  }); 
