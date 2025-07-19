@@ -10,7 +10,7 @@ let state = {
 };
 
 function isEnglish(str) {
-  // בדוק אם יש תווים עבריים במשפט
+      // Check if there are Hebrew characters in the sentence
   const hebrewRegex = /[\u0590-\u05FF]/;
   return !hebrewRegex.test(str);
 }
@@ -29,25 +29,25 @@ function expandX3(sentence) {
     return parts.slice(0, -1).join(' ') + ' ' + lastWord + ' ' + lastWord + ' ' + lastWord;
   }
   
-  // רגיל: MAYDAY X3 -> MAYDAY MAYDAY MAYDAY
+      // Regular: MAYDAY X3 -> MAYDAY MAYDAY MAYDAY
   return sentence.replace(/([A-Z]+) X3/, '$1 $1 $1');
 }
 
 function isRadioCommunication(sentence) {
-  // משפטים שמייצגים שיחה בקשר
+  // Sentences representing radio communication
   const radioKeywords = [
     'MAYDAY', 'OVER', 'OUT', 'THIS IS', 'ALL STATION', 'ALL STATIONS',
     'SEELONCE', 'FEENEE', 'RECEIVED', 'MMSI', 'UTC',
-    // שמות הספינות
+    // Ship names
     'TOMA', 'GATO', 'RONI', 'ALASKA',
-    // מיקום
+    // Location
     'DEGREES', 'MINUTES', 'NORTH', 'SOUTH', 'EAST', 'WEST',
-    // מצב הספינה (רק במשפטי שיחה)
+    // Ship status (only in communication sentences)
     'DISABLED AND DRIFTING', 'FIRE ON BOARD', 'TAKING WATER',
     'IN DANGER OF SINKING',
-    // בקשות עזרה
+    // Help requests
     'REQUIRE IMMEDIATE ASSISTANCE',
-    // מספר אנשים
+    // Number of people
     'PERSONS ON BOARD'
   ];
   return radioKeywords.some(keyword => sentence.includes(keyword));
@@ -57,7 +57,7 @@ function getSectionKey(qid, sidx) {
   return `${qid}_${sidx}`;
 }
 
-// פונקציה ליצירת קונפטי
+  // Function to create confetti
 function createConfetti() {
   const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
   const confettiCount = 50;
@@ -189,7 +189,7 @@ function compareSentences(user, correct) {
   const normCorrect = normalize(expCorrect);
   if (!normUser) return 0;
   if (normUser === normCorrect) return 100;
-  // חישוב דמיון בסיסי (Levenshtein או פשוט)
+      // Basic similarity calculation (Levenshtein or simple)
   const u = normUser.split(' ');
   const c = normCorrect.split(' ');
   let match = 0;
@@ -205,7 +205,7 @@ function renderAdvancedSection(section, qid, sidx) {
   let total = 0;
   let count = 0;
   
-  // בדוק אם כל המשפטים נכונים ב-100%
+      // Check if all sentences are 100% correct
   const allCorrect = section.sentences.every((sentence, idx) => {
     const acc = compareSentences(answers[idx] || '', sentence);
     return acc === 100;
@@ -281,7 +281,7 @@ function render() {
     ${renderQuestion(questions[state.tab])}
   `;
   
-  // שמור את הפוקוס אחרי רינדור
+      // Save focus after render
   if (state.mode === 'advanced') {
     setTimeout(() => {
       const inputs = document.querySelectorAll('.input-sentence');
@@ -302,7 +302,7 @@ function renderWithoutFocus() {
     ${renderQuestion(questions[state.tab])}
   `;
   
-  // עדכן ערכים ללא שמירת פוקוס
+      // Update values without saving focus
   if (state.mode === 'advanced') {
     const inputs = document.querySelectorAll('.input-sentence');
     inputs.forEach(input => {
@@ -321,7 +321,7 @@ function updateSingleInput(key, idx, val) {
   if (inputElement) {
     inputElement.value = val;
     
-    // עדכן את האחוז דיוק
+    // Update accuracy percentage
     const sentence = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences[idx];
     const accuracy = compareSentences(val, sentence);
     const accuracyElement = inputElement.parentElement.querySelector('.accuracy');
@@ -330,7 +330,7 @@ function updateSingleInput(key, idx, val) {
       accuracyElement.style.color = accuracy === 100 ? '#388e3c' : accuracy > 60 ? '#fbc02d' : '#d32f2f';
     }
     
-    // עדכן את הציון
+    // Update the score
     updateScore(key);
   }
 }
@@ -391,7 +391,7 @@ window.revealSentence = function (key) {
 };
 
 window.showAllSentences = function (key) {
-  // מציג את כל המשפטים בסעיף
+      // Show all sentences in the section
   const [qid, sidx] = key.split('_');
   const section = questions[state.tab].sections[parseInt(sidx)];
   state.revealed[key] = section.sentences.length;
@@ -399,17 +399,17 @@ window.showAllSentences = function (key) {
 };
 
 window.showNextSentence = function (key) {
-  // מציג את המשפט הבא (מה שהצג עשה קודם)
+      // Show the next sentence (what show did before)
   state.revealed[key] = (state.revealed[key] || 0) + 1;
   render();
   
-  // Auto scroll למשפט החדש עם אנימציה
+      // Auto scroll to new sentence with animation
   setTimeout(() => {
     const sentenceElements = document.querySelectorAll('.sentence-text');
     if (sentenceElements.length > 0) {
       const lastSentence = sentenceElements[sentenceElements.length - 1];
       
-      // הוסף אפקט הדגשה למשפט החדש
+      // Add highlight effect to new sentence
       lastSentence.style.animation = 'pulse 1s ease-in-out';
       
       lastSentence.scrollIntoView({ 
@@ -418,7 +418,7 @@ window.showNextSentence = function (key) {
         inline: 'nearest'
       });
       
-      // הסר את האנימציה אחרי שנייה
+      // Remove animation after one second
       setTimeout(() => {
         lastSentence.style.animation = '';
       }, 1000);
@@ -427,7 +427,7 @@ window.showNextSentence = function (key) {
 };
 
 window.clearAllSentences = function (key) {
-  // מנקה את כל המשפטים בסעיף
+      // Clear all sentences in the section
   state.revealed[key] = 0;
   render();
 };
@@ -436,19 +436,19 @@ window.updateAnswer = function (key, idx, val) {
   if (!state.answers[key]) state.answers[key] = Array(questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences.length).fill('');
   state.answers[key][idx] = val;
   
-  // שמור את הפוקוס הנוכחי
+      // Save current focus
   const activeElement = document.activeElement;
   const activeKey = activeElement ? activeElement.getAttribute('data-key') : null;
   const activeIdx = activeElement ? parseInt(activeElement.getAttribute('data-idx')) : null;
   const cursorPosition = activeElement ? activeElement.selectionStart : 0;
   const scrollPosition = window.scrollY;
   
-  // בדוק אם התשובה נכונה ב-100%
+      // Check if answer is 100% correct
   const sentence = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences[idx];
   const accuracy = compareSentences(val, sentence);
   
   if (accuracy === 100) {
-    // הוסף אפקט הצלחה
+    // Add success effect
     const inputElement = document.querySelector(`input[data-key="${key}"][data-idx="${idx}"]`);
     if (inputElement) {
       inputElement.classList.add('success');
@@ -458,7 +458,7 @@ window.updateAnswer = function (key, idx, val) {
     }
   }
   
-  // בדוק אם כל המשפטים בסעיף נכונים
+      // Check if all sentences in section are correct
   const section = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key);
   const allCorrect = section.sentences.every((s, i) => {
     const acc = compareSentences(state.answers[key][i] || '', s);
@@ -466,14 +466,14 @@ window.updateAnswer = function (key, idx, val) {
   });
   
   if (allCorrect) {
-    // הפעל קונפטי
+    // Trigger confetti
     createConfetti();
   }
   
-  // עדכן רק את האלמנט הספציפי במקום רינדור מלא
+      // Update only the specific element instead of full render
   updateSingleInput(key, idx, val);
   
-  // החזר את הפוקוס והגלילה
+      // Restore focus and scroll
   setTimeout(() => {
     if (activeKey && activeIdx !== null) {
       const newActiveElement = document.querySelector(`input[data-key="${activeKey}"][data-idx="${activeIdx}"]`);
@@ -482,7 +482,7 @@ window.updateAnswer = function (key, idx, val) {
         newActiveElement.setSelectionRange(cursorPosition, cursorPosition);
       }
     }
-    // החזר את מיקום הגלילה
+    // Restore scroll position
     window.scrollTo(0, scrollPosition);
   }, 0);
 };
@@ -491,7 +491,7 @@ window.scrollTabs = function (direction) {
   const tabsContainer = document.querySelector('.tabs-left');
   if (!tabsContainer) return;
   
-  const scrollAmount = 200; // גלול 200px בכל פעם
+  const scrollAmount = 200; // Scroll 200px each time
   const currentScroll = tabsContainer.scrollLeft;
   
   if (direction === 'left') {
@@ -510,13 +510,13 @@ window.scrollTabs = function (direction) {
 
 render();
 
-// החל את ה-theme כברירת מחדל
+  // Apply theme as default
 document.body.setAttribute('data-theme', state.theme);
 
-// הוסף event listeners לטיפול בפוקוס
+  // Add event listeners for focus handling
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('input-sentence')) {
-    // שמור את הפוקוס על האינפוט שנלחץ
+    // Save focus on the clicked input
     e.target.focus();
   }
 }); 
