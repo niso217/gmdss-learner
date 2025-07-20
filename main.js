@@ -41,7 +41,13 @@ function expandX3(sentence) {
 }
 
 function isRadioCommunication(sentence) {
-  // Sentences representing radio communication
+  // For questions 1-13 (distress messages), highlight all sentences
+  const currentQuestionId = state.tab < questions.length ? questions[state.tab].id : null;
+  if (currentQuestionId && currentQuestionId >= 1 && currentQuestionId <= 13) {
+    return true;
+  }
+  
+  // For other questions, use the original logic
   const radioKeywords = [
     'MAYDAY', 'OVER', 'OUT', 'THIS IS', 'ALL STATION', 'ALL STATIONS',
     'SEELONCE', 'FEENEE', 'RECEIVED', 'MMSI', 'UTC',
