@@ -2,27 +2,51 @@ const app = document.getElementById('app');
 const questions = window.gmdssQuestions;
 const americanQuestions = window.americanQuestions || [];
 
+// יצירת טאב שאלות מצוקה עם ניווט פנימי
+const distressQuestions = questions.slice(0, 13); // שאלות 1-13
+const otherQuestions = questions.slice(13); // שאר השאלות
+
+// יצירת טאב חדש לשאלות מצוקה
+const distressTab = {
+  id: 'distress',
+  title: 'שאלות מצוקה',
+  type: 'distress',
+  description: 'שאלות בנושא מצוקה',
+  questions: distressQuestions
+};
+
 // הוספת טאב סימולטורים
-questions.push({
+const simulatorsTab = {
   id: 'simulators',
   title: 'סימולטורים',
   type: 'simulators',
   description: 'הורדת קבצי סימולטור'
-});
+};
 
-console.log('Questions loaded:', questions);
+// יצירת רשימת טאבים חדשה
+const tabs = [
+  distressTab,
+  ...otherQuestions,
+  simulatorsTab
+];
+
+console.log('Distress questions loaded:', distressQuestions.length);
+console.log('Other questions loaded:', otherQuestions.length);
 console.log('American questions loaded:', americanQuestions);
 console.log('American questions length:', americanQuestions.length);
-console.log('Simulators tab added:', questions[questions.length - 1]);
+console.log('Tabs created:', tabs.length);
 
 let state = {
   tab: 0,
   mode: 'basic', // 'basic' | 'advanced'
   theme: 'light', // 'light' | 'dark'
   revealed: {}, // { [questionId_sectionIdx]: numRevealed }
-  answers: {}, // { [questionId_sectionIdx]: [userAnswers] }
+  answers: {}, // { [questionId_sectionIdx]: userAnswers }
   americanAnswers: {}, // { [questionId]: selectedOption }
   americanQuestionIndex: 0, // Track current American question index
+  distressQuestionIndex: 0, // Track current distress question index
+  distressAutoAdvance: false, // Auto advance for distress questions
+  distressAutoAdvanceSeconds: 5, // Seconds to wait before auto advance
   autoAdvance: false, // Auto advance between questions
   autoAdvanceSeconds: 5 // Seconds to wait before auto advance
 };
@@ -183,24 +207,18 @@ function getSectionKey(qid, sidx) {
 }
 
 function renderTabs() {
-  // const isMobile = window.innerWidth <= 768;
+  // שלושה טאבים בלבד: שאלות מצוקה, מבחן אמריקאי, סימולטורים
+  const tabNames = [
+    { label: 'שאלות מצוקה', index: 0 },
+    { label: 'מבחן אמריקאי', index: 1 },
+    { label: 'סימולטורים', index: 2 }
+  ];
   return `<div class="header-container">
     <div class="tabs">
       <div class="tabs-left">
-        ${questions
-          .map(
-            (q, i) => {
-              let tabText = '';
-              if (q.type === 'simulators') {
-                tabText = 'סימולטורים';
-              } else {
-                tabText = `שאלה ${i + 1}`;
-              }
-              return `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">${tabText}</button>`;
-            }
-          )
-          .join('')}
-        <button class="tab${state.tab === questions.length ? ' active' : ''}" onclick="selectTab(${questions.length})" style="direction:rtl;text-align:center;">מבחן אמריקאי</button>
+        ${tabNames.map((tab, i) =>
+          `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})">${tab.label}</button>`
+        ).join('')}
       </div>
     </div>
     <div class="theme-toggle-top">
@@ -325,6 +343,111 @@ function renderAdvancedSection(section, qid, sidx) {
   `;
 }
 
+function renderDistressQuestions() {
+  const isMobile = window.innerWidth <= 768;
+  const currentQuestionIndex = state.distressQuestionIndex || 0;
+  const currentQuestion = distressQuestions[currentQuestionIndex];
+  
+  if (!currentQuestion) {
+    return `
+      <div class="content">
+        <div class="distress-test-container">
+          <div class="distress-test-header">
+            <h2>שאלות מצוקה</h2>
+            <p>בחר שאלה מהרשימה למטה</p>
+          </div>
+          <div class="distress-questions-list">
+            ${distressQuestions.map((q, index) => `
+              <button 
+                class="question-selector ${state.distressQuestionIndex === index ? 'active' : ''}"
+                onclick="selectDistressQuestion(${index})"
+              >
+                שאלה ${index + 1}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // סרגל ניווט עליון עם כל הפיצ'רים (כמו באמריקאי)
+  let topNav = '';
+  if (!isMobile) {
+    topNav = `
+      <div class="quick-nav-buttons top">
+        <div class="nav-left">
+          <button 
+            class="quick-nav-btn" 
+            onclick="previousDistressQuestion()"
+            ${currentQuestionIndex === 0 ? 'disabled' : ''}
+            title="שאלה קודמת"
+          >
+            &#x25B6;
+          </button>
+        </div>
+        <span class="question-counter">${distressQuestions.length} / ${currentQuestionIndex + 1}</span>
+        <div class="nav-right">
+          <button 
+            class="quick-nav-btn" 
+            onclick="nextDistressQuestion()"
+            ${currentQuestionIndex === distressQuestions.length - 1 ? 'disabled' : ''}
+            title="שאלה הבאה"
+          >
+            &#x25C0;
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  
+  // ניווט תחתון במובייל
+  let bottomNav = '';
+  if (isMobile) {
+    bottomNav = `
+      <div class="bottom-nav-bar">
+        <button class="bottom-nav-btn" onclick="previousDistressQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''} title="שאלה קודמת">&#x25B6;</button>
+        <span class="bottom-nav-counter">${distressQuestions.length} / ${currentQuestionIndex + 1}</span>
+        <button class="bottom-nav-btn" onclick="nextDistressQuestion()" ${currentQuestionIndex === distressQuestions.length - 1 ? 'disabled' : ''} title="שאלה הבאה">&#x25C0;</button>
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="content">
+      ${topNav}
+      ${bottomNav}
+      <div class="distress-question-container">
+        <div class="distress-question">
+          <h3 class="question-text">${currentQuestion.title}</h3>
+          <div class="question-description">${currentQuestion.description}</div>
+          ${currentQuestion.sections
+            .map((section, sidx) => {
+              const sectionContent = state.mode === 'basic'
+                ? renderBasicSection(section, currentQuestion.id, sidx)
+                : renderAdvancedSection(section, currentQuestion.id, sidx);
+              
+              return `
+                <div class="section-container">
+                  <div class="section-header">
+                    <h3 class="section-title">${section.label}</h3>
+                  </div>
+                  <div class="section-content">
+                    <div class="section-description">
+                      ${section.description}
+                    </div>
+                    ${sectionContent}
+                  </div>
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderSimulators() {
   return `
     <div class="content">
@@ -402,7 +525,65 @@ function renderAmericanTest() {
     `;
   }
   const selectedAnswer = state.americanAnswers[currentQuestion.id];
-  // --- ניווט תחתון במובייל ---
+  
+  // סרגל ניווט עליון עם כל הפיצ'רים
+  let topNav = '';
+  if (!isMobile) {
+    topNav = `
+      <div class="quick-nav-buttons top">
+        <div class="nav-left">
+          <button 
+            class="quick-nav-btn" 
+            onclick="previousAmericanQuestion()"
+            ${currentQuestionIndex === 0 ? 'disabled' : ''}
+            title="שאלה קודמת"
+          >
+            &#x25B6;
+          </button>
+          <button 
+            class="quick-nav-btn" 
+            onclick="previousAmericanQuestionBy10()"
+            ${currentQuestionIndex < 10 ? 'disabled' : ''}
+            title="10 שאלות אחורה"
+          >
+            &#x226A;
+          </button>
+        </div>
+        <span class="question-counter">${americanQuestions.length} / ${currentQuestionIndex + 1}</span>
+        <div class="nav-right">
+          <button 
+            class="quick-nav-btn" 
+            onclick="nextAmericanQuestionBy10()"
+            ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''}
+            title="10 שאלות קדימה"
+          >
+            &#x226B;
+          </button>
+          <button 
+            class="quick-nav-btn" 
+            onclick="nextAmericanQuestion()"
+            ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''}
+            title="שאלה הבאה"
+          >
+            &#x25C0;
+          </button>
+          <div class="auto-advance-section">
+            <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="auto-advance-select">
+              <option value="0" ${!state.autoAdvance ? 'selected' : ''}>Off</option>
+              <option value="1" ${state.autoAdvance && state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
+              <option value="3" ${state.autoAdvance && state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
+              <option value="5" ${state.autoAdvance && state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
+              <option value="10" ${state.autoAdvance && state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
+              <option value="15" ${state.autoAdvance && state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
+              <option value="30" ${state.autoAdvance && state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // ניווט תחתון במובייל
   let bottomNav = '';
   if (isMobile) {
     bottomNav = `
@@ -426,8 +607,11 @@ function renderAmericanTest() {
       </div>
     `;
   }
+  
   return `
     <div class="content">
+      ${topNav}
+      ${bottomNav}
       <div class="american-question-container">
         <div class="american-question">
           <h3 class="question-text">${currentQuestion.question}</h3>
@@ -461,60 +645,7 @@ function renderAmericanTest() {
             }).join('')}
           </div>
         </div>
-        ${!isMobile ? `
-        <div class="quick-nav-buttons">
-          <div class="nav-left">
-            <button 
-              class="quick-nav-btn" 
-              onclick="previousAmericanQuestion()"
-              ${currentQuestionIndex === 0 ? 'disabled' : ''}
-              title="שאלה קודמת"
-            >
-              &#x25B6;
-            </button>
-            <button 
-              class="quick-nav-btn" 
-              onclick="previousAmericanQuestionBy10()"
-              ${currentQuestionIndex < 10 ? 'disabled' : ''}
-              title="10 שאלות אחורה"
-            >
-              &#x226A;
-            </button>
-          </div>
-          <span class="question-counter">${americanQuestions.length} / ${currentQuestionIndex + 1}</span>
-          <div class="nav-right">
-            <button 
-              class="quick-nav-btn" 
-              onclick="nextAmericanQuestionBy10()"
-              ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''}
-              title="10 שאלות קדימה"
-            >
-              &#x226B;
-            </button>
-            <button 
-              class="quick-nav-btn" 
-              onclick="nextAmericanQuestion()"
-              ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''}
-              title="שאלה הבאה"
-            >
-              &#x25C0;
-            </button>
-            <div class="auto-advance-section">
-              <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="auto-advance-select">
-                <option value="0" ${!state.autoAdvance ? 'selected' : ''}>Off</option>
-                <option value="1" ${state.autoAdvance && state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
-                <option value="3" ${state.autoAdvance && state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
-                <option value="5" ${state.autoAdvance && state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
-                <option value="10" ${state.autoAdvance && state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
-                <option value="15" ${state.autoAdvance && state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
-                <option value="30" ${state.autoAdvance && state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        ` : ''}
       </div>
-      ${isMobile ? bottomNav : ''}
     </div>
   `;
 }
@@ -587,6 +718,12 @@ function renderQuestion(q) {
   console.log('Rendering question with sections:', q.sections ? q.sections.length : 'no sections');
   console.log('Question description:', q.description);
   
+  // Check if this is a distress tab
+  if (q.type === 'distress') {
+    console.log('Rendering distress tab');
+    return renderDistressQuestions();
+  }
+  
   // Check if this is a simulators tab
   if (q.type === 'simulators') {
     console.log('Rendering simulators tab');
@@ -640,23 +777,28 @@ function renderQuestion(q) {
 }
 
 function render() {
-  // החל את ה-theme
   document.body.setAttribute('data-theme', state.theme);
-  
-  // Check if we're on the American test tab
-  if (state.tab === questions.length) {
+
+  if (state.tab === 0) {
+    // שאלות מצוקה
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderDistressQuestions()}
+    `;
+  } else if (state.tab === 1) {
+    // מבחן אמריקאי
     app.innerHTML = `
       ${renderTabs()}
       ${renderAmericanTest()}
     `;
-  } else {
+  } else if (state.tab === 2) {
+    // סימולטורים
     app.innerHTML = `
       ${renderTabs()}
-      ${renderQuestion(questions[state.tab])}
+      ${renderSimulators()}
     `;
   }
-  
-      // Save focus after render
+
   if (state.mode === 'advanced') {
     setTimeout(() => {
       const inputs = document.querySelectorAll('textarea.input-sentence');
@@ -679,20 +821,27 @@ function renderWithoutFocus() {
   // Temporarily disable scroll
   scrollContainer.style.overflow = 'hidden';
   
-  // Check if we're on the American test tab
-  if (state.tab === questions.length) {
+  if (state.tab === 0) {
+    // שאלות מצוקה
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderDistressQuestions()}
+    `;
+  } else if (state.tab === 1) {
+    // מבחן אמריקאי
     app.innerHTML = `
       ${renderTabs()}
       ${renderAmericanTest()}
     `;
-  } else {
+  } else if (state.tab === 2) {
+    // סימולטורים
     app.innerHTML = `
       ${renderTabs()}
-      ${renderQuestion(questions[state.tab])}
+      ${renderSimulators()}
     `;
   }
   
-      // Update values without saving focus
+  // Update values without saving focus
   if (state.mode === 'advanced') {
     const inputs = document.querySelectorAll('textarea.input-sentence');
     inputs.forEach(input => {
@@ -752,16 +901,10 @@ function updateScore(key) {
   }
 }
 
+// עדכון selectTab שיתאים למבנה החדש
 window.selectTab = function (i) {
   state.tab = i;
   renderWithoutFocus();
-  
-  // Start auto advance if we're on the American test tab and auto advance is enabled
-  if (i === questions.length && state.autoAdvance) {
-    startAutoAdvance();
-  } else {
-    stopAutoAdvance();
-  }
 };
 
 window.toggleMode = function () {
@@ -1024,18 +1167,114 @@ window.nextAmericanQuestionBy10 = function () {
   }
 };
 
+window.selectDistressQuestion = function (index) {
+  console.log('Selecting distress question:', index);
+  state.distressQuestionIndex = index;
+  render();
+};
+
+window.previousDistressQuestion = function () {
+  console.log('Previous distress - Current index:', state.distressQuestionIndex);
+  if (state.distressQuestionIndex > 0) {
+    state.distressQuestionIndex--;
+    console.log('Previous distress - New index:', state.distressQuestionIndex);
+    render();
+  } else {
+    console.log('Already at first distress question');
+  }
+};
+
+window.nextDistressQuestion = function () {
+  console.log('Next distress - Current index:', state.distressQuestionIndex);
+  console.log('Total distress questions:', distressQuestions.length);
+  if (state.distressQuestionIndex < distressQuestions.length - 1) {
+    state.distressQuestionIndex++;
+    console.log('Next distress - New index:', state.distressQuestionIndex);
+    render();
+  } else {
+    console.log('Already at last distress question');
+  }
+};
+
+window.previousDistressQuestionBy10 = function () {
+  console.log('Previous distress by 10 - Current index:', state.distressQuestionIndex);
+  if (state.distressQuestionIndex >= 10) {
+    state.distressQuestionIndex -= 10;
+    console.log('Previous distress by 10 - New index:', state.distressQuestionIndex);
+    render();
+  } else {
+    console.log('Cannot go back 10 distress questions');
+  }
+};
+
+window.nextDistressQuestionBy10 = function () {
+  console.log('Next distress by 10 - Current index:', state.distressQuestionIndex);
+  console.log('Total distress questions:', distressQuestions.length);
+  if (state.distressQuestionIndex < distressQuestions.length - 10) {
+    state.distressQuestionIndex += 10;
+    console.log('Next distress by 10 - New index:', state.distressQuestionIndex);
+    render();
+  } else {
+    console.log('Cannot go forward 10 distress questions');
+  }
+};
+
+window.setDistressAutoAdvanceSeconds = function (seconds) {
+  if (seconds === 0) {
+    // Turn off auto advance
+    state.distressAutoAdvance = false;
+    state.distressAutoAdvanceSeconds = 0;
+    stopDistressAutoAdvance();
+  } else {
+    // Turn on auto advance with selected seconds
+    state.distressAutoAdvance = true;
+    state.distressAutoAdvanceSeconds = seconds;
+    stopDistressAutoAdvance();
+  }
+  render();
+};
+
+// Auto advance functionality for distress questions
+let distressAutoAdvanceTimer = null;
+
+function startDistressAutoAdvance() {
+  if (state.distressAutoAdvance && state.tab === 0) {
+    clearTimeout(distressAutoAdvanceTimer);
+  }
+}
+
+function startDistressAutoAdvanceTimer() {
+  if (state.distressAutoAdvance && state.tab === 0) {
+    clearTimeout(distressAutoAdvanceTimer);
+    distressAutoAdvanceTimer = setTimeout(() => {
+      if (state.distressQuestionIndex < distressQuestions.length - 1) {
+        state.distressQuestionIndex++;
+        render();
+        startDistressAutoAdvanceTimer();
+      }
+    }, state.distressAutoAdvanceSeconds * 1000);
+  }
+}
+
+function stopDistressAutoAdvance() {
+  if (distressAutoAdvanceTimer) {
+    clearTimeout(distressAutoAdvanceTimer);
+    distressAutoAdvanceTimer = null;
+  }
+}
+
 // Auto advance functionality
 let autoAdvanceTimer = null;
 
 function startAutoAdvance() {
-  if (state.autoAdvance && state.tab === questions.length) {
+  if (state.autoAdvance && state.tab === 1) {
     clearTimeout(autoAdvanceTimer);
     // Don't start timer immediately - wait for user to select an answer
   }
 }
 
 function startAutoAdvanceTimer() {
-  if (state.autoAdvance && state.tab === questions.length) {
+  if (state.autoAdvance && state.tab === 1) {
     clearTimeout(autoAdvanceTimer);
     autoAdvanceTimer = setTimeout(() => {
       if (state.americanQuestionIndex < americanQuestions.length - 1) {
@@ -1123,7 +1362,7 @@ window.scrollTabs = function (direction) {
 // פונקציה לחשיפת טאב סימולטורים בסיום מבחן
 function showSimulatorsTab() {
   // מעבר לטאב סימולטורים (הטאב האחרון)
-  state.tab = questions.length - 1;
+  state.tab = tabs.length - 1;
   render();
 }
 
