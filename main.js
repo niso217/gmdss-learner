@@ -2,9 +2,18 @@ const app = document.getElementById('app');
 const questions = window.gmdssQuestions;
 const americanQuestions = window.americanQuestions || [];
 
+// הוספת טאב סימולטורים
+questions.push({
+  id: 'simulators',
+  title: 'סימולטורים',
+  type: 'simulators',
+  description: 'הורדת קבצי סימולטור'
+});
+
 console.log('Questions loaded:', questions);
 console.log('American questions loaded:', americanQuestions);
 console.log('American questions length:', americanQuestions.length);
+console.log('Simulators tab added:', questions[questions.length - 1]);
 
 let state = {
   tab: 0,
@@ -180,8 +189,15 @@ function renderTabs() {
       <div class="tabs-left">
         ${questions
           .map(
-            (q, i) =>
-              `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">שאלה ${i + 1}</button>`
+            (q, i) => {
+              let tabText = '';
+              if (q.type === 'simulators') {
+                tabText = 'סימולטורים';
+              } else {
+                tabText = `שאלה ${i + 1}`;
+              }
+              return `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">${tabText}</button>`;
+            }
           )
           .join('')}
         <button class="tab${state.tab === questions.length ? ' active' : ''}" onclick="selectTab(${questions.length})" style="direction:rtl;text-align:center;">מבחן אמריקאי</button>
@@ -309,7 +325,55 @@ function renderAdvancedSection(section, qid, sidx) {
   `;
 }
 
-
+function renderSimulators() {
+  return `
+    <div class="content">
+      <div class="simulators-container">
+        <div class="simulators-header">
+          <h2>סימולטורים</h2>
+          <p>הורדת קבצי סימולטור לתרגול</p>
+        </div>
+        <div class="simulators-list">
+          <div class="simulator-item">
+            <h3>EPIRB Simulator</h3>
+            <p>סימולטור למשואת מצוקה EPIRB</p>
+            <a href="simulators/epirb simulator.exe" download class="download-btn">
+              הורד סימולטור EPIRB
+            </a>
+          </div>
+          <div class="simulator-item">
+            <h3>RADAR-SART Simulator</h3>
+            <p>סימולטור למשואת מצוקה RADAR-SART</p>
+            <a href="simulators/radar-sart simulator.exe" download class="download-btn">
+              הורד סימולטור RADAR-SART
+            </a>
+          </div>
+          <div class="simulator-item">
+            <h3>NAVTEX Simulator</h3>
+            <p>סימולטור למערכת NAVTEX</p>
+            <a href="simulators/navtex simulator.exe" download class="download-btn">
+              הורד סימולטור NAVTEX
+            </a>
+          </div>
+          <div class="simulator-item">
+            <h3>Portable VHF Simulator</h3>
+            <p>סימולטור למכשיר VHF נייד</p>
+            <a href="simulators/portable vhf simulator.exe" download class="download-btn">
+              הורד סימולטור Portable VHF
+            </a>
+          </div>
+          <div class="simulator-item">
+            <h3>VHF DSC Simulator</h3>
+            <p>סימולטור למערכת VHF DSC</p>
+            <a href="simulators/vhfdsc simulator.exe" download class="download-btn">
+              הורד סימולטור VHF DSC
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 function renderAmericanTest() {
   const isMobile = window.innerWidth <= 768;
@@ -518,8 +582,16 @@ function renderAmericanQuestion(q) {
 }
 
 function renderQuestion(q) {
-  console.log('Rendering question with sections:', q.sections.length);
+  console.log('Rendering question:', q);
+  console.log('Question type:', q.type);
+  console.log('Rendering question with sections:', q.sections ? q.sections.length : 'no sections');
   console.log('Question description:', q.description);
+  
+  // Check if this is a simulators tab
+  if (q.type === 'simulators') {
+    console.log('Rendering simulators tab');
+    return renderSimulators();
+  }
   
   // Check if this is an American question
   if (q.type === 'multiple_choice') {
@@ -873,6 +945,11 @@ window.selectAmericanAnswer = function (questionId, optionId) {
   if (state.autoAdvance) {
     startAutoAdvanceTimer();
   }
+
+  // אם המשתמש ענה על השאלה האחרונה - הצג את טאב סימולטורים
+  if (state.americanQuestionIndex === americanQuestions.length - 1) {
+    showSimulatorsTab();
+  }
 };
 
 window.selectAmericanQuestion = function (index) {
@@ -1042,6 +1119,13 @@ window.scrollTabs = function (direction) {
     });
   }
 };
+
+// פונקציה לחשיפת טאב סימולטורים בסיום מבחן
+function showSimulatorsTab() {
+  // מעבר לטאב סימולטורים (הטאב האחרון)
+  state.tab = questions.length - 1;
+  render();
+}
 
 
 render();
