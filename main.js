@@ -174,10 +174,10 @@ function getSectionKey(qid, sidx) {
 }
 
 function renderTabs() {
+  // const isMobile = window.innerWidth <= 768;
   return `<div class="header-container">
     <div class="tabs">
       <div class="tabs-left">
-        <button class="tab-nav-btn" onclick="scrollTabs('left')" title="גלול שמאלה">‹</button>
         ${questions
           .map(
             (q, i) =>
@@ -185,7 +185,6 @@ function renderTabs() {
           )
           .join('')}
         <button class="tab${state.tab === questions.length ? ' active' : ''}" onclick="selectTab(${questions.length})" style="direction:rtl;text-align:center;">מבחן אמריקאי</button>
-        <button class="tab-nav-btn" onclick="scrollTabs('right')" title="גלול ימינה">›</button>
       </div>
     </div>
     <div class="theme-toggle-top">
@@ -313,14 +312,9 @@ function renderAdvancedSection(section, qid, sidx) {
 
 
 function renderAmericanTest() {
-  console.log('State americanQuestionIndex:', state.americanQuestionIndex);
+  const isMobile = window.innerWidth <= 768;
   const currentQuestionIndex = state.americanQuestionIndex || 0;
   const currentQuestion = americanQuestions[currentQuestionIndex];
-  
-  console.log('Rendering American test - Index:', currentQuestionIndex);
-  console.log('Current question:', currentQuestion);
-  console.log('Total questions:', americanQuestions.length);
-  
   if (!currentQuestion) {
     return `
       <div class="content">
@@ -343,21 +337,41 @@ function renderAmericanTest() {
       </div>
     `;
   }
-  
   const selectedAnswer = state.americanAnswers[currentQuestion.id];
-  
+  // --- ניווט תחתון במובייל ---
+  let bottomNav = '';
+  if (isMobile) {
+    bottomNav = `
+      <div class="bottom-nav-bar">
+        <button class="bottom-nav-btn" onclick="previousAmericanQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''} title="שאלה קודמת">&#x25B6;</button>
+        <button class="bottom-nav-btn" onclick="previousAmericanQuestionBy10()" ${currentQuestionIndex < 10 ? 'disabled' : ''} title="10 שאלות אחורה">&#x226A;</button>
+        <span class="bottom-nav-counter">${currentQuestionIndex + 1} / ${americanQuestions.length}</span>
+        <button class="bottom-nav-btn" onclick="nextAmericanQuestionBy10()" ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''} title="10 שאלות קדימה">&#x226B;</button>
+        <button class="bottom-nav-btn" onclick="nextAmericanQuestion()" ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''} title="שאלה הבאה">&#x25C0;</button>
+        <div class="bottom-nav-auto">
+          <button class="bottom-nav-auto-btn${state.autoAdvance ? ' active' : ''}" onclick="toggleAutoAdvance()" title="מעבר אוטומטי">${state.autoAdvance ? '⏸️' : '▶️'}</button>
+          <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="bottom-nav-auto-select">
+            <option value="1" ${state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
+            <option value="3" ${state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
+            <option value="5" ${state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
+            <option value="10" ${state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
+            <option value="15" ${state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
+            <option value="30" ${state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
+          </select>
+        </div>
+      </div>
+    `;
+  }
   return `
     <div class="content">
       <div class="american-question-container">
         <div class="american-question">
           <h3 class="question-text">${currentQuestion.question}</h3>
-          
           <div class="options-container">
             ${currentQuestion.options.map(option => {
               const isSelected = selectedAnswer === option.id;
               const isCorrect = option.correct;
               const showResult = selectedAnswer !== undefined;
-              
               let optionClass = 'option-button';
               if (showResult) {
                 if (isCorrect) {
@@ -368,7 +382,6 @@ function renderAmericanTest() {
               } else if (isSelected) {
                 optionClass += ' selected';
               }
-              
               return `
                 <button 
                   class="${optionClass}"
@@ -384,7 +397,7 @@ function renderAmericanTest() {
             }).join('')}
           </div>
         </div>
-        
+        ${!isMobile ? `
         <div class="quick-nav-buttons">
           <div class="nav-left">
             <button 
@@ -393,7 +406,7 @@ function renderAmericanTest() {
               ${currentQuestionIndex === 0 ? 'disabled' : ''}
               title="שאלה קודמת"
             >
-              ‹
+              &#x25B6;
             </button>
             <button 
               class="quick-nav-btn" 
@@ -401,12 +414,10 @@ function renderAmericanTest() {
               ${currentQuestionIndex < 10 ? 'disabled' : ''}
               title="10 שאלות אחורה"
             >
-              ‹‹
+              &#x226A;
             </button>
           </div>
-          
           <span class="question-counter">${currentQuestionIndex + 1} / ${americanQuestions.length}</span>
-          
           <div class="nav-right">
             <button 
               class="quick-nav-btn" 
@@ -414,7 +425,7 @@ function renderAmericanTest() {
               ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''}
               title="10 שאלות קדימה"
             >
-              ››
+              &#x226B;
             </button>
             <button 
               class="quick-nav-btn" 
@@ -422,7 +433,7 @@ function renderAmericanTest() {
               ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''}
               title="שאלה הבאה"
             >
-              ›
+              &#x25C0;
             </button>
             <div class="auto-advance-section">
               <button 
@@ -443,7 +454,9 @@ function renderAmericanTest() {
             </div>
           </div>
         </div>
+        ` : ''}
       </div>
+      ${isMobile ? bottomNav : ''}
     </div>
   `;
 }
@@ -985,6 +998,26 @@ window.setAutoAdvanceSeconds = function (seconds) {
   if (state.autoAdvance) {
     stopAutoAdvance();
     // Don't restart timer - wait for user to select an answer
+  }
+};
+
+window.scrollTabs = function (direction) {
+  const tabsContainer = document.querySelector('.tabs-left');
+  if (!tabsContainer) return;
+  
+  const scrollAmount = 200; // Scroll 200px each time
+  const currentScroll = tabsContainer.scrollLeft;
+  
+  if (direction === 'left') {
+    tabsContainer.scrollTo({
+      left: currentScroll - scrollAmount,
+      behavior: 'smooth'
+    });
+  } else {
+    tabsContainer.scrollTo({
+      left: currentScroll + scrollAmount,
+      behavior: 'smooth'
+    });
   }
 };
 
