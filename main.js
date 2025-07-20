@@ -345,18 +345,18 @@ function renderAmericanTest() {
       <div class="bottom-nav-bar">
         <button class="bottom-nav-btn" onclick="previousAmericanQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''} title="שאלה קודמת">&#x25B6;</button>
         <button class="bottom-nav-btn" onclick="previousAmericanQuestionBy10()" ${currentQuestionIndex < 10 ? 'disabled' : ''} title="10 שאלות אחורה">&#x226A;</button>
-        <span class="bottom-nav-counter">${currentQuestionIndex + 1} / ${americanQuestions.length}</span>
+        <span class="bottom-nav-counter">${americanQuestions.length} / ${currentQuestionIndex + 1}</span>
         <button class="bottom-nav-btn" onclick="nextAmericanQuestionBy10()" ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''} title="10 שאלות קדימה">&#x226B;</button>
         <button class="bottom-nav-btn" onclick="nextAmericanQuestion()" ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''} title="שאלה הבאה">&#x25C0;</button>
         <div class="bottom-nav-auto">
-          <button class="bottom-nav-auto-btn${state.autoAdvance ? ' active' : ''}" onclick="toggleAutoAdvance()" title="מעבר אוטומטי">${state.autoAdvance ? '⏸️' : '▶️'}</button>
           <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="bottom-nav-auto-select">
-            <option value="1" ${state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
-            <option value="3" ${state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
-            <option value="5" ${state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
-            <option value="10" ${state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
-            <option value="15" ${state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
-            <option value="30" ${state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
+            <option value="0" ${!state.autoAdvance ? 'selected' : ''}>Off</option>
+            <option value="1" ${state.autoAdvance && state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
+            <option value="3" ${state.autoAdvance && state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
+            <option value="5" ${state.autoAdvance && state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
+            <option value="10" ${state.autoAdvance && state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
+            <option value="15" ${state.autoAdvance && state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
+            <option value="30" ${state.autoAdvance && state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
           </select>
         </div>
       </div>
@@ -417,7 +417,7 @@ function renderAmericanTest() {
               &#x226A;
             </button>
           </div>
-          <span class="question-counter">${currentQuestionIndex + 1} / ${americanQuestions.length}</span>
+          <span class="question-counter">${americanQuestions.length} / ${currentQuestionIndex + 1}</span>
           <div class="nav-right">
             <button 
               class="quick-nav-btn" 
@@ -436,20 +436,14 @@ function renderAmericanTest() {
               &#x25C0;
             </button>
             <div class="auto-advance-section">
-              <button 
-                class="auto-advance-btn ${state.autoAdvance ? 'active' : ''}"
-                onclick="toggleAutoAdvance()"
-                title="${state.autoAdvance ? 'כבה מעבר אוטומטי' : 'הפעל מעבר אוטומטי'}"
-              >
-                ${state.autoAdvance ? '⏸️' : '▶️'}
-              </button>
               <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="auto-advance-select">
-                <option value="1" ${state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
-                <option value="3" ${state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
-                <option value="5" ${state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
-                <option value="10" ${state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
-                <option value="15" ${state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
-                <option value="30" ${state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
+                <option value="0" ${!state.autoAdvance ? 'selected' : ''}>Off</option>
+                <option value="1" ${state.autoAdvance && state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
+                <option value="3" ${state.autoAdvance && state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
+                <option value="5" ${state.autoAdvance && state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
+                <option value="10" ${state.autoAdvance && state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
+                <option value="15" ${state.autoAdvance && state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
+                <option value="30" ${state.autoAdvance && state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
               </select>
             </div>
           </div>
@@ -994,11 +988,19 @@ window.toggleAutoAdvance = function () {
 };
 
 window.setAutoAdvanceSeconds = function (seconds) {
-  state.autoAdvanceSeconds = seconds;
-  if (state.autoAdvance) {
+  if (seconds === 0) {
+    // Turn off auto advance
+    state.autoAdvance = false;
+    state.autoAdvanceSeconds = 0;
+    stopAutoAdvance();
+  } else {
+    // Turn on auto advance with selected seconds
+    state.autoAdvance = true;
+    state.autoAdvanceSeconds = seconds;
     stopAutoAdvance();
     // Don't restart timer - wait for user to select an answer
   }
+  render();
 };
 
 window.scrollTabs = function (direction) {
