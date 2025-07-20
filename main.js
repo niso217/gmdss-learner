@@ -419,7 +419,16 @@ function renderDistressQuestions() {
       ${bottomNav}
       <div class="distress-question-container">
         <div class="distress-question">
-          <h3 class="question-text">${currentQuestion.title}</h3>
+          <div class="question-header">
+            <div class="question-title">${currentQuestion.title}</div>
+            <div class="mode-toggle">
+              <label class="toggle-mode">
+                <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="mode-toggle-text">${state.mode === 'advanced' ? '✏️' : '👁️'}</span>
+            </div>
+          </div>
           <div class="question-description">${currentQuestion.description}</div>
           ${currentQuestion.sections
             .map((section, sidx) => {
