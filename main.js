@@ -1,5 +1,10 @@
 const app = document.getElementById('app');
 const questions = window.gmdssQuestions;
+const americanQuestions = window.americanQuestions || [];
+
+console.log('Questions loaded:', questions);
+console.log('American questions loaded:', americanQuestions);
+console.log('American questions length:', americanQuestions.length);
 
 let state = {
   tab: 0,
@@ -7,6 +12,8 @@ let state = {
   theme: 'light', // 'light' | 'dark'
   revealed: {}, // { [questionId_sectionIdx]: numRevealed }
   answers: {}, // { [questionId_sectionIdx]: [userAnswers] }
+  americanAnswers: {}, // { [questionId]: selectedOption }
+  americanQuestionIndex: 0 // Track current American question index
 };
 
 function isEnglish(str) {
@@ -169,6 +176,7 @@ function renderTabs() {
               `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})" style="direction:rtl;text-align:center;">שאלה ${i + 1}</button>`
           )
           .join('')}
+        <button class="tab${state.tab === questions.length ? ' active' : ''}" onclick="selectTab(${questions.length})" style="direction:rtl;text-align:center;">מבחן אמריקאי</button>
         <button class="tab-nav-btn" onclick="scrollTabs('right')" title="גלול ימינה">›</button>
       </div>
     </div>
@@ -296,9 +304,183 @@ function renderAdvancedSection(section, qid, sidx) {
 
 
 
+function renderAmericanTest() {
+  console.log('State americanQuestionIndex:', state.americanQuestionIndex);
+  const currentQuestionIndex = state.americanQuestionIndex || 0;
+  const currentQuestion = americanQuestions[currentQuestionIndex];
+  
+  console.log('Rendering American test - Index:', currentQuestionIndex);
+  console.log('Current question:', currentQuestion);
+  console.log('Total questions:', americanQuestions.length);
+  
+  if (!currentQuestion) {
+    return `
+      <div class="content">
+        <div class="american-test-container">
+          <div class="american-test-header">
+            <h2>מבחן אמריקאי</h2>
+            <p>בחר שאלה מהרשימה למטה</p>
+          </div>
+          <div class="american-questions-list">
+            ${americanQuestions.map((q, index) => `
+              <button 
+                class="question-selector ${state.americanQuestionIndex === index ? 'active' : ''}"
+                onclick="selectAmericanQuestion(${index})"
+              >
+                שאלה ${index + 1}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  const selectedAnswer = state.americanAnswers[currentQuestion.id];
+  
+  return `
+    <div class="content">
+      <div class="american-question-container">
+        <div class="american-question">
+          <h3 class="question-text">${currentQuestion.question}</h3>
+          
+          <div class="options-container">
+            ${currentQuestion.options.map(option => {
+              const isSelected = selectedAnswer === option.id;
+              const isCorrect = option.correct;
+              const showResult = selectedAnswer !== undefined;
+              
+              let optionClass = 'option-button';
+              if (showResult) {
+                if (isCorrect) {
+                  optionClass += ' correct';
+                } else if (isSelected && !isCorrect) {
+                  optionClass += ' incorrect';
+                }
+              } else if (isSelected) {
+                optionClass += ' selected';
+              }
+              
+              return `
+                <button 
+                  class="${optionClass}"
+                  onclick="selectAmericanAnswer('${currentQuestion.id}', '${option.id}')"
+                  ${showResult ? 'disabled' : ''}
+                >
+                  <span class="option-letter">${option.id.toUpperCase()}</span>
+                  <span class="option-text">${option.text}</span>
+                  ${showResult && isCorrect ? '<span class="correct-icon">✓</span>' : ''}
+                  ${showResult && isSelected && !isCorrect ? '<span class="incorrect-icon">✗</span>' : ''}
+                </button>
+              `;
+            }).join('')}
+          </div>
+          
+          ${selectedAnswer !== undefined ? `
+            <div class="explanation">
+              <h4>הסבר:</h4>
+              <p>${currentQuestion.explanation}</p>
+            </div>
+          ` : ''}
+          
+          <div class="american-navigation">
+            <button 
+              class="nav-button" 
+              onclick="previousAmericanQuestion()"
+              ${currentQuestionIndex === 0 ? 'disabled' : ''}
+            >
+              שאלה קודמת (${currentQuestionIndex + 1}/${americanQuestions.length})
+            </button>
+            <button 
+              class="nav-button" 
+              onclick="nextAmericanQuestion()"
+              ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''}
+            >
+              שאלה הבאה (${currentQuestionIndex + 1}/${americanQuestions.length})
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderAmericanQuestion(q) {
+  const selectedAnswer = state.americanAnswers[q.id];
+  const correctAnswer = q.options.find(opt => opt.correct);
+  
+  return `
+    <div class="content">
+      <div class="sticky-question">
+        <div class="question-header">
+          <div class="question-title">${q.title}</div>
+          <div class="mode-toggle">
+            <label class="toggle-mode">
+              <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="mode-toggle-text">${state.mode === 'advanced' ? '✏️' : '👁️'}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="american-question-container">
+        <div class="american-question">
+          <h3 class="question-text">${q.question}</h3>
+          
+          <div class="options-container">
+            ${q.options.map(option => {
+              const isSelected = selectedAnswer === option.id;
+              const isCorrect = option.correct;
+              const showResult = selectedAnswer !== undefined;
+              
+              let optionClass = 'option-button';
+              if (showResult) {
+                if (isCorrect) {
+                  optionClass += ' correct';
+                } else if (isSelected && !isCorrect) {
+                  optionClass += ' incorrect';
+                }
+              } else if (isSelected) {
+                optionClass += ' selected';
+              }
+              
+              return `
+                <button 
+                  class="${optionClass}"
+                  onclick="selectAmericanAnswer('${q.id}', '${option.id}')"
+                  ${showResult ? 'disabled' : ''}
+                >
+                  <span class="option-letter">${option.id.toUpperCase()}</span>
+                  <span class="option-text">${option.text}</span>
+                  ${showResult && isCorrect ? '<span class="correct-icon">✓</span>' : ''}
+                  ${showResult && isSelected && !isCorrect ? '<span class="incorrect-icon">✗</span>' : ''}
+                </button>
+              `;
+            }).join('')}
+          </div>
+          
+          ${selectedAnswer !== undefined ? `
+            <div class="explanation">
+              <h4>הסבר:</h4>
+              <p>${q.explanation}</p>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderQuestion(q) {
   console.log('Rendering question with sections:', q.sections.length);
   console.log('Question description:', q.description);
+  
+  // Check if this is an American question
+  if (q.type === 'multiple_choice') {
+    return renderAmericanQuestion(q);
+  }
+  
   return `
     <div class="content">
       <div class="sticky-question">
@@ -344,10 +526,18 @@ function render() {
   // החל את ה-theme
   document.body.setAttribute('data-theme', state.theme);
   
-  app.innerHTML = `
-    ${renderTabs()}
-    ${renderQuestion(questions[state.tab])}
-  `;
+  // Check if we're on the American test tab
+  if (state.tab === questions.length) {
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderAmericanTest()}
+    `;
+  } else {
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderQuestion(questions[state.tab])}
+    `;
+  }
   
       // Save focus after render
   if (state.mode === 'advanced') {
@@ -372,10 +562,18 @@ function renderWithoutFocus() {
   // Temporarily disable scroll
   scrollContainer.style.overflow = 'hidden';
   
-  app.innerHTML = `
-    ${renderTabs()}
-    ${renderQuestion(questions[state.tab])}
-  `;
+  // Check if we're on the American test tab
+  if (state.tab === questions.length) {
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderAmericanTest()}
+    `;
+  } else {
+    app.innerHTML = `
+      ${renderTabs()}
+      ${renderQuestion(questions[state.tab])}
+    `;
+  }
   
       // Update values without saving focus
   if (state.mode === 'advanced') {
@@ -613,6 +811,40 @@ window.updateAnswer = function (key, idx, val) {
     // Restore scroll position
     window.scrollTo(0, scrollPosition);
   }, 0);
+};
+
+window.selectAmericanAnswer = function (questionId, optionId) {
+  state.americanAnswers[questionId] = optionId;
+  render();
+};
+
+window.selectAmericanQuestion = function (index) {
+  console.log('Selecting American question:', index);
+  state.americanQuestionIndex = index;
+  render();
+};
+
+window.previousAmericanQuestion = function () {
+  console.log('Previous - Current index:', state.americanQuestionIndex);
+  if (state.americanQuestionIndex > 0) {
+    state.americanQuestionIndex--;
+    console.log('Previous - New index:', state.americanQuestionIndex);
+    render();
+  } else {
+    console.log('Already at first question');
+  }
+};
+
+window.nextAmericanQuestion = function () {
+  console.log('Current index:', state.americanQuestionIndex);
+  console.log('Total questions:', americanQuestions.length);
+  if (state.americanQuestionIndex < americanQuestions.length - 1) {
+    state.americanQuestionIndex++;
+    console.log('New index:', state.americanQuestionIndex);
+    render();
+  } else {
+    console.log('Already at last question');
+  }
 };
 
 window.scrollTabs = function (direction) {
