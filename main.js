@@ -13,7 +13,9 @@ let state = {
   revealed: {}, // { [questionId_sectionIdx]: numRevealed }
   answers: {}, // { [questionId_sectionIdx]: [userAnswers] }
   americanAnswers: {}, // { [questionId]: selectedOption }
-  americanQuestionIndex: 0 // Track current American question index
+  americanQuestionIndex: 0, // Track current American question index
+  autoAdvance: false, // Auto advance between questions
+  autoAdvanceSeconds: 5 // Seconds to wait before auto advance
 };
 
 function isEnglish(str) {
@@ -381,29 +383,64 @@ function renderAmericanTest() {
               `;
             }).join('')}
           </div>
-          
-          ${selectedAnswer !== undefined ? `
-            <div class="explanation">
-              <h4>הסבר:</h4>
-              <p>${currentQuestion.explanation}</p>
-            </div>
-          ` : ''}
-          
-          <div class="american-navigation">
+        </div>
+        
+        <div class="quick-nav-buttons">
+          <div class="nav-left">
             <button 
-              class="nav-button" 
+              class="quick-nav-btn" 
               onclick="previousAmericanQuestion()"
               ${currentQuestionIndex === 0 ? 'disabled' : ''}
+              title="שאלה קודמת"
             >
-              שאלה קודמת (${currentQuestionIndex + 1}/${americanQuestions.length})
+              ‹
             </button>
             <button 
-              class="nav-button" 
+              class="quick-nav-btn" 
+              onclick="previousAmericanQuestionBy10()"
+              ${currentQuestionIndex < 10 ? 'disabled' : ''}
+              title="10 שאלות אחורה"
+            >
+              ‹‹
+            </button>
+          </div>
+          
+          <span class="question-counter">${currentQuestionIndex + 1} / ${americanQuestions.length}</span>
+          
+          <div class="nav-right">
+            <button 
+              class="quick-nav-btn" 
+              onclick="nextAmericanQuestionBy10()"
+              ${currentQuestionIndex >= americanQuestions.length - 10 ? 'disabled' : ''}
+              title="10 שאלות קדימה"
+            >
+              ››
+            </button>
+            <button 
+              class="quick-nav-btn" 
               onclick="nextAmericanQuestion()"
               ${currentQuestionIndex === americanQuestions.length - 1 ? 'disabled' : ''}
+              title="שאלה הבאה"
             >
-              שאלה הבאה (${currentQuestionIndex + 1}/${americanQuestions.length})
+              ›
             </button>
+            <div class="auto-advance-section">
+              <button 
+                class="auto-advance-btn ${state.autoAdvance ? 'active' : ''}"
+                onclick="toggleAutoAdvance()"
+                title="${state.autoAdvance ? 'כבה מעבר אוטומטי' : 'הפעל מעבר אוטומטי'}"
+              >
+                ${state.autoAdvance ? '⏸️' : '▶️'}
+              </button>
+              <select onchange="setAutoAdvanceSeconds(parseInt(this.value))" class="auto-advance-select">
+                <option value="1" ${state.autoAdvanceSeconds === 1 ? 'selected' : ''}>1s</option>
+                <option value="3" ${state.autoAdvanceSeconds === 3 ? 'selected' : ''}>3s</option>
+                <option value="5" ${state.autoAdvanceSeconds === 5 ? 'selected' : ''}>5s</option>
+                <option value="10" ${state.autoAdvanceSeconds === 10 ? 'selected' : ''}>10s</option>
+                <option value="15" ${state.autoAdvanceSeconds === 15 ? 'selected' : ''}>15s</option>
+                <option value="30" ${state.autoAdvanceSeconds === 30 ? 'selected' : ''}>30s</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -466,12 +503,7 @@ function renderAmericanQuestion(q) {
             }).join('')}
           </div>
           
-          ${selectedAnswer !== undefined ? `
-            <div class="explanation">
-              <h4>הסבר:</h4>
-              <p>${q.explanation}</p>
-            </div>
-          ` : ''}
+
         </div>
       </div>
     </div>
@@ -644,6 +676,13 @@ function updateScore(key) {
 window.selectTab = function (i) {
   state.tab = i;
   renderWithoutFocus();
+  
+  // Start auto advance if we're on the American test tab and auto advance is enabled
+  if (i === questions.length && state.autoAdvance) {
+    startAutoAdvance();
+  } else {
+    stopAutoAdvance();
+  }
 };
 
 window.toggleMode = function () {
@@ -822,6 +861,11 @@ window.updateAnswer = function (key, idx, val) {
 window.selectAmericanAnswer = function (questionId, optionId) {
   state.americanAnswers[questionId] = optionId;
   render();
+  
+  // Start auto advance timer when user selects an answer
+  if (state.autoAdvance) {
+    startAutoAdvanceTimer();
+  }
 };
 
 window.selectAmericanQuestion = function (index) {
@@ -836,6 +880,11 @@ window.previousAmericanQuestion = function () {
     state.americanQuestionIndex--;
     console.log('Previous - New index:', state.americanQuestionIndex);
     render();
+    
+    // Stop auto advance timer when manually navigating
+    if (state.autoAdvance) {
+      stopAutoAdvance();
+    }
   } else {
     console.log('Already at first question');
   }
@@ -848,8 +897,94 @@ window.nextAmericanQuestion = function () {
     state.americanQuestionIndex++;
     console.log('New index:', state.americanQuestionIndex);
     render();
+    
+    // Stop auto advance timer when manually navigating
+    if (state.autoAdvance) {
+      stopAutoAdvance();
+    }
   } else {
     console.log('Already at last question');
+  }
+};
+
+window.previousAmericanQuestionBy10 = function () {
+  console.log('Previous by 10 - Current index:', state.americanQuestionIndex);
+  if (state.americanQuestionIndex >= 10) {
+    state.americanQuestionIndex -= 10;
+    console.log('Previous by 10 - New index:', state.americanQuestionIndex);
+    render();
+    
+    // Stop auto advance timer when manually navigating
+    if (state.autoAdvance) {
+      stopAutoAdvance();
+    }
+  } else {
+    console.log('Cannot go back 10 questions');
+  }
+};
+
+window.nextAmericanQuestionBy10 = function () {
+  console.log('Next by 10 - Current index:', state.americanQuestionIndex);
+  console.log('Total questions:', americanQuestions.length);
+  if (state.americanQuestionIndex < americanQuestions.length - 10) {
+    state.americanQuestionIndex += 10;
+    console.log('Next by 10 - New index:', state.americanQuestionIndex);
+    render();
+    
+    // Stop auto advance timer when manually navigating
+    if (state.autoAdvance) {
+      stopAutoAdvance();
+    }
+  } else {
+    console.log('Cannot go forward 10 questions');
+  }
+};
+
+// Auto advance functionality
+let autoAdvanceTimer = null;
+
+function startAutoAdvance() {
+  if (state.autoAdvance && state.tab === questions.length) {
+    clearTimeout(autoAdvanceTimer);
+    // Don't start timer immediately - wait for user to select an answer
+  }
+}
+
+function startAutoAdvanceTimer() {
+  if (state.autoAdvance && state.tab === questions.length) {
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = setTimeout(() => {
+      if (state.americanQuestionIndex < americanQuestions.length - 1) {
+        state.americanQuestionIndex++;
+        render();
+        // Don't restart timer automatically - wait for user to select answer
+      }
+    }, state.autoAdvanceSeconds * 1000);
+  }
+}
+
+function stopAutoAdvance() {
+  if (autoAdvanceTimer) {
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+}
+
+window.toggleAutoAdvance = function () {
+  state.autoAdvance = !state.autoAdvance;
+  if (state.autoAdvance) {
+    // Don't start timer immediately - wait for user to select an answer
+  } else {
+    stopAutoAdvance();
+  }
+  render();
+};
+
+window.setAutoAdvanceSeconds = function (seconds) {
+  state.autoAdvanceSeconds = seconds;
+  if (state.autoAdvance) {
+    stopAutoAdvance();
+    // Don't restart timer - wait for user to select an answer
   }
 };
 
