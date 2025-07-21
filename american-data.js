@@ -236,8 +236,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "ערוץ השידור.", "correct": false },
       { "id": "ב", "text": "רגישות הקליטה.", "correct": false },
-      { "id": "ג", "text": "תשובות ב ו- ד נכונות.", "correct": false },
-      { "id": "ד", "text": "גובה אנטנת השידור באנייה.", "correct": true }
+      { "id": "ג", "text": "תשובות ב ו- ד נכונות.", "correct": true },
+      { "id": "ד", "text": "גובה אנטנת השידור באנייה.", "correct": false }
     ],
     "explanation": "תשובה ג' גם היא נכונה אך מכילה בתוכה את תשובה ד'."
   },
@@ -245,10 +245,10 @@ window.americanQuestions = [
     "id": "23",
     "question": "בחר את ההצהרה הנכונה:",
     "options": [
-      { "id": "א", "text": "PRUDONCE פירושו שיש אפשרות לעבודה מוגבלת וזהירה על .CH16", "correct": false },
+      { "id": "א", "text": "PRUDONCE פירושו שיש אפשרות לעבודה מוגבלת וזהירה על .CH16", "correct": true },
       { "id": "ב", "text": "משמעות המילה SEELONCE במצוקה היא סיום מצב מצוקה.", "correct": false },
       { "id": "ג", "text": "PRUDONCE פירושו השתקת אניה מפריעה.", "correct": false },
-      { "id": "ד", "text": "FEENEE SEELONCE פירושו השתקת תחנה מפריעה ע\"י התחנה המפקחת.", "correct": true }
+      { "id": "ד", "text": "FEENEE SEELONCE פירושו השתקת תחנה מפריעה ע\"י התחנה המפקחת.", "correct": false }
     ],
     "explanation": ""
   },
@@ -467,8 +467,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "מכונים את ה- SQUELCH לרגישות מקלט מרבית.", "correct": false },
       { "id": "ב", "text": "דואגים לבחירת הספק שידור מתאים.", "correct": false },
-      { "id": "ג", "text": "בחירת ערוץ מתאים.", "correct": true },
-      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": false }
+      { "id": "ג", "text": "בחירת ערוץ מתאים.", "correct": false },
+      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": true }
     ],
     "explanation": ""
   },
@@ -555,8 +555,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "קוד זיהוי MMSI של מתקן DSC של כלי שייט.", "correct": false },
       { "id": "ב", "text": "קוד זיהוי MMSI אשר שייך למדינה בעלת 428 .MID", "correct": false },
-      { "id": "ג", "text": "קוד זיהוי MMSI של קבוצת מתקני DSC.", "correct": true },
-      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": false }
+      { "id": "ג", "text": "קוד זיהוי MMSI של קבוצת מתקני DSC.", "correct": false },
+      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": true }
     ],
     "explanation": ""
   },
@@ -588,8 +588,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "איש צוות נפל לים.", "correct": false },
       { "id": "ב", "text": "מצב רפואי קשה שבו מעורב איש צוות.", "correct": false },
-      { "id": "ג", "text": "אירועים המתייחסים לבטיחות השייט או אזהרה מטאורולוגית.", "correct": true },
-      { "id": "ד", "text": "תשובות א ו-ב.", "correct": false }
+      { "id": "ג", "text": "אירועים המתייחסים לבטיחות השייט או אזהרה מטאורולוגית.", "correct": false },
+      { "id": "ד", "text": "תשובות א ו-ב.", "correct": true }
     ],
     "explanation": ""
   },
@@ -982,8 +982,8 @@ window.americanQuestions = [
     "id": "90",
     "question": "איזה ביטוי יציין סיום זהיר של מצב מצוקה?",
     "options": [
-      { "id": "א", "text": "PRUDONCE.", "correct": false },
-      { "id": "ב", "text": "SEELONCE FEENEE.", "correct": true },
+      { "id": "א", "text": "PRUDONCE.", "correct": true },
+      { "id": "ב", "text": "SEELONCE FEENEE.", "correct": false },
       { "id": "ג", "text": "SEELONCE DISTRESS.", "correct": false },
       { "id": "ד", "text": "SEELONCE OUT.", "correct": false }
     ],
@@ -1094,8 +1094,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "428000501.", "correct": false },
       { "id": "ב", "text": "023200043.", "correct": false },
-      { "id": "ג", "text": "042811111.", "correct": true },
-      { "id": "ד", "text": "תשובה ב + ג נכונות.", "correct": false }
+      { "id": "ג", "text": "042811111.", "correct": false },
+      { "id": "ד", "text": "תשובה ב + ג נכונות.", "correct": true }
     ],
     "explanation": ""
   },
@@ -1114,10 +1114,10 @@ window.americanQuestions = [
     "id": "102",
     "question": "איזה מהמתקנים מספק מידע מדויק יותר לגבי המיקום בו הוא מוצב?",
     "options": [
-      { "id": "א", "text": "GPS.", "correct": false },
+      { "id": "א", "text": "GPS.", "correct": true },
       { "id": "ב", "text": "משואת רדיו הפועלת על .L-band", "correct": false },
       { "id": "ג", "text": "משואת רדיו הפועלת על .Mhz1215", "correct": false },
-      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": true }
+      { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": false }
     ],
     "explanation": ""
   },
@@ -1312,9 +1312,9 @@ window.americanQuestions = [
     "id": "120",
     "question": "על ערוץ/ערוצים אלה מותר לשדר בהספק של W1 בלבד:",
     "options": [
-      { "id": "א", "text": "CH17 & CH75.", "correct": false },
+      { "id": "א", "text": "CH17 & CH75.", "correct": true },
       { "id": "ב", "text": "CH15 & CH72.", "correct": false },
-      { "id": "ג", "text": "CH13.", "correct": true },
+      { "id": "ג", "text": "CH13.", "correct": false },
       { "id": "ד", "text": "CH79.", "correct": false }
     ],
     "explanation": ""
@@ -1455,10 +1455,10 @@ window.americanQuestions = [
     "id": "133",
     "question": "הערוצים הבאים מדברים רק ב- SIMPLEX :",
     "options": [
-      { "id": "א", "text": "CH16 CH06.", "correct": false },
+      { "id": "א", "text": "CH16 CH06.", "correct": true },
       { "id": "ב", "text": "CH26 CH27.", "correct": false },
       { "id": "ג", "text": "CH24 CH25.", "correct": false },
-      { "id": "ד", "text": "תשובות ב ו- ג נכונות.", "correct": true }
+      { "id": "ד", "text": "תשובות ב ו- ג נכונות.", "correct": false }
     ],
     "explanation": ""
   },
@@ -1543,8 +1543,8 @@ window.americanQuestions = [
     "id": "141",
     "question": "בחר את התשובה הנכונה ביותר מבין הבאות:",
     "options": [
-      { "id": "א", "text": "באזור הפלגה A1 Area אין חובה לפי תקנות ה- GMDSS לשאת מתקן NAVTEX.", "correct": true },
-      { "id": "ב", "text": "יש חובה לשלב GPS לכל משואת רדיו מסוג CH70.", "correct": false },
+      { "id": "א", "text": "באזור הפלגה A1 Area אין חובה לפי תקנות ה- GMDSS לשאת מתקן NAVTEX.", "correct": false },
+      { "id": "ב", "text": "יש חובה לשלב GPS לכל משואת רדיו מסוג CH70.", "correct": true },
       { "id": "ג", "text": "יש חובה לצייד משואת רדיו מסוג Cospas-Sarsat במתקן SART.", "correct": false },
       { "id": "ד", "text": "מתקן VHF נייד (נישא) יכלול, כחובה, את הערוצים Ch16 ו- Ch70.", "correct": false }
     ],
@@ -1697,10 +1697,10 @@ window.americanQuestions = [
     "id": "155",
     "question": "ההודעה הבאה נשמעת על CH16: All ships x3 this is Haifaradio x3 navigation warning ch25",
     "options": [
-      { "id": "א", "text": "לתחנת החוף חיפה יש תעבורת בטיחות חשובה.", "correct": false },
+      { "id": "א", "text": "לתחנת החוף חיפה יש תעבורת בטיחות חשובה.", "correct": true },
       { "id": "ב", "text": "לתחנת החוף חיפה יש תעבורה למס' כלי שייט והיא מודיעה זאת דרך רשימות תעבורה שתשדר אותן על ערוץ 25.", "correct": false },
       { "id": "ג", "text": "תחנת החוף חיפה מזהירה את כלי השייט שלא לשדר על ערוץ 25.", "correct": false },
-      { "id": "ד", "text": "אין תשובה נכונה.", "correct": true }
+      { "id": "ד", "text": "אין תשובה נכונה.", "correct": false }
     ],
     "explanation": "ההודעה היא אזהרת ניווט, שאינה אף אחת מהאפשרויות."
   },
@@ -1797,8 +1797,8 @@ window.americanQuestions = [
     "question": "איזה מהאפשרויות הבאות אינה דרישה תפקודית במערכת ה?GMDSS-",
     "options": [
       { "id": "א", "text": "לשדר ולקלוט תקשורת המוגדרת Communication On-Scene", "correct": false },
-      { "id": "ב", "text": "לשדר ולקלוט תקשורת המוגדרת Information Safety Maritime", "correct": false },
-      { "id": "ג", "text": "לשדר ולקלוט תקשורת באמצעות SART", "correct": true },
+      { "id": "ב", "text": "לשדר ולקלוט תקשורת המוגדרת Information Safety Maritime", "correct": true },
+      { "id": "ג", "text": "לשדר ולקלוט תקשורת באמצעות SART", "correct": false },
       { "id": "ד", "text": "לשדר ולקלוט תקשורת המוגדרת Alert Distress Ship to Ship", "correct": false }
     ],
     "explanation": ""
@@ -1863,10 +1863,10 @@ window.americanQuestions = [
     "id": "170",
     "question": "בחר את הפניה התקשורתית הנכונה:",
     "options": [
-      { "id": "א", "text": "over TR X2 Yonit is this Radio Haifa", "correct": false },
+      { "id": "א", "text": "over TR X2 Yonit is this Radio Haifa", "correct": true },
       { "id": "ב", "text": "Haifa Radio this is Cyprus Radio X2 TR over", "correct": false },
       { "id": "ג", "text": "Haifa Radio this is Yonit X2 TR out", "correct": false },
-      { "id": "ד", "text": "Haifa Radio this is Yonit X2 TR Channel 13 over", "correct": true }
+      { "id": "ד", "text": "Haifa Radio this is Yonit X2 TR Channel 13 over", "correct": false }
     ],
     "explanation": ""
   },
@@ -1885,8 +1885,8 @@ window.americanQuestions = [
     "id": "172",
     "question": "הביטוי Warning Gale משודר במסגרת:",
     "options": [
-      { "id": "א", "text": "הודעת נווטקס בעלת קוד זיהוי הודעה לדוגמה: BB12", "correct": false },
-      { "id": "ב", "text": "הודעת DSC המיועדת לכל התחנות הנמצאות בטווח השידור של תחנת החוף המשדרת", "correct": true },
+      { "id": "א", "text": "הודעת נווטקס בעלת קוד זיהוי הודעה לדוגמה: BB12", "correct": true },
+      { "id": "ב", "text": "הודעת DSC המיועדת לכל התחנות הנמצאות בטווח השידור של תחנת החוף המשדרת", "correct": false },
       { "id": "ג", "text": "התרעת מצוקה", "correct": false },
       { "id": "ד", "text": "התרעת בטיחות ביחס לחפץ במים המסוכן לשייט", "correct": false }
     ],
@@ -1907,10 +1907,10 @@ window.americanQuestions = [
     "id": "174",
     "question": "CH13 משמש לתקשורת:",
     "options": [
-      { "id": "א", "text": "בטיחות השייט (פינוי דרך) בין אוניות", "correct": false },
+      { "id": "א", "text": "בטיחות השייט (פינוי דרך) בין אוניות", "correct": true },
       { "id": "ב", "text": "עם מרינות העולם", "correct": false },
       { "id": "ג", "text": "עם הנתב )pilot( בכניסה או ביציאה של הנמל", "correct": false },
-      { "id": "ד", "text": "כל התשובות נכונות", "correct": true }
+      { "id": "ד", "text": "כל התשובות נכונות", "correct": false }
     ],
     "explanation": ""
   },
@@ -1962,7 +1962,7 @@ window.americanQuestions = [
     "id": "179",
     "question": "באיזה ערוץ משתמשים לתקשורת עם רשויות נמל?",
     "options": [
-      { "id": "א", "text": "ערוץ 20", "correct": false },
+      { "id": "א", "text": "ערוץ 20", "correct": true },
       { "id": "ב", "text": "ערוץ 13", "correct": false },
       { "id": "ג", "text": "ערוץ 06", "correct": false },
       { "id": "ד", "text": "ערוץ 75", "correct": false }
@@ -2063,8 +2063,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "over control Gal is this Alpha Gal", "correct": false },
       { "id": "ב", "text": "יש להשתמש ב1W- בערוצים 11 ו73-", "correct": false },
-      { "id": "ג", "text": "יש להשתמש ב1W- בערוצים 15 ו17-", "correct": true },
-      { "id": "ד", "text": "תשובות א ו-ג נכונות", "correct": false }
+      { "id": "ג", "text": "יש להשתמש ב1W- בערוצים 15 ו17-", "correct": false },
+      { "id": "ד", "text": "תשובות א ו-ג נכונות", "correct": true }
     ],
     "explanation": ""
   },
@@ -2160,9 +2160,9 @@ window.americanQuestions = [
     "id": "197",
     "question": "פרטי מסע TR נשדר:",
     "options": [
-      { "id": "א", "text": "לפני כניסה ואחרי יציאה מנמל", "correct": false },
+      { "id": "א", "text": "לפני כניסה ואחרי יציאה מנמל", "correct": true },
       { "id": "ב", "text": "כל 4 שעות", "correct": false },
-      { "id": "ג", "text": "אחת ליום", "correct": true },
+      { "id": "ג", "text": "אחת ליום", "correct": false },
       { "id": "ד", "text": "על פי דרישת הRCC- בזמן מצוקה", "correct": false }
     ],
     "explanation": ""
@@ -2435,8 +2435,8 @@ window.americanQuestions = [
     "id": "222",
     "question": "איזו מההצהרות איננה נכונה בהתייחס למכשיר הקשר הנייד ב- VHF לסירת הצלה?",
     "options": [
-      { "id": "א", "text": "פועל בSIMPLEX- על 156.525 מה\"צ (ערוץ )70 ולפחות על עוד ערוץ נוסף.", "correct": true },
-      { "id": "ב", "text": "אטום למים עד עומק של 1 מטר ל5- דקות לפחות.", "correct": false },
+      { "id": "א", "text": "פועל בSIMPLEX- על 156.525 מה\"צ (ערוץ )70 ולפחות על עוד ערוץ נוסף.", "correct": false },
+      { "id": "ב", "text": "אטום למים עד עומק של 1 מטר ל5- דקות לפחות.", "correct": true },
       { "id": "ג", "text": "הספק שידור אפקטיבי מינימלי של .0.25W", "correct": false },
       { "id": "ד", "text": "חייב לשדר על ערוץ 16 ולפחות ערוץ נוסף.", "correct": false }
     ],
@@ -2480,9 +2480,9 @@ window.americanQuestions = [
     "question": "איזה מבין הצירופים הבאים מציין MMSI של מתקן ?MOB-Personal",
     "options": [
       { "id": "א", "text": "994281234", "correct": false },
-      { "id": "ב", "text": "970721234", "correct": true },
+      { "id": "ב", "text": "970721234", "correct": false },
       { "id": "ג", "text": "974721234", "correct": false },
-      { "id": "ד", "text": "972721234", "correct": false }
+      { "id": "ד", "text": "972721234", "correct": true }
     ],
     "explanation": ""
   },
@@ -2512,8 +2512,8 @@ window.americanQuestions = [
     "id": "229",
     "question": "הודעת Warning Navigational בנווטקס מתייחסת לקטגוריה בעדיפות:",
     "options": [
-      { "id": "א", "text": "Vital", "correct": true },
-      { "id": "ב", "text": "Important", "correct": false },
+      { "id": "א", "text": "Vital", "correct": false },
+      { "id": "ב", "text": "Important", "correct": true },
       { "id": "ג", "text": "Safety", "correct": false },
       { "id": "ד", "text": "Routine", "correct": false }
     ],
@@ -2580,8 +2580,8 @@ window.americanQuestions = [
     "question": "באיזה עדיפויות קשר יספק ה- DSC מיקום אוטומטי של כלי השיט המשדר דרכו?",
     "options": [
       { "id": "א", "text": "בכל עדיפויות הקשר", "correct": false },
-      { "id": "ב", "text": "במצוקה, דחיפות ובטיחות", "correct": true },
-      { "id": "ג", "text": "במצוקה ובדחיפות", "correct": false },
+      { "id": "ב", "text": "במצוקה, דחיפות ובטיחות", "correct": false },
+      { "id": "ג", "text": "במצוקה ובדחיפות", "correct": true },
       { "id": "ד", "text": "במצוקה בלבד", "correct": false }
     ],
     "explanation": ""
@@ -2593,8 +2593,8 @@ window.americanQuestions = [
       { "id": "א", "text": "מפעיל לא מיומן השמיט את נתון סוג המצוקה", "correct": false },
       { "id": "ב", "text": "כלי השיט ננטש בחופזה ולמפעיל לא היה זמן לפרט", "correct": false },
       { "id": "ג", "text": "מישהוא לחץ בשגגה או בזדון על כפתור מצוקה מהיר", "correct": false },
-      { "id": "ד", "text": "כל התשובות נכונות", "correct": true },
-      { "id": "ה", "text": "תשובות ב ו- ג נכונות", "correct": false }
+      { "id": "ד", "text": "כל התשובות נכונות", "correct": false },
+      { "id": "ה", "text": "תשובות ב ו- ג נכונות", "correct": true }
     ],
     "explanation": ""
   },
@@ -2635,9 +2635,9 @@ window.americanQuestions = [
     "id": "240",
     "question": "בהפעלת DW בקליטה, על כמה ערוצים ה- DSC מבצע האזנה למעשה?",
     "options": [
-      { "id": "א", "text": "1", "correct": true },
+      { "id": "א", "text": "1", "correct": false },
       { "id": "ב", "text": "2", "correct": false },
-      { "id": "ג", "text": "3", "correct": false },
+      { "id": "ג", "text": "3", "correct": true },
       { "id": "ד", "text": "4", "correct": false }
     ],
     "explanation": ""
@@ -2646,8 +2646,8 @@ window.americanQuestions = [
     "id": "241",
     "question": "מהיא או מהן המערכות הלווייניות בעלות הזמינות המיידית לקליטת משואת רדיו בכל נקודה ע\"פ כדה\"א?",
     "options": [
-      { "id": "א", "text": "Geo-Sat & Meo-Sat", "correct": true },
-      { "id": "ב", "text": "Meo-Sat", "correct": false },
+      { "id": "א", "text": "Geo-Sat & Meo-Sat", "correct": false },
+      { "id": "ב", "text": "Meo-Sat", "correct": true },
       { "id": "ג", "text": "Leo-Sat & Meo-Sat", "correct": false },
       { "id": "ד", "text": "Leo-Sat", "correct": false }
     ],
