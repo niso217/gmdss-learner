@@ -36,6 +36,7 @@ console.log('American questions loaded:', americanQuestions);
 console.log('American questions length:', americanQuestions.length);
 console.log('Tabs created:', tabs.length);
 
+// Add new state for the American Exam
 let state = {
   tab: 0,
   mode: 'basic', // 'basic' | 'advanced'
@@ -48,7 +49,11 @@ let state = {
   distressAutoAdvance: false, // Auto advance for distress questions
   distressAutoAdvanceSeconds: 5, // Seconds to wait before auto advance
   autoAdvance: false, // Auto advance between questions
-  autoAdvanceSeconds: 5 // Seconds to wait before auto advance
+  autoAdvanceSeconds: 5, // Seconds to wait before auto advance
+  americanExamQuestions: [], // 25 random questions for the exam
+  americanExamAnswers: {}, // { [questionId]: selectedOption }
+  americanExamIndex: 0, // Current index in the exam
+  americanExamFinished: false, // Exam finished flag
 };
 
 function isEnglish(str) {
@@ -210,8 +215,9 @@ function renderTabs() {
   // שלושה טאבים בלבד: שאלות מצוקה, מבחן אמריקאי, סימולטורים
   const tabNames = [
     { label: 'שאלות מצוקה', index: 0 },
-    { label: 'מבחן אמריקאי', index: 1 },
-    { label: 'סימולטורים', index: 2 }
+    { label: 'מאגר שאלות', index: 1 },
+    { label: 'מבחן אמריקאי', index: 2 },
+    { label: 'סימולטורים', index: 3 }
   ];
   return `<div class="header-container">
     <div class="tabs">
@@ -787,27 +793,15 @@ function renderQuestion(q) {
 
 function render() {
   document.body.setAttribute('data-theme', state.theme);
-
   if (state.tab === 0) {
-    // שאלות מצוקה
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderDistressQuestions()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
   } else if (state.tab === 1) {
-    // מבחן אמריקאי
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderAmericanTest()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
   } else if (state.tab === 2) {
-    // סימולטורים
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderSimulators()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
+  } else if (state.tab === 3) {
+    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
   }
-
   if (state.mode === 'advanced') {
     setTimeout(() => {
       const inputs = document.querySelectorAll('textarea.input-sentence');
@@ -823,34 +817,18 @@ function render() {
 }
 
 function renderWithoutFocus() {
-  // Save scroll position and prevent scroll
   const currentScroll = window.scrollY;
   const scrollContainer = document.documentElement;
-  
-  // Temporarily disable scroll
   scrollContainer.style.overflow = 'hidden';
-  
   if (state.tab === 0) {
-    // שאלות מצוקה
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderDistressQuestions()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
   } else if (state.tab === 1) {
-    // מבחן אמריקאי
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderAmericanTest()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
   } else if (state.tab === 2) {
-    // סימולטורים
-    app.innerHTML = `
-      ${renderTabs()}
-      ${renderSimulators()}
-    `;
+    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
+  } else if (state.tab === 3) {
+    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
   }
-  
-  // Update values without saving focus
   if (state.mode === 'advanced') {
     const inputs = document.querySelectorAll('textarea.input-sentence');
     inputs.forEach(input => {
@@ -861,8 +839,6 @@ function renderWithoutFocus() {
       }
     });
   }
-  
-  // Restore scroll position and re-enable scroll
   requestAnimationFrame(() => {
     window.scrollTo(0, currentScroll);
     scrollContainer.style.overflow = '';
@@ -1410,6 +1386,161 @@ function showSimulatorsTab() {
   state.tab = tabs.length - 1;
   render();
 }
+
+// Utility to get 25 random questions
+function getRandomQuestions(arr, n) {
+  const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, n);
+}
+
+// New render function for the American Exam (identical to renderAmericanTest, but only 25 random questions, no nav bars, and with a finish button)
+function renderAmericanExam() {
+  // Initialize 25 random questions if not already
+  if (state.americanExamQuestions.length !== 25) {
+    state.americanExamQuestions = getRandomQuestions(americanQuestions, 25);
+    state.americanExamAnswers = {};
+    state.americanExamIndex = 0;
+    state.americanExamFinished = false;
+  }
+  const questions = state.americanExamQuestions;
+  const idx = state.americanExamIndex;
+  const current = questions[idx];
+  if (state.americanExamFinished) {
+    // Show score
+    const correct = questions.filter(q => {
+      const ans = state.americanExamAnswers[q.id];
+      return q.options.find(o => o.id === ans && o.correct);
+    }).length;
+    const score = Math.round((correct / 25) * 100);
+    // Select icon by score
+    let finishIcon = '🏆';
+    if (score >= 96) finishIcon = '🏆';
+    else if (score >= 80) finishIcon = '😃';
+    else if (score >= 60) finishIcon = '🙂';
+    else finishIcon = '😢';
+    // Confetti only for 96+
+    setTimeout(() => { if (score >= 96 && typeof createConfetti === 'function') createConfetti(); }, 100);
+    // Dark mode colors
+    const isDark = state.theme === 'dark';
+    const reviewBg = isDark ? '#23272e' : '#f8fafc';
+    const reviewBorder = isDark ? '#333a44' : '#e0e0e0';
+    const reviewText = isDark ? '#e3eaf7' : '#222';
+    const correctBg = isDark ? '#1b3c1b' : '#e8f5e9';
+    const correctBorder = isDark ? '#388e3c' : '#388e3c';
+    const correctText = isDark ? '#7fff7f' : '#388e3c';
+    const userWrongBg = isDark ? '#3a2323' : '#ffebee';
+    const userWrongBorder = isDark ? '#d32f2f' : '#d32f2f';
+    const userWrongText = isDark ? '#ff7f7f' : '#d32f2f';
+    const rightBg = isDark ? '#1e2a38' : '#e3f2fd';
+    const rightBorder = isDark ? '#1976d2' : '#1976d2';
+    const rightText = isDark ? '#90caf9' : '#1976d2';
+    // Review block
+    const reviewHtml = questions.map((q, i) => {
+      const userAns = state.americanExamAnswers[q.id];
+      return `<div style='margin-bottom:28px;padding:18px 16px 10px 16px;background:${reviewBg};border-radius:14px;box-shadow:0 1px 6px #0002;border:1px solid ${reviewBorder};color:${reviewText};'>
+        <div style='font-weight:600;font-size:1.08em;margin-bottom:8px;'>${i+1}. ${q.question}</div>
+        <div style='display:flex;flex-direction:column;gap:7px;'>
+          ${q.options.map(opt => {
+            const isCorrect = opt.correct;
+            const isUser = userAns === opt.id;
+            let style = `padding:7px 12px;border-radius:7px;border:1px solid ${reviewBorder};display:flex;align-items:center;gap:8px;background:${isDark ? '#181c20' : '#fff'};color:${reviewText};`;
+            if (isCorrect && isUser) style += `background:${correctBg};border:2px solid ${correctBorder};color:${correctText};font-weight:700;`;
+            else if (isCorrect) style += `background:${rightBg};border:2px solid ${rightBorder};color:${rightText};font-weight:700;`;
+            else if (isUser) style += `background:${userWrongBg};border:2px solid ${userWrongBorder};color:${userWrongText};font-weight:700;`;
+            return `<div style='${style}'>
+              <span style='font-family:monospace;font-size:1.1em;'>${opt.id.toUpperCase()}</span>
+              <span>${opt.text}</span>
+              ${isCorrect ? '<span style=\'margin-right:auto;font-size:1.2em;\'>✓</span>' : ''}
+              ${isUser && !isCorrect ? '<span style=\'margin-right:auto;font-size:1.2em;\'>✗</span>' : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="content">
+      <div class="american-exam-finish" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;">
+        <div style="background:${isDark ? '#23272e' : 'linear-gradient(120deg,#e3f2fd,#fffde7)'};padding:40px 32px 32px 32px;border-radius:24px;box-shadow:0 4px 32px #0002;display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%;color:${reviewText};">
+          <div style="font-size:3em;line-height:1;margin-bottom:12px;">${finishIcon}</div>
+          <div style="font-size:2em;font-weight:800;color:#1976d2;text-shadow:0 2px 8px #1976d233;margin-bottom:12px;letter-spacing:1px;">סיימת את המבחן!</div>
+          <div class="score" style="font-size:2.2em;font-weight:800;color:#388e3c;background:${correctBg};padding:16px 38px 10px 38px;border-radius:16px;box-shadow:0 2px 8px #388e3c22;margin-bottom:8px;letter-spacing:1px;">${score}</div>
+          <div style="font-size:1em;color:#888;margin-bottom:18px;">נכונות: 25 / ${correct}</div>
+          <div style="width:100%;margin:24px 0 12px 0;max-height:50vh;overflow-y:auto;direction:rtl;text-align:right;">${reviewHtml}</div>
+          <button onclick="restartAmericanExam()" class="restart-btn" style="margin-top:10px;padding:10px 28px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;box-shadow:0 2px 8px #1976d233;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">נסה שוב</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  // Improved progress indicator
+  const progress = ((idx + 1) / 25) * 100;
+  return `<div class="content">
+    <div class="american-exam-container">
+      <div class="exam-progress-bar-container" style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+        <div class="exam-progress-label" style="font-size:1.1em;font-weight:500;direction:rtl;">שאלה <span style='color:#1976d2;font-weight:bold;'>${idx + 1}</span> מתוך <span style='color:#1976d2;font-weight:bold;'>25</span></div>
+        <div class="exam-progress-bar-outer" style="flex:1;height:14px;background:#e0e0e0;border-radius:7px;overflow:hidden;box-shadow:0 1px 4px #0001;">
+          <div class="exam-progress-bar-inner" style="height:100%;width:${progress}%;background:linear-gradient(90deg,#1976d2,#42a5f5);transition:width 0.3s;"></div>
+        </div>
+      </div>
+      <div class="american-question">
+        <h3 class="question-text">${current.question}</h3>
+        <div class="options-container">
+          ${current.options.map(option => {
+            const isSelected = state.americanExamAnswers[current.id] === option.id;
+            const isCorrect = option.correct;
+            const showResult = state.americanExamAnswers[current.id] !== undefined;
+            let optionClass = 'option-button';
+            if (showResult) {
+              if (isCorrect) {
+                optionClass += ' correct';
+              } else if (isSelected && !isCorrect) {
+                optionClass += ' incorrect';
+              }
+            } else if (isSelected) {
+              optionClass += ' selected';
+            }
+            return `
+              <button 
+                class="${optionClass}"
+                onclick="selectAmericanExamAnswer('${current.id}', '${option.id}')"
+                ${showResult ? 'disabled' : ''}
+              >
+                <span class="option-letter">${option.id.toUpperCase()}</span>
+                <span class="option-text">${option.text}</span>
+                ${showResult && isCorrect ? '<span class="correct-icon">✓</span>' : ''}
+                ${showResult && isSelected && !isCorrect ? '<span class="incorrect-icon">✗</span>' : ''}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.selectAmericanExamQuestion = function (index) {
+  state.americanExamIndex = index;
+  render();
+};
+window.selectAmericanExamAnswer = function (qid, oid) {
+  state.americanExamAnswers[qid] = oid;
+  // Auto-advance to next question or finish
+  if (state.americanExamIndex < 24) {
+    state.americanExamIndex++;
+  } else {
+    state.americanExamFinished = true;
+  }
+  render();
+};
+window.finishAmericanExam = function () {
+  state.americanExamFinished = true;
+  render();
+};
+window.restartAmericanExam = function () {
+  state.americanExamQuestions = [];
+  state.americanExamAnswers = {};
+  state.americanExamIndex = 0;
+  state.americanExamFinished = false;
+  render();
+};
 
 
 render();
