@@ -876,7 +876,17 @@ function updateSingleInput(key, idx, val) {
     inputElement.value = val;
     
     // Update accuracy percentage
-    const sentence = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences[idx];
+    let sentence;
+    if (state.tab === 0) {
+      // שאלות מצוקה
+      const currentQuestion = distressQuestions[state.distressQuestionIndex];
+      const section = currentQuestion.sections.find((s, i) => getSectionKey(currentQuestion.id, i) === key);
+      sentence = section.sentences[idx];
+    } else {
+      // טאב אחר (אמריקאי/אחר)
+      const section = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key);
+      sentence = section.sentences[idx];
+    }
     const accuracy = compareSentences(val, sentence);
     const accuracyElement = inputElement.parentElement.querySelector('.accuracy');
     if (accuracyElement) {
@@ -890,8 +900,15 @@ function updateSingleInput(key, idx, val) {
 }
 
 function updateScore(key) {
-  const [qid, sidx] = key.split('_');
-  const section = questions[state.tab].sections[parseInt(sidx)];
+  let section;
+  if (state.tab === 0) {
+    // שאלות מצוקה
+    const currentQuestion = distressQuestions[state.distressQuestionIndex];
+    section = currentQuestion.sections.find((s, i) => getSectionKey(currentQuestion.id, i) === key);
+  } else {
+    // טאב אחר (אמריקאי/אחר)
+    section = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key);
+  }
   const answers = state.answers[key] || Array(section.sentences.length).fill('');
   
   let total = 0;
@@ -972,7 +989,15 @@ window.revealSentence = function (key) {
 window.showAllSentences = function (key) {
       // Show all sentences in the section
   const [qid, sidx] = key.split('_');
-  const section = questions[state.tab].sections[parseInt(sidx)];
+  let section;
+  if (state.tab === 0) {
+    // שאלות מצוקה
+    const currentQuestion = distressQuestions[state.distressQuestionIndex];
+    section = currentQuestion.sections[parseInt(sidx)];
+  } else {
+    // טאב אחר (אמריקאי/אחר)
+    section = questions[state.tab].sections[parseInt(sidx)];
+  }
   state.revealed[key] = section.sentences.length;
   render();
 };
@@ -1035,18 +1060,30 @@ window.clearAllSentences = function (key) {
 };
 
 window.updateAnswer = function (key, idx, val) {
-  if (!state.answers[key]) state.answers[key] = Array(questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences.length).fill('');
+  let section, sentence;
+  // נזהה אם אנחנו בטאב שאלות מצוקה
+  if (state.tab === 0) {
+    // שאלות מצוקה
+    const currentQuestion = distressQuestions[state.distressQuestionIndex];
+    section = currentQuestion.sections.find((s, i) => getSectionKey(currentQuestion.id, i) === key);
+    sentence = section.sentences[idx];
+    if (!state.answers[key]) state.answers[key] = Array(section.sentences.length).fill('');
+  } else {
+    // טאב אחר (אמריקאי/אחר)
+    section = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key);
+    sentence = section.sentences[idx];
+    if (!state.answers[key]) state.answers[key] = Array(section.sentences.length).fill('');
+  }
   state.answers[key][idx] = val;
   
-      // Save current focus
+  // Save current focus
   const activeElement = document.activeElement;
   const activeKey = activeElement ? activeElement.getAttribute('data-key') : null;
   const activeIdx = activeElement ? parseInt(activeElement.getAttribute('data-idx')) : null;
   const cursorPosition = activeElement ? activeElement.selectionStart : 0;
   const scrollPosition = window.scrollY;
   
-      // Check if answer is 100% correct
-  const sentence = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key).sentences[idx];
+  // Check if answer is 100% correct
   const accuracy = compareSentences(val, sentence);
   
   if (accuracy === 100) {
@@ -1060,8 +1097,7 @@ window.updateAnswer = function (key, idx, val) {
     }
   }
   
-      // Check if all sentences in section are correct
-  const section = questions[state.tab].sections.find((s, i) => getSectionKey(questions[state.tab].id, i) === key);
+  // Check if all sentences in section are correct
   const allCorrect = section.sentences.every((s, i) => {
     const acc = compareSentences(state.answers[key][i] || '', s);
     return acc === 100;
@@ -1072,10 +1108,10 @@ window.updateAnswer = function (key, idx, val) {
     createConfetti();
   }
   
-      // Update only the specific element instead of full render
+  // Update only the specific element instead of full render
   updateSingleInput(key, idx, val);
   
-      // Restore focus and scroll
+  // Restore focus and scroll
   setTimeout(() => {
     if (activeKey && activeIdx !== null) {
       const newActiveElement = document.querySelector(`input[data-key="${activeKey}"][data-idx="${activeIdx}"]`);
