@@ -3749,3 +3749,27 @@ button:focus, .input-sentence:focus {
     padding: 0.2em 0.7em;
   }
 }
+
+[data-theme="dark"] .question-counter, [data-theme="dark"] .bottom-nav-counter {
+  color: #fff !important;
+  background: #23272e !important;
+  padding: 0.2em 1.2em !important;
+  border-radius: 12px !important;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 1px 6px #000a;
+  box-shadow: 0 2px 12px #0006;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: #fff !important;
+  text-fill-color: #fff !important;
+}
+
+[data-theme="dark"] .question-counter {
+  color: #fff !important;
+  text-shadow: 0 1px 6px #000a;
+}
+[data-theme="dark"] .bottom-nav-counter {
+  color: #fff !important;
+  text-shadow: 0 1px 6px #000a;
+}
