@@ -3385,3 +3385,25 @@ button:focus, .input-sentence:focus {
 }
 
 /* ... existing code ... */
+
+.question-description.sticky {
+  position: sticky !important;
+  top: 70px !important;
+  z-index: 999 !important;
+  background: #fff !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+  border: 2px solid #90caf9 !important; /* soft blue border */
+  border-radius: 14px !important;
+  padding: 16px 12px !important;
+  font-size: 1.1em !important;
+  transition: border-color 0.2s;
+}
+
+[data-theme="dark"] .question-description.sticky {
+  background: #23272e !important;
+  border: 2px solid #42a5f5 !important; /* brighter blue for dark mode */
+}
+
+.content, body, #app {
+  overflow: visible !important;
+}

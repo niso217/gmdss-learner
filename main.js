@@ -54,6 +54,7 @@ let state = {
   americanExamAnswers: {}, // { [questionId]: selectedOption }
   americanExamIndex: 0, // Current index in the exam
   americanExamFinished: false, // Exam finished flag
+  sectionModes: {}, // { [questionId_sectionIdx]: 'basic' | 'advanced' }
 };
 
 function isEnglish(str) {
@@ -419,46 +420,47 @@ function renderDistressQuestions() {
     `;
   }
   
+  // נוסיף כאן את התיאור בלבד מחוץ לקופסה, עם sticky למעלה וצל
+  const questionHeader = `
+    <div class="question-description sticky">
+      ${currentQuestion.description}
+    </div>
+  `;
+
   return `
     <div class="content">
       ${topNav}
       ${bottomNav}
-      <div class="distress-question-container">
-        <div class="distress-question">
-          <div class="question-header">
-            <div class="question-title">${currentQuestion.title}</div>
-            <div class="mode-toggle">
-              <label class="toggle-mode">
-                <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
-                <span class="toggle-slider"></span>
-              </label>
-              <span class="mode-toggle-text">${state.mode === 'advanced' ? '✏️' : '👁️'}</span>
-            </div>
-          </div>
-          <div class="question-description">${currentQuestion.description}</div>
-          ${currentQuestion.sections
-            .map((section, sidx) => {
-              const sectionContent = state.mode === 'basic'
-                ? renderBasicSection(section, currentQuestion.id, sidx)
-                : renderAdvancedSection(section, currentQuestion.id, sidx);
-              
-              return `
-                <div class="section-container">
-                  <div class="section-header">
-                    <h3 class="section-title">${section.label}</h3>
-                  </div>
-                  <div class="section-content">
-                    <div class="section-description">
-                      ${section.description}
-                    </div>
-                    ${sectionContent}
-                  </div>
+      ${questionHeader}
+      ${currentQuestion.sections
+        .map((section, sidx) => {
+          const sectionKey = getSectionKey(currentQuestion.id, sidx);
+          const sectionMode = state.sectionModes ? (state.sectionModes[sectionKey] || 'basic') : (state.mode || 'basic');
+          const sectionContent = sectionMode === 'basic'
+            ? renderBasicSection(section, currentQuestion.id, sidx)
+            : renderAdvancedSection(section, currentQuestion.id, sidx);
+          return `
+            <div class="section-container" style="position:relative;">
+              <span class="section-mode-toggle" style="position:absolute;top:10px;left:16px;z-index:2;display:inline-flex;align-items:center;gap:6px;">
+                <label class="toggle-mode" style="margin-bottom:-2px;">
+                  <input type="checkbox" ${sectionMode === 'advanced' ? 'checked' : ''} onchange="toggleSectionMode('${sectionKey}')">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="mode-toggle-text">${sectionMode === 'advanced' ? '✏️' : '👁️'}</span>
+              </span>
+              <div class="section-header" style="display:flex;align-items:center;gap:12px;">
+                <h3 class="section-title" style="margin:0; font-size:1.1em; font-weight:700; display:inline-block;">${section.label}</h3>
+              </div>
+              <div class="section-content">
+                <div class="section-description">
+                  ${section.description}
                 </div>
-              `;
-            })
-            .join('')}
-        </div>
-      </div>
+                ${sectionContent}
+              </div>
+            </div>
+          `;
+        })
+        .join('')}
     </div>
   `;
 }
@@ -755,27 +757,27 @@ function renderQuestion(q) {
       <div class="sticky-question">
         <div class="question-header">
           <div class="question-title">${q.title}</div>
-          <div class="mode-toggle">
-            <label class="toggle-mode">
-              <input type="checkbox" ${state.mode === 'advanced' ? 'checked' : ''} onchange="toggleMode()">
-              <span class="toggle-slider"></span>
-            </label>
-            <span class="mode-toggle-text">${state.mode === 'advanced' ? '✏️' : '👁️'}</span>
-          </div>
         </div>
         <div class="question-description" style="padding: 15px; margin: 10px 0;">${q.description}</div>
       </div>
       ${q.sections
         .map((section, sidx) => {
-          console.log('Rendering section:', section.label, sidx);
-          const sectionContent = state.mode === 'basic'
+          const sectionKey = getSectionKey(q.id, sidx);
+          const sectionMode = state.sectionModes ? (state.sectionModes[sectionKey] || 'basic') : (state.mode || 'basic');
+          const sectionContent = sectionMode === 'basic'
             ? renderBasicSection(section, q.id, sidx)
             : renderAdvancedSection(section, q.id, sidx);
-          
           return `
-            <div class="section-container">
-              <div class="section-header">
-                <h3 class="section-title">${section.label}</h3>
+            <div class="section-container" style="position:relative;">
+              <span class="section-mode-toggle" style="position:absolute;top:10px;left:16px;z-index:2;display:inline-flex;align-items:center;gap:6px;">
+                <label class="toggle-mode" style="margin-bottom:-2px;">
+                  <input type="checkbox" ${sectionMode === 'advanced' ? 'checked' : ''} onchange="toggleSectionMode('${sectionKey}')">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="mode-toggle-text">${sectionMode === 'advanced' ? '✏️' : '👁️'}</span>
+              </span>
+              <div class="section-header" style="display:flex;align-items:center;gap:12px;">
+                <h3 class="section-title" style="margin:0; font-size:1.1em; font-weight:700; display:inline-block;">${section.label}</h3>
               </div>
               <div class="section-content">
                 <div class="section-description">
@@ -1539,6 +1541,11 @@ window.restartAmericanExam = function () {
   state.americanExamAnswers = {};
   state.americanExamIndex = 0;
   state.americanExamFinished = false;
+  render();
+};
+
+window.toggleSectionMode = function (key) {
+  state.sectionModes[key] = state.sectionModes[key] === 'advanced' ? 'basic' : 'advanced';
   render();
 };
 
