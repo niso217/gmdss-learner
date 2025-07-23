@@ -588,8 +588,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "איש צוות נפל לים.", "correct": false },
       { "id": "ב", "text": "מצב רפואי קשה שבו מעורב איש צוות.", "correct": false },
-      { "id": "ג", "text": "אירועים המתייחסים לבטיחות השייט או אזהרה מטאורולוגית.", "correct": false },
-      { "id": "ד", "text": "תשובות א ו-ב.", "correct": true }
+      { "id": "ג", "text": "תשובות א ו-ב.", "correct": false },
+      { "id": "ד", "text": "אירועים המתייחסים לבטיחות השייט או אזהרה מטאורולוגית.", "correct": true }
     ],
     "explanation": ""
   },
