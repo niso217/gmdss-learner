@@ -3431,8 +3431,6 @@ button:focus, .input-sentence:focus {
   border-radius: 22px;
   border: 2px solid #90caf9;
   box-shadow: 0 8px 32px 0 rgba(33,150,243,0.10), 0 2px 0 #90caf9 inset;
-  position: sticky;
-  top: 0;
   z-index: 20;
   backdrop-filter: blur(18px) saturate(1.2);
   transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
@@ -3772,4 +3770,24 @@ button:focus, .input-sentence:focus {
 [data-theme="dark"] .bottom-nav-counter {
   color: #fff !important;
   text-shadow: 0 1px 6px #000a;
+}
+
+.donation-king {
+  direction: rtl;
+  text-align: center;
+  font-size: 0.95em;
+  margin: 32px auto 8px auto;
+}
+.donation-king .beer-emoji {
+  font-size: 1.2em;
+  display: inline-block;
+  animation: beer-dance 1s infinite alternate cubic-bezier(.5,-0.5,.5,1.5);
+}
+@keyframes beer-dance {
+  0% { transform: rotate(-18deg) scale(1.1); }
+  20% { transform: rotate(10deg) scale(1.05); }
+  40% { transform: rotate(-10deg) scale(1.15); }
+  60% { transform: rotate(12deg) scale(1.1); }
+  80% { transform: rotate(-8deg) scale(1.08); }
+  100% { transform: rotate(16deg) scale(1.13); }
 }
