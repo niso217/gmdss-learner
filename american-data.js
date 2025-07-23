@@ -1863,7 +1863,7 @@ window.americanQuestions = [
     "id": "170",
     "question": "בחר את הפניה התקשורתית הנכונה:",
     "options": [
-      { "id": "א", "text": "over TR X2 Yonit is this Radio Haifa", "correct": true },
+      { "id": "א", "text": "Haifa Radio this is Yonit X2 TR over.", "correct": true },
       { "id": "ב", "text": "Haifa Radio this is Cyprus Radio X2 TR over", "correct": false },
       { "id": "ג", "text": "Haifa Radio this is Yonit X2 TR out", "correct": false },
       { "id": "ד", "text": "Haifa Radio this is Yonit X2 TR Channel 13 over", "correct": false }
@@ -2061,7 +2061,7 @@ window.americanQuestions = [
     "id": "188",
     "question": "מה נכון בהתייחס ל\"קשר פנים\" בשרותי ה?VHF-",
     "options": [
-      { "id": "א", "text": "over control Gal is this Alpha Gal", "correct": false },
+      { "id": "א", "text": "Gal Alpha this is Gal control over", "correct": false },
       { "id": "ב", "text": "יש להשתמש ב1W- בערוצים 11 ו73-", "correct": false },
       { "id": "ג", "text": "יש להשתמש ב1W- בערוצים 15 ו17-", "correct": false },
       { "id": "ד", "text": "תשובות א ו-ג נכונות", "correct": true }
@@ -2149,7 +2149,7 @@ window.americanQuestions = [
     "id": "196",
     "question": "באמצעות איזה מתקן נוכל לצפות בפרטי מסע וזיהוי של כלי שייט?",
     "options": [
-      { "id": "א", "text": "מ\"מכ", "correct": false },
+      { "id": "א", "text": "מכ''מ", "correct": false },
       { "id": "ב", "text": "EPIRB", "correct": false },
       { "id": "ג", "text": "SART", "correct": false },
       { "id": "ד", "text": "AIS", "correct": true }
@@ -2224,7 +2224,7 @@ window.americanQuestions = [
   },
   {
     "id": "203",
-    "question": "ההועה הבאה נשמעת בערוץ :16 over TR X2 Renata is this Radio Izmir",
+    "question": "Izmir Radio this is Renata X2 TR over :16 בערוץ נשמעת הבאה ה",
     "options": [
       { "id": "א", "text": "לתחנת החוף איזמיר יש תעבורת בטיחות חשובה", "correct": false },
       { "id": "ב", "text": "לתחנת החוף איזמיר יש תעבורה למספר כלי שייט והיא מודיעה זאת דרך רשימת תעבורה", "correct": false },
@@ -2626,8 +2626,8 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "Stop Sending", "correct": false },
       { "id": "ב", "text": "Seelonce Feenee", "correct": false },
-      { "id": "ג", "text": "Mayday ולאחריה Seelonce", "correct": true },
-      { "id": "ד", "text": "Out ולאחריה Seelonce", "correct": false }
+      { "id": "ג", "text": "Seelonce ולאחריה Mayday", "correct": true },
+      { "id": "ד", "text": "Seelonce ולאחריה Out", "correct": false }
     ],
     "explanation": ""
   },
