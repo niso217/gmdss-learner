@@ -354,7 +354,7 @@ window.gmdssQuestions = [
         label: "סעיף א",
         description: "ערוך ורשום את כל הנהלים הדרושים להשגת עזרה מיידית.",
         sentences: [
-          "ACTIVE EPIRB ASAP",
+          "ACTIVE EPIRB A.S.A.P",
           "SEND DISTRESS ALERT ON DSC CH 70 25W",
           "DISTRESS – MAN OVER BOARD – SET TIME+POS. – SEND DISTRESS",
           "SEND DISTRESS CALL ON VHF CH 16 25W SET SQUELCH",
@@ -439,7 +439,7 @@ window.gmdssQuestions = [
         label: "סעיף א",
         description: "ערוך ורשום את סוג ההודעה שתשדר כולל כל הנהלים.",
         sentences: [
-          "ACTIVE EPIRB ASAP",
+          "ACTIVE EPIRB A.S.A.P",
           "SEND DISTRESS ALERT ON DSC CH 70 25W",
           "DISTRESS – MAN OVER BOARD – SET TIME+POS. – SEND DISTRESS",
           "SEND DISTRESS CALL ON VHF CH 16 25W SET SQUELCH",
@@ -488,7 +488,7 @@ window.gmdssQuestions = [
         label: "סעיף א",
         description: "ערוך/י ורשום/י את סוג ההודעה שתשדר/י כולל כל הנהלים.",
         sentences: [
-          "ACTIVE EPIRB ASAP",
+          "ACTIVE EPIRB A.S.A.P",
           "SEND DISTRESS ALERT ON DSC CH 70 25W",
           "DISTRESS – SINKING – UPDATE TIME+POS – DISTRESS SEND",
           "SEND DISTRESS CALL ON VHF CH 16 25W SET SQUELCH",
