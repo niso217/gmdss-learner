@@ -4021,3 +4021,167 @@ button:focus, .input-sentence:focus {
     max-height: 75vh;
   }
 }
+
+/* Phonetic Alphabet Styles */
+.phonetic-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--md-spacing-lg);
+}
+
+
+
+
+
+.phonetic-section {
+  margin-bottom: var(--md-spacing-xxl);
+  padding: var(--md-spacing-xl);
+  background: var(--md-surface);
+  border-radius: var(--md-radius-lg);
+  box-shadow: var(--md-elevation-2);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.phonetic-section h3 {
+  font-size: var(--md-font-size-title);
+  color: var(--md-on-surface);
+  margin-bottom: var(--md-spacing-lg);
+  font-weight: 600;
+  text-align: center;
+}
+
+.phonetic-table-container {
+  overflow-x: auto;
+  border-radius: var(--md-radius-md);
+  box-shadow: var(--md-elevation-1);
+}
+
+.phonetic-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--md-surface);
+  font-size: var(--md-font-size-body);
+}
+
+.phonetic-table thead {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+.phonetic-table th {
+  padding: var(--md-spacing-lg);
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--md-font-size-body-large);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.phonetic-table td {
+  padding: var(--md-spacing-md);
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: var(--md-on-surface);
+}
+
+.phonetic-table tbody tr:nth-child(even) {
+  background: var(--md-surface-variant);
+}
+
+.phonetic-table tbody tr:hover {
+  background: var(--md-primary-light);
+  color: var(--md-on-primary);
+}
+
+.phonetic-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md-spacing-md);
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--md-spacing-md);
+  padding: var(--md-spacing-md);
+  background: var(--md-surface-variant);
+  border-radius: var(--md-radius-md);
+  border-left: 4px solid var(--md-success);
+}
+
+.rule-number {
+  background: var(--md-success);
+  color: var(--md-on-primary);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--md-font-size-caption);
+  flex-shrink: 0;
+}
+
+.rule-text {
+  color: var(--md-on-surface);
+  font-size: var(--md-font-size-body);
+  line-height: 1.5;
+}
+
+
+
+/* Dark theme support for phonetic alphabet */
+[data-theme="dark"] .phonetic-section {
+  background: var(--md-surface) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .phonetic-table {
+  background: var(--md-surface) !important;
+}
+
+[data-theme="dark"] .phonetic-table td {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--md-on-surface) !important;
+}
+
+[data-theme="dark"] .phonetic-table tbody tr:nth-child(even) {
+  background: var(--md-surface-variant) !important;
+}
+
+[data-theme="dark"] .rule-item {
+  background: var(--md-surface-variant) !important;
+}
+
+/* Mobile responsive design for phonetic alphabet */
+@media (max-width: 768px) {
+  .phonetic-container {
+    padding: var(--md-spacing-md);
+  }
+  
+  .phonetic-section {
+    padding: var(--md-spacing-lg);
+  }
+  
+  .phonetic-section h3 {
+    font-size: var(--md-font-size-title);
+  }
+  
+  .phonetic-table {
+    font-size: var(--md-font-size-caption);
+  }
+  
+  .phonetic-table th,
+  .phonetic-table td {
+    padding: var(--md-spacing-sm);
+  }
+  
+  .rule-item {
+    flex-direction: column;
+    gap: var(--md-spacing-sm);
+  }
+  
+  .rule-number {
+    align-self: flex-start;
+  }
+}

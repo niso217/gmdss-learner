@@ -15,6 +15,14 @@ const distressTab = {
   questions: distressQuestions
 };
 
+// הוספת טאב איות פונטי
+const phoneticTab = {
+  id: 'phonetic',
+  title: 'איות פונטי',
+  type: 'phonetic',
+  description: 'מדריך לאלפבית הפונטי בתקשורת ימית'
+};
+
 // הוספת טאב סימולטורים
 const simulatorsTab = {
   id: 'simulators',
@@ -27,6 +35,7 @@ const simulatorsTab = {
 const tabs = [
   distressTab,
   ...otherQuestions,
+  phoneticTab,
   simulatorsTab
 ];
 
@@ -165,7 +174,7 @@ function showUserPreferences() {
     autoAdvanceSeconds: state.autoAdvanceSeconds,
     distressAutoAdvance: state.distressAutoAdvance ? 'מופעל' : 'כבוי',
     distressAutoAdvanceSeconds: state.distressAutoAdvanceSeconds,
-    currentTab: ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'סימולטורים'][state.tab],
+    currentTab: ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'איות פונטי', 'סימולטורים'][state.tab],
     distressQuestionIndex: state.distressQuestionIndex + 1,
     americanQuestionIndex: state.americanQuestionIndex + 1
   };
@@ -351,7 +360,8 @@ function renderTabs() {
     { label: 'שאלות מצוקה', index: 0 },
     { label: 'מאגר שאלות', index: 1 },
     { label: 'מבחן אמריקאי', index: 2 },
-    { label: 'סימולטורים', index: 3 }
+    { label: 'איות פונטי', index: 3 },
+    { label: 'סימולטורים', index: 4 }
   ];
   return `<div class="header-container">
     <div class="tabs">
@@ -594,6 +604,119 @@ function renderDistressQuestions() {
           `;
         })
         .join('')}
+    </div>
+  `;
+}
+
+function renderPhoneticAlphabet() {
+  return `
+    <div class="content">
+      <div class="phonetic-container">
+
+        
+
+
+        <div class="phonetic-section">
+          <h3>טבלת האלפבית הפונטי (אותיות)</h3>
+          <div class="phonetic-table-container">
+            <table class="phonetic-table">
+              <thead>
+                <tr>
+                  <th>אות</th>
+                  <th>מילת קוד בינלאומית (ITU)</th>
+                  <th>תעתיק עברי להגייה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>A</td><td>Alfa</td><td>אַלְפָא</td></tr>
+                <tr><td>B</td><td>Bravo</td><td>בְּרָאבוֹ</td></tr>
+                <tr><td>C</td><td>Charlie</td><td>צָ'רְלִי</td></tr>
+                <tr><td>D</td><td>Delta</td><td>דֶלְתָא</td></tr>
+                <tr><td>E</td><td>Echo</td><td>אֶקוֹ</td></tr>
+                <tr><td>F</td><td>Foxtrot</td><td>פוֹקְסְטְרוֹט</td></tr>
+                <tr><td>G</td><td>Golf</td><td>גוֹלְף</td></tr>
+                <tr><td>H</td><td>Hotel</td><td>הוֹטֶל</td></tr>
+                <tr><td>I</td><td>India</td><td>אִינְדִיָּה</td></tr>
+                <tr><td>J</td><td>Juliet</td><td>גָ'וּלְיֶט</td></tr>
+                <tr><td>K</td><td>Kilo</td><td>קִילוֹ</td></tr>
+                <tr><td>L</td><td>Lima</td><td>לִימָא</td></tr>
+                <tr><td>M</td><td>Mike</td><td>מַיְק</td></tr>
+                <tr><td>N</td><td>November</td><td>נוֹבֶמְבֶּר</td></tr>
+                <tr><td>O</td><td>Oscar</td><td>אוֹסְקָר</td></tr>
+                <tr><td>P</td><td>Papa</td><td>פָּאפָּא</td></tr>
+                <tr><td>Q</td><td>Quebec</td><td>קְוֶבֶק</td></tr>
+                <tr><td>R</td><td>Romeo</td><td>רוֹמְיוֹ</td></tr>
+                <tr><td>S</td><td>Sierra</td><td>סִיֶרְרָא</td></tr>
+                <tr><td>T</td><td>Tango</td><td>טַנְגוֹ</td></tr>
+                <tr><td>U</td><td>Uniform</td><td>יוּנִיפוֹרְם</td></tr>
+                <tr><td>V</td><td>Victor</td><td>וִיקְטוֹר</td></tr>
+                <tr><td>W</td><td>Whiskey</td><td>וִיסְקִי</td></tr>
+                <tr><td>X</td><td>X-ray</td><td>אֶקְס-רַי</td></tr>
+                <tr><td>Y</td><td>Yankee</td><td>יַנְקִי</td></tr>
+                <tr><td>Z</td><td>Zulu</td><td>זוּלוּ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="phonetic-section">
+          <h3>טבלת איות מספרים (ספרות)</h3>
+          <div class="phonetic-table-container">
+            <table class="phonetic-table">
+              <thead>
+                <tr>
+                  <th>ספרה</th>
+                  <th>מילת קוד בינלאומית (ITU)</th>
+                  <th>תעתיק עברי להגייה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0</td><td>NADAZERO</td><td>נָאדָזִירוֹ</td></tr>
+                <tr><td>1</td><td>UNAONE</td><td>אוּנָאוֹן</td></tr>
+                <tr><td>2</td><td>BISSOTWO</td><td>בִּיסוֹטוֹ</td></tr>
+                <tr><td>3</td><td>TERRATHREE</td><td>טֶרָאתְרִי</td></tr>
+                <tr><td>4</td><td>KARTEFOUR</td><td>קָרְטֶפוֹר</td></tr>
+                <tr><td>5</td><td>PANTAFIVE</td><td>פָנְטָפַיְב</td></tr>
+                <tr><td>6</td><td>SOXISIX</td><td>סוֹקְסִיסִיקְס</td></tr>
+                <tr><td>7</td><td>SETTESEVEN</td><td>סֶטֶסֶבֶן</td></tr>
+                <tr><td>8</td><td>OKTOEIGHT</td><td>אוֹקְטוֹאַיְט</td></tr>
+                <tr><td>9</td><td>NOVENINE</td><td>נוֹבֶנַיְן</td></tr>
+                <tr><td>.</td><td>DECIMAL</td><td>דֶצִימָל</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+        <div class="phonetic-section">
+          <h3>כללי שימוש חשובים</h3>
+          <div class="phonetic-rules">
+            <div class="rule-item">
+              <span class="rule-number">1</span>
+              <span class="rule-text"><strong>הגייה ברורה:</strong> יש לבטא כל מילת קוד בצורה ברורה ומדויקת</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-number">2</span>
+              <span class="rule-text"><strong>הפסקות:</strong> יש להשהות קלות בין מילות הקוד השונות</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-number">3</span>
+              <span class="rule-text"><strong>חזרה:</strong> במקרה של אי-הבנה, יש לחזור על המידע באיות פונטי</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-number">4</span>
+              <span class="rule-text"><strong>תרגול:</strong> יש לתרגל את השימוש באלפבית הפונטי באופן קבוע</span>
+            </div>
+            <div class="rule-item">
+              <span class="rule-number">5</span>
+              <span class="rule-text"><strong>סטנדרטיזציה:</strong> יש להשתמש רק במילות הקוד הרשמיות של ITU</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
     </div>
   `;
 }
@@ -993,6 +1116,8 @@ function render() {
   } else if (state.tab === 2) {
     app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
   } else if (state.tab === 3) {
+    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
+  } else if (state.tab === 4) {
     app.innerHTML = `${renderTabs()}${renderSimulators()}`;
   }
   if (state.mode === 'advanced') {
@@ -1020,6 +1145,8 @@ function renderWithoutFocus() {
   } else if (state.tab === 2) {
     app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
   } else if (state.tab === 3) {
+    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
+  } else if (state.tab === 4) {
     app.innerHTML = `${renderTabs()}${renderSimulators()}`;
   }
   if (state.mode === 'advanced') {
