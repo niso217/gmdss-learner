@@ -59,6 +59,137 @@ let state = {
   currentExplanation: '', // Current explanation text
 };
 
+// User preferences management
+const USER_PREFERENCES_KEY = 'gmdss_user_preferences';
+
+// Load user preferences from localStorage
+function loadUserPreferences() {
+  try {
+    const savedPreferences = localStorage.getItem(USER_PREFERENCES_KEY);
+    if (savedPreferences) {
+      const preferences = JSON.parse(savedPreferences);
+      
+      // Load theme
+      if (preferences.theme) {
+        state.theme = preferences.theme;
+        document.body.setAttribute('data-theme', state.theme);
+      }
+      
+      // Load auto-advance settings
+      if (preferences.autoAdvance !== undefined) {
+        state.autoAdvance = preferences.autoAdvance;
+      }
+      if (preferences.autoAdvanceSeconds !== undefined) {
+        state.autoAdvanceSeconds = preferences.autoAdvanceSeconds;
+      }
+      
+      // Load distress auto-advance settings
+      if (preferences.distressAutoAdvance !== undefined) {
+        state.distressAutoAdvance = preferences.distressAutoAdvance;
+      }
+      if (preferences.distressAutoAdvanceSeconds !== undefined) {
+        state.distressAutoAdvanceSeconds = preferences.distressAutoAdvanceSeconds;
+      }
+      
+      // Load current tab
+      if (preferences.currentTab !== undefined) {
+        state.tab = preferences.currentTab;
+      }
+      
+      // Load current question indices
+      if (preferences.distressQuestionIndex !== undefined) {
+        state.distressQuestionIndex = preferences.distressQuestionIndex;
+      }
+      if (preferences.americanQuestionIndex !== undefined) {
+        state.americanQuestionIndex = preferences.americanQuestionIndex;
+      }
+      
+      console.log('User preferences loaded:', preferences);
+    }
+  } catch (error) {
+    console.error('Error loading user preferences:', error);
+  }
+}
+
+// Save user preferences to localStorage
+function saveUserPreferences() {
+  try {
+    const preferences = {
+      theme: state.theme,
+      autoAdvance: state.autoAdvance,
+      autoAdvanceSeconds: state.autoAdvanceSeconds,
+      distressAutoAdvance: state.distressAutoAdvance,
+      distressAutoAdvanceSeconds: state.distressAutoAdvanceSeconds,
+      currentTab: state.tab,
+      distressQuestionIndex: state.distressQuestionIndex,
+      americanQuestionIndex: state.americanQuestionIndex
+    };
+    
+    localStorage.setItem(USER_PREFERENCES_KEY, JSON.stringify(preferences));
+    console.log('User preferences saved:', preferences);
+  } catch (error) {
+    console.error('Error saving user preferences:', error);
+  }
+}
+
+// Clear user preferences (reset to defaults)
+function clearUserPreferences() {
+  try {
+    localStorage.removeItem(USER_PREFERENCES_KEY);
+    
+    // Reset to defaults
+    state.theme = 'light';
+    state.autoAdvance = false;
+    state.autoAdvanceSeconds = 5;
+    state.distressAutoAdvance = false;
+    state.distressAutoAdvanceSeconds = 5;
+    state.tab = 0;
+    state.distressQuestionIndex = 0;
+    state.americanQuestionIndex = 0;
+    
+    document.body.setAttribute('data-theme', state.theme);
+    console.log('User preferences cleared and reset to defaults');
+  } catch (error) {
+    console.error('Error clearing user preferences:', error);
+  }
+}
+
+// Add global function to clear preferences
+window.clearUserPreferences = clearUserPreferences;
+
+// Add function to show current preferences
+function showUserPreferences() {
+  const preferences = {
+    theme: state.theme === 'light' ? 'בהיר' : 'כהה',
+    autoAdvance: state.autoAdvance ? 'מופעל' : 'כבוי',
+    autoAdvanceSeconds: state.autoAdvanceSeconds,
+    distressAutoAdvance: state.distressAutoAdvance ? 'מופעל' : 'כבוי',
+    distressAutoAdvanceSeconds: state.distressAutoAdvanceSeconds,
+    currentTab: ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'סימולטורים'][state.tab],
+    distressQuestionIndex: state.distressQuestionIndex + 1,
+    americanQuestionIndex: state.americanQuestionIndex + 1
+  };
+  
+  const message = `
+העדפות נוכחיות:
+• ערכת נושא: ${preferences.theme}
+• אוטו-אדוונס אמריקאי: ${preferences.autoAdvance} (${preferences.autoAdvanceSeconds} שניות)
+• אוטו-אדוונס מצוקה: ${preferences.distressAutoAdvance} (${preferences.distressAutoAdvanceSeconds} שניות)
+• טאב נוכחי: ${preferences.currentTab}
+• שאלת מצוקה נוכחית: ${preferences.distressQuestionIndex}
+• שאלה אמריקאית נוכחית: ${preferences.americanQuestionIndex}
+
+קיצורי מקלדת:
+• Ctrl+Shift+P: הצג העדפות
+• Ctrl+Shift+R: אפס העדפות
+  `;
+  
+  alert(message);
+}
+
+// Add global function to show preferences
+window.showUserPreferences = showUserPreferences;
+
 function isEnglish(str) {
       // Check if there are Hebrew characters in the sentence
   const hebrewRegex = /[\u0590-\u05FF]/;
@@ -968,6 +1099,7 @@ function updateScore(key) {
 // עדכון selectTab שיתאים למבנה החדש
 window.selectTab = function (i) {
   state.tab = i;
+  saveUserPreferences(); // Save current tab
   renderWithoutFocus();
 };
 
@@ -979,6 +1111,7 @@ window.toggleMode = function () {
 window.toggleTheme = function () {
   state.theme = state.theme === 'light' ? 'dark' : 'light';
   document.body.setAttribute('data-theme', state.theme);
+  saveUserPreferences(); // Save theme preference
   render();
 };
 
@@ -1181,6 +1314,7 @@ window.selectAmericanAnswer = function (questionId, optionId) {
 window.selectAmericanQuestion = function (index) {
   console.log('Selecting American question:', index);
   state.americanQuestionIndex = index;
+  saveUserPreferences(); // Save current American question
   render();
 };
 
@@ -1189,6 +1323,7 @@ window.previousAmericanQuestion = function () {
   if (state.americanQuestionIndex > 0) {
     state.americanQuestionIndex--;
     console.log('Previous - New index:', state.americanQuestionIndex);
+    saveUserPreferences(); // Save current American question
     render();
     
     // Stop auto advance timer when manually navigating
@@ -1206,6 +1341,7 @@ window.nextAmericanQuestion = function () {
   if (state.americanQuestionIndex < americanQuestions.length - 1) {
     state.americanQuestionIndex++;
     console.log('New index:', state.americanQuestionIndex);
+    saveUserPreferences(); // Save current American question
     render();
     
     // Stop auto advance timer when manually navigating
@@ -1222,6 +1358,7 @@ window.previousAmericanQuestionBy10 = function () {
   if (state.americanQuestionIndex >= 10) {
     state.americanQuestionIndex -= 10;
     console.log('Previous by 10 - New index:', state.americanQuestionIndex);
+    saveUserPreferences(); // Save current American question
     render();
     
     // Stop auto advance timer when manually navigating
@@ -1239,6 +1376,7 @@ window.nextAmericanQuestionBy10 = function () {
   if (state.americanQuestionIndex < americanQuestions.length - 10) {
     state.americanQuestionIndex += 10;
     console.log('Next by 10 - New index:', state.americanQuestionIndex);
+    saveUserPreferences(); // Save current American question
     render();
     
     // Stop auto advance timer when manually navigating
@@ -1253,6 +1391,7 @@ window.nextAmericanQuestionBy10 = function () {
 window.selectDistressQuestion = function (index) {
   console.log('Selecting distress question:', index);
   state.distressQuestionIndex = index;
+  saveUserPreferences(); // Save current distress question
   render();
 };
 
@@ -1261,6 +1400,7 @@ window.previousDistressQuestion = function () {
   if (state.distressQuestionIndex > 0) {
     state.distressQuestionIndex--;
     console.log('Previous distress - New index:', state.distressQuestionIndex);
+    saveUserPreferences(); // Save current distress question
     render();
   } else {
     console.log('Already at first distress question');
@@ -1273,6 +1413,7 @@ window.nextDistressQuestion = function () {
   if (state.distressQuestionIndex < distressQuestions.length - 1) {
     state.distressQuestionIndex++;
     console.log('Next distress - New index:', state.distressQuestionIndex);
+    saveUserPreferences(); // Save current distress question
     render();
   } else {
     console.log('Already at last distress question');
@@ -1284,6 +1425,7 @@ window.previousDistressQuestionBy10 = function () {
   if (state.distressQuestionIndex >= 10) {
     state.distressQuestionIndex -= 10;
     console.log('Previous distress by 10 - New index:', state.distressQuestionIndex);
+    saveUserPreferences(); // Save current distress question
     render();
   } else {
     console.log('Cannot go back 10 distress questions');
@@ -1296,6 +1438,7 @@ window.nextDistressQuestionBy10 = function () {
   if (state.distressQuestionIndex < distressQuestions.length - 10) {
     state.distressQuestionIndex += 10;
     console.log('Next distress by 10 - New index:', state.distressQuestionIndex);
+    saveUserPreferences(); // Save current distress question
     render();
   } else {
     console.log('Cannot go forward 10 distress questions');
@@ -1314,6 +1457,7 @@ window.setDistressAutoAdvanceSeconds = function (seconds) {
     state.distressAutoAdvanceSeconds = seconds;
     stopDistressAutoAdvance();
   }
+  saveUserPreferences(); // Save distress auto-advance settings
   render();
 };
 
@@ -1399,6 +1543,7 @@ window.setAutoAdvanceSeconds = function (seconds) {
     stopAutoAdvance();
     // Don't restart timer - wait for user to select an answer
   }
+  saveUserPreferences(); // Save auto-advance settings
   render();
 };
 
@@ -1634,9 +1779,12 @@ window.hideExplanation = function () {
 };
 
 
+// Load user preferences at startup
+loadUserPreferences();
+
 render();
 
-  // Apply theme as default
+// Apply theme as default (will be overridden by preferences if saved)
 document.body.setAttribute('data-theme', state.theme);
 
 // Prevent scroll to top on content changes
@@ -1669,5 +1817,24 @@ document.addEventListener('scroll', () => {
     // Copy text on mobile tap
     if (e.target.classList.contains('sentence-text')) {
       copyTextToClipboard(e.target.textContent);
+    }
+  });
+  
+  // Add keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    // Ctrl+Shift+R to clear preferences
+    if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+      e.preventDefault();
+      if (confirm('האם אתה בטוח שברצונך לאפס את כל ההעדפות?')) {
+        clearUserPreferences();
+        render();
+        alert('ההעדפות אופסו בהצלחה!');
+      }
+    }
+    
+    // Ctrl+Shift+P to show preferences
+    if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+      e.preventDefault();
+      showUserPreferences();
     }
   }); 
