@@ -55,6 +55,8 @@ let state = {
   americanExamIndex: 0, // Current index in the exam
   americanExamFinished: false, // Exam finished flag
   sectionModes: {}, // { [questionId_sectionIdx]: 'basic' | 'advanced' }
+  showExplanation: false, // Track if explanation modal is shown
+  currentExplanation: '', // Current explanation text
 };
 
 function isEnglish(str) {
@@ -516,15 +518,18 @@ function renderSimulators() {
 }
 
 function renderAmericanTest() {
+  console.log('renderAmericanTest called, showExplanation:', state.showExplanation, 'currentExplanation:', state.currentExplanation);
   const isMobile = window.innerWidth <= 768;
   const currentQuestionIndex = state.americanQuestionIndex || 0;
   const currentQuestion = americanQuestions[currentQuestionIndex];
+  console.log('Current question:', currentQuestion);
+  console.log('Current question explanation:', currentQuestion.explanation);
   if (!currentQuestion) {
     return `
       <div class="content">
         <div class="american-test-container">
           <div class="american-test-header">
-            <h2>מבחן אמריקאי</h2>
+            <h2>מאגר שאלות</h2>
             <p>בחר שאלה מהרשימה למטה</p>
           </div>
           <div class="american-questions-list">
@@ -543,7 +548,7 @@ function renderAmericanTest() {
   }
   const selectedAnswer = state.americanAnswers[currentQuestion.id];
   
-  // סרגל ניווט עליון עם כל הפיצ'רים
+  // סרגל ניווט עליון עם כל הפיצ'רים (כמו באמריקאי)
   let topNav = '';
   if (!isMobile) {
     topNav = `
@@ -631,7 +636,9 @@ function renderAmericanTest() {
       ${bottomNav}
       <div class="american-question-container">
         <div class="american-question">
-          <h3 class="question-text">${currentQuestion.question}</h3>
+          <div class="question-header">
+            <h3 class="question-text">${currentQuestion.question}</h3>
+          </div>
           <div class="options-container">
             ${currentQuestion.options.map(option => {
               const isSelected = selectedAnswer === option.id;
@@ -661,13 +668,40 @@ function renderAmericanTest() {
               `;
             }).join('')}
           </div>
+          ${currentQuestion.explanation ? `
+            <div class="explanation-button-container">
+              <button 
+                class="explanation-btn" 
+                data-explanation="${currentQuestion.explanation.replace(/"/g, '&quot;')}"
+                onclick="showExplanationFromData(this)"
+                title="הסבר מפורט"
+              >
+                📖 הסבר מפורט
+              </button>
+            </div>
+          ` : ''}
         </div>
       </div>
+      ${state.showExplanation ? `
+        <div class="explanation-modal-overlay" onclick="hideExplanation()">
+          <div class="explanation-modal" onclick="event.stopPropagation()">
+            <div class="explanation-header">
+              <h3>הסבר מפורט</h3>
+              <button class="explanation-close-btn" onclick="hideExplanation()">✕</button>
+            </div>
+            <div class="explanation-content">
+              ${state.currentExplanation}
+            </div>
+          </div>
+        </div>
+      ` : ''}
     </div>
   `;
 }
 
 function renderAmericanQuestion(q) {
+  console.log('renderAmericanQuestion called with:', q);
+  console.log('Question explanation:', q.explanation);
   const selectedAnswer = state.americanAnswers[q.id];
   const correctAnswer = q.options.find(opt => opt.correct);
   
@@ -688,7 +722,9 @@ function renderAmericanQuestion(q) {
       
       <div class="american-question-container">
         <div class="american-question">
-          <h3 class="question-text">${q.question}</h3>
+          <div class="question-header">
+            <h3 class="question-text">${q.question}</h3>
+          </div>
           
           <div class="options-container">
             ${q.options.map(option => {
@@ -721,10 +757,33 @@ function renderAmericanQuestion(q) {
               `;
             }).join('')}
           </div>
-          
-
+          ${q.explanation ? `
+            <div class="explanation-button-container">
+              <button 
+                class="explanation-btn" 
+                data-explanation="${q.explanation.replace(/"/g, '&quot;')}"
+                onclick="showExplanationFromData(this)"
+                title="הסבר מפורט"
+              >
+                📖 הסבר מפורט
+              </button>
+            </div>
+          ` : ''}
         </div>
       </div>
+      ${state.showExplanation ? `
+        <div class="explanation-modal-overlay" onclick="hideExplanation()">
+          <div class="explanation-modal" onclick="event.stopPropagation()">
+            <div class="explanation-header">
+              <h3>הסבר מפורט</h3>
+              <button class="explanation-close-btn" onclick="hideExplanation()">✕</button>
+            </div>
+            <div class="explanation-content">
+              ${state.currentExplanation}
+            </div>
+          </div>
+        </div>
+      ` : ''}
     </div>
   `;
 }
@@ -794,6 +853,7 @@ function renderQuestion(q) {
 }
 
 function render() {
+  console.log('render called, tab:', state.tab, 'showExplanation:', state.showExplanation);
   document.body.setAttribute('data-theme', state.theme);
   if (state.tab === 0) {
     app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
@@ -1546,6 +1606,30 @@ window.restartAmericanExam = function () {
 
 window.toggleSectionMode = function (key) {
   state.sectionModes[key] = state.sectionModes[key] === 'advanced' ? 'basic' : 'advanced';
+  render();
+};
+
+// פונקציות להצגת הסבר מפורט
+window.showExplanation = function (explanation) {
+  console.log('showExplanation called with:', explanation);
+  state.showExplanation = true;
+  state.currentExplanation = explanation;
+  render();
+};
+
+window.showExplanationFromData = function (button) {
+  const explanation = button.getAttribute('data-explanation');
+  console.log('showExplanationFromData called with:', explanation);
+  console.log('Button element:', button);
+  state.showExplanation = true;
+  state.currentExplanation = explanation;
+  render();
+};
+
+window.hideExplanation = function () {
+  console.log('hideExplanation called');
+  state.showExplanation = false;
+  state.currentExplanation = '';
   render();
 };
 
