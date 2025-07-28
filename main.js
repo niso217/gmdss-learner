@@ -1251,6 +1251,49 @@ function triggerErrorFeedback() {
   }
 }
 
+// פונקציה לצליל הצלחה מגניב
+function triggerSuccessFeedback() {
+  // בדוק אם הצליל/רטט מופעל
+  if (!state.soundFeedback) {
+    return;
+  }
+  
+  // בדוק אם זה מובייל
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // במובייל - רטט וצליל
+    if (navigator.vibrate) {
+      navigator.vibrate([50, 50, 100, 50, 200]); // רטט הצלחה
+    }
+  }
+  
+  // צליל הצלחה מגניב (עובד גם במובייל וגם ב-PC)
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // צליל עולה - הצלחה!
+    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(400, audioContext.currentTime + 0.1);
+    oscillator.frequency.setValueAtTime(500, audioContext.currentTime + 0.2);
+    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.3);
+    oscillator.frequency.setValueAtTime(700, audioContext.currentTime + 0.4);
+    
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+  } catch (e) {
+    console.log('לא ניתן לנגן צליל:', e);
+  }
+}
+
 // פונקציה לבדיקת מילה מילה כשהמשתמש מקיש רווח
 function checkWordByWord(userInput, correctSentence) {
   // בדוק רק אם הטקסט מסתיים ברווח (המשתמש סיים מילה)
@@ -1333,6 +1376,11 @@ function updateSingleInput(key, idx, val) {
       // בדוק מילה מילה בשאלות מצוקה
       if (val && state.tab === 0) {
         checkWordByWord(val, sentence);
+      }
+      
+      // הפעל צליל הצלחה אם הגיע ל-100%
+      if (val && accuracy === 100 && state.tab === 0) {
+        triggerSuccessFeedback();
       }
     }
     
