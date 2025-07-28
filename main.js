@@ -1633,6 +1633,7 @@ function startAutoAdvanceTimer() {
     autoAdvanceTimer = setTimeout(() => {
       if (state.americanQuestionIndex < americanQuestions.length - 1) {
         state.americanQuestionIndex++;
+        saveUserPreferences(); // Save the new question index when auto-advancing
         render();
         // Don't restart timer automatically - wait for user to select answer
       }
