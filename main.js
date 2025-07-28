@@ -66,6 +66,7 @@ let state = {
   sectionModes: {}, // { [questionId_sectionIdx]: 'basic' | 'advanced' }
   showExplanation: false, // Track if explanation modal is shown
   currentExplanation: '', // Current explanation text
+  soundFeedback: true, // Enable/disable sound and vibration feedback
 };
 
 // User preferences management
@@ -82,6 +83,11 @@ function loadUserPreferences() {
       if (preferences.theme) {
         state.theme = preferences.theme;
         document.body.setAttribute('data-theme', state.theme);
+      }
+      
+      // Load mode
+      if (preferences.mode) {
+        state.mode = preferences.mode;
       }
       
       // Load auto-advance settings
@@ -113,6 +119,16 @@ function loadUserPreferences() {
         state.americanQuestionIndex = preferences.americanQuestionIndex;
       }
       
+      // Load sound feedback setting
+      if (preferences.soundFeedback !== undefined) {
+        state.soundFeedback = preferences.soundFeedback;
+      }
+      
+      // Load section modes
+      if (preferences.sectionModes) {
+        state.sectionModes = preferences.sectionModes;
+      }
+      
       console.log('User preferences loaded:', preferences);
     }
   } catch (error) {
@@ -125,13 +141,16 @@ function saveUserPreferences() {
   try {
     const preferences = {
       theme: state.theme,
+      mode: state.mode,
       autoAdvance: state.autoAdvance,
       autoAdvanceSeconds: state.autoAdvanceSeconds,
       distressAutoAdvance: state.distressAutoAdvance,
       distressAutoAdvanceSeconds: state.distressAutoAdvanceSeconds,
       currentTab: state.tab,
       distressQuestionIndex: state.distressQuestionIndex,
-      americanQuestionIndex: state.americanQuestionIndex
+      americanQuestionIndex: state.americanQuestionIndex,
+      soundFeedback: state.soundFeedback,
+      sectionModes: state.sectionModes
     };
     
     localStorage.setItem(USER_PREFERENCES_KEY, JSON.stringify(preferences));
@@ -377,6 +396,11 @@ function renderTabs() {
         <span class="theme-toggle-slider"></span>
       </label>
       <span class="theme-toggle-text">${state.theme === 'dark' ? '🌙' : '☀️'}</span>
+      <label class="theme-toggle-mode" style="margin-left: 10px;">
+        <input type="checkbox" ${state.soundFeedback ? 'checked' : ''} onchange="toggleSoundFeedback()">
+        <span class="theme-toggle-slider"></span>
+      </label>
+      <span class="theme-toggle-text">${state.soundFeedback ? '🔊' : '🔇'}</span>
     </div>
   </div>`;
 }
@@ -1165,6 +1189,72 @@ function renderWithoutFocus() {
   });
 }
 
+// פונקציה ל-vibration וצליל שגיאה
+function triggerErrorFeedback() {
+  // בדוק אם הצליל/רטט מופעל
+  if (!state.soundFeedback) {
+    return;
+  }
+  
+  // בדוק אם זה מובייל
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // במובייל - רק רטט
+    if (navigator.vibrate) {
+      navigator.vibrate([100, 50, 100]); // רטט קצר
+    }
+  } else {
+    // ב-PC - רק צליל
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+      oscillator.frequency.setValueAtTime(100, audioContext.currentTime + 0.2);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+      console.log('לא ניתן לנגן צליל:', e);
+    }
+  }
+}
+
+// פונקציה לבדיקת מילה מילה כשהמשתמש מקיש רווח
+function checkWordByWord(userInput, correctSentence) {
+  // בדוק רק אם הטקסט מסתיים ברווח (המשתמש סיים מילה)
+  if (!userInput.endsWith(' ')) {
+    return;
+  }
+  
+  const userWords = userInput.trim().split(/\s+/);
+  const correctWords = correctSentence.trim().split(/\s+/);
+  
+  // בדוק רק את המילה האחרונה שהוקלדה
+  if (userWords.length > 0) {
+    const lastUserWord = userWords[userWords.length - 1].toUpperCase();
+    const wordIndex = userWords.length - 1;
+    
+    if (wordIndex < correctWords.length) {
+      const correctWord = correctWords[wordIndex].toUpperCase();
+      
+      // אם המילה האחרונה לא תואמת, הפעל צליל/רטט
+      if (lastUserWord !== correctWord) {
+        triggerErrorFeedback();
+      }
+    }
+  }
+}
+
 function updateSingleInput(key, idx, val) {
   // Update only the specific element
   const inputElement = document.querySelector(`textarea[data-key="${key}"][data-idx="${idx}"]`);
@@ -1186,8 +1276,16 @@ function updateSingleInput(key, idx, val) {
     const accuracy = compareSentences(val, sentence);
     const accuracyElement = inputElement.parentElement.querySelector('.accuracy');
     if (accuracyElement) {
+      const oldAccuracy = accuracyElement.textContent.replace('%', '') || '0';
+      const newAccuracy = val ? accuracy : 0;
+      
       accuracyElement.textContent = val ? accuracy + '%' : '';
       accuracyElement.style.color = accuracy === 100 ? '#388e3c' : accuracy > 60 ? '#fbc02d' : '#d32f2f';
+      
+      // בדוק מילה מילה בשאלות מצוקה
+      if (val && state.tab === 0) {
+        checkWordByWord(val, sentence);
+      }
     }
     
     // Update the score
@@ -1232,6 +1330,7 @@ window.selectTab = function (i) {
 
 window.toggleMode = function () {
   state.mode = state.mode === 'basic' ? 'advanced' : 'basic';
+  saveUserPreferences(); // Save mode preference
   render();
 };
 
@@ -1239,6 +1338,12 @@ window.toggleTheme = function () {
   state.theme = state.theme === 'light' ? 'dark' : 'light';
   document.body.setAttribute('data-theme', state.theme);
   saveUserPreferences(); // Save theme preference
+  render();
+};
+
+window.toggleSoundFeedback = function () {
+  state.soundFeedback = !state.soundFeedback;
+  saveUserPreferences(); // Save sound feedback preference
   render();
 };
 
@@ -1879,6 +1984,7 @@ window.restartAmericanExam = function () {
 
 window.toggleSectionMode = function (key) {
   state.sectionModes[key] = state.sectionModes[key] === 'advanced' ? 'basic' : 'advanced';
+  saveUserPreferences(); // Save section mode preference
   render();
 };
 
