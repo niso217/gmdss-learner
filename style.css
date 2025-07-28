@@ -3621,6 +3621,62 @@ button:focus, .input-sentence:focus {
   transition: border-color 0.2s;
 }
 
+/* Mobile keyboard handling for sticky elements */
+@media (max-width: 768px) {
+  .question-description.sticky {
+    top: 10px !important;
+  }
+  
+  /* When virtual keyboard is active, adjust sticky positioning */
+  @media (max-height: 500px) {
+    .question-description.sticky {
+      position: relative !important;
+      top: auto !important;
+      margin-bottom: 16px !important;
+    }
+  }
+  
+  /* Additional mobile keyboard handling */
+  .question-description.sticky.keyboard-active {
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 16px !important;
+    z-index: 1 !important;
+  }
+  
+  /* Handle viewport height changes for mobile keyboard */
+  @media (max-height: 600px) {
+    .question-description.sticky {
+      position: relative !important;
+      top: auto !important;
+      margin-bottom: 16px !important;
+    }
+  }
+  
+  /* Additional viewport height handling */
+  @media (max-height: 500px) {
+    .question-description.sticky {
+      position: relative !important;
+      top: auto !important;
+      margin-bottom: 12px !important;
+      font-size: 1em !important;
+      padding: 12px 10px !important;
+    }
+  }
+  
+  /* Ultra-compact mode for very small viewports */
+  @media (max-height: 400px) {
+    .question-description.sticky {
+      position: relative !important;
+      top: auto !important;
+      margin-bottom: 8px !important;
+      font-size: 0.9em !important;
+      padding: 8px 8px !important;
+      border-radius: 8px !important;
+    }
+  }
+}
+
 [data-theme="dark"] .question-description.sticky {
   background: #23272e !important;
   border: 2px solid #42a5f5 !important; /* brighter blue for dark mode */

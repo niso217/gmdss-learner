@@ -522,6 +522,11 @@ function renderDistressQuestions() {
   const currentQuestionIndex = state.distressQuestionIndex || 0;
   const currentQuestion = distressQuestions[currentQuestionIndex];
   
+  // Handle mobile keyboard visibility
+  if (isMobile) {
+    handleMobileKeyboard();
+  }
+  
   if (!currentQuestion) {
     return `
       <div class="content">
@@ -2187,3 +2192,50 @@ document.addEventListener('scroll', () => {
       showUserPreferences();
     }
   }); 
+
+// Handle mobile keyboard visibility for sticky elements
+function handleMobileKeyboard() {
+  let initialViewportHeight = window.innerHeight;
+  let keyboardVisible = false;
+  
+  // Function to check if keyboard is visible
+  function checkKeyboardVisibility() {
+    const currentViewportHeight = window.innerHeight;
+    const heightDifference = initialViewportHeight - currentViewportHeight;
+    
+    // If viewport height decreased significantly, keyboard is likely visible
+    if (heightDifference > 150) {
+      if (!keyboardVisible) {
+        keyboardVisible = true;
+        const stickyElements = document.querySelectorAll('.question-description.sticky');
+        stickyElements.forEach(element => {
+          element.classList.add('keyboard-active');
+        });
+      }
+    } else {
+      if (keyboardVisible) {
+        keyboardVisible = false;
+        const stickyElements = document.querySelectorAll('.question-description.sticky');
+        stickyElements.forEach(element => {
+          element.classList.remove('keyboard-active');
+        });
+      }
+    }
+  }
+  
+  // Listen for viewport changes
+  window.addEventListener('resize', checkKeyboardVisibility);
+  
+  // Also check on focus events (when user taps input fields)
+  document.addEventListener('focusin', function(e) {
+    if (e.target.classList.contains('input-sentence')) {
+      setTimeout(checkKeyboardVisibility, 300); // Delay to allow keyboard to appear
+    }
+  });
+  
+  document.addEventListener('focusout', function(e) {
+    if (e.target.classList.contains('input-sentence')) {
+      setTimeout(checkKeyboardVisibility, 300); // Delay to allow keyboard to disappear
+    }
+  });
+}
