@@ -1200,9 +1200,31 @@ function triggerErrorFeedback() {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
   if (isMobile) {
-    // במובייל - רק רטט
+    // במובייל - רטט וצליל
     if (navigator.vibrate) {
       navigator.vibrate([100, 50, 100]); // רטט קצר
+    }
+    
+    // צליל שגיאה במובייל
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+      oscillator.frequency.setValueAtTime(100, audioContext.currentTime + 0.2);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+      console.log('לא ניתן לנגן צליל:', e);
     }
   } else {
     // ב-PC - רק צליל
@@ -1251,6 +1273,32 @@ function checkWordByWord(userInput, correctSentence) {
       if (lastUserWord !== correctWord) {
         triggerErrorFeedback();
       }
+    }
+  }
+}
+
+// פונקציה למעבר אוטומטי ל-box הבא במובייל
+function moveToNextInput(currentKey, currentIdx) {
+  // בדוק אם זה מובייל
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (!isMobile || state.tab !== 0) {
+    return; // רק במובייל ובשאלות מצוקה
+  }
+  
+  // מצא את הסעיף הנוכחי
+  const currentQuestion = distressQuestions[state.distressQuestionIndex];
+  const currentSection = currentQuestion.sections.find((s, i) => getSectionKey(currentQuestion.id, i) === currentKey);
+  
+  if (!currentSection) return;
+  
+  // מצא את ה-input הבא
+  const nextIdx = currentIdx + 1;
+  if (nextIdx < currentSection.sentences.length) {
+    const nextInput = document.querySelector(`textarea[data-key="${currentKey}"][data-idx="${nextIdx}"]`);
+    if (nextInput) {
+      nextInput.focus();
+      nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 }
@@ -2051,6 +2099,25 @@ document.addEventListener('scroll', () => {
     // Copy text on mobile tap
     if (e.target.classList.contains('sentence-text')) {
       copyTextToClipboard(e.target.textContent);
+    }
+  });
+  
+  // Add event listener for Enter key in mobile
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.target.classList.contains('input-sentence')) {
+      // בדוק אם זה מובייל
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (isMobile && state.tab === 0) {
+        e.preventDefault(); // מניע יצירת שורה חדשה
+        
+        // מצא את המפתח והאינדקס של ה-input הנוכחי
+        const key = e.target.getAttribute('data-key');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        
+        // עבור ל-input הבא
+        moveToNextInput(key, idx);
+      }
     }
   });
   
