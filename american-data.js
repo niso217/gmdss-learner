@@ -23,7 +23,7 @@ window.americanQuestions = [
   },
   {
     "id": "3",
-    "question": "איזה מהבאים הוקצה כתדר המשכי במצוקה וחייב להיות בכל כלי הצלה",
+    "question": "איזה מהבאים הוקצה כתדר המשכי במצוקה וחייב להיות בכל כלי הצלה?",
     "options": [
       { "id": "א", "text": "ערוץ 6.", "correct": false },
       { "id": "ב", "text": "ערוץ 13.", "correct": false },
@@ -34,7 +34,7 @@ window.americanQuestions = [
   },
   {
     "id": "4",
-    "question": "הצירוף 428000500 הוא",
+    "question": "הצירוף 428000500 הוא:",
     "options": [
       { "id": "א", "text": "קוד זיהוי MMSI של מתקן DSC של כלי שייט.", "correct": false },
       { "id": "ב", "text": "קוד זיהוי MMSI אשר שייך למדינה בעלת 428 MID.", "correct": false },
@@ -56,7 +56,7 @@ window.americanQuestions = [
   },
   {
     "id": "6",
-    "question": "אתרעת מצוקה המשודרת דרך הDSC- חייבת לכלול",
+    "question": "אתרעת מצוקה המשודרת דרך ה-DSC חייבת לכלול:",
     "options": [
       { "id": "א", "text": "MMSI , סוג המצוקה, מיקום וזמן של העדכון האחרון.", "correct": true },
       { "id": "ב", "text": "סוג המצוקה, שם כלי השייט, ערוץ עבודה עם תחנת החוף.", "correct": false },
@@ -67,7 +67,7 @@ window.americanQuestions = [
   },
   {
     "id": "7",
-    "question": "מי קובע את מיקום ה- EPIRB הפועלת במערכת הSarsat- Cospas ?",
+    "question": "מי קובע את מיקום ה- EPIRB הפועלת במערכת ה-Cospas-Sarsat?",
     "options": [
       { "id": "א", "text": "תחנת ה- MCC הקולטת את התשדורת מה- LUT.", "correct": false },
       { "id": "ב", "text": "תחנת ה- LUT הקולטת את התשדורת מהלווין.", "correct": true },
@@ -78,7 +78,7 @@ window.americanQuestions = [
   },
   {
     "id": "8",
-    "question": "על נשמעת הבאה ההודעה :CH16:All ships X 3 this is HaifaRadio X 3 Traffic list Listen on channel 25",
+    "question": "על CH16 נשמעת ההודעה הבאה: All ships X 3 this is HaifaRadio X 3 Traffic list Listen on channel 25",
     "options": [
       { "id": "א", "text": "לתחנת החוף חיפה יש תעבורת בטיחות חשובה.", "correct": false },
       { "id": "ב", "text": "לתחנת החוף חיפה יש תעבורה למס' כלי שייט והיא מודיעה זאת דרך רשימות תעבורה ותשדר אותן על ערוץ .25", "correct": true },
@@ -89,7 +89,7 @@ window.americanQuestions = [
   },
   {
     "id": "9",
-    "question": "איזו מהדרישות הבאות היא דרישה תפקודית ב- ?GMDSS",
+    "question": "איזו מהדרישות הבאות היא דרישה תפקודית ב-GMDSS?",
     "options": [
       { "id": "א", "text": "Bridge to Bridge תקשורת.", "correct": true },
       { "id": "ב", "text": "קליטת מפות שידורי מזג אויר בפקס.", "correct": false },
@@ -122,7 +122,7 @@ window.americanQuestions = [
   },
   {
     "id": "12",
-    "question": "איזה פרסומים דרושים בכלי שייט לפי דרישות ה GMDSS להפלגה בינלאומית?",
+    "question": "איזה פרסומים דרושים בכלי שייט לפי דרישות ה-GMDSS להפלגה בינלאומית?",
     "options": [
       { "id": "א", "text": "ספר רשימת תחנות החוף.", "correct": false },
       { "id": "ב", "text": "ספר רשימת אוניות אלפביתי.", "correct": false },
@@ -158,19 +158,19 @@ window.americanQuestions = [
     "question": "הקוד MA33 יכול לציין:",
     "options": [
       { "id": "א", "text": "אות קריאה של אניית רדיו-טלפון.", "correct": false },
-      { "id": "ב", "text": "קוד זיהוי של הודעת נווטקס (אזהרת נווט מס' 33 מתחנה .)M", "correct": true },
-      { "id": "ג", "text": "תחנת חוף אשר תווי זיהוי המדינה שלה הם .MA", "correct": false },
+      { "id": "ב", "text": "קוד זיהוי של הודעת נווטקס (אזהרת נווט מס' 33 מתחנה M).", "correct": true },
+      { "id": "ג", "text": "תחנת חוף אשר תווי זיהוי המדינה שלה הם MA.", "correct": false },
       { "id": "ד", "text": "קוד זיהוי של אתרעת DSC המתייחסת לאזהרת נווט.", "correct": false }
     ],
     "explanation": "הודעות NAVTEX מקודדות בפורמט B1B2B3B4. האות הראשונה (B1) מציינת את זיהוי התחנה המשדרת (לדוגמה, M), והאות השנייה (B2) מציינת את סוג ההודעה (לדוגמה, A עבור אזהרת ניווט). שתי הספרות האחרונות (B3B4) הן מספר סידורי של ההודעה. לכן, MA33 היא הודעה מס' 33, מסוג אזהרת ניווט, מתחנת M."
   },
   {
     "id": "16",
-    "question": "התייחס לערוץ :15",
+    "question": "התייחס לערוץ 15:",
     "options": [
       { "id": "א", "text": "מותר לשדר בהספק של W1 בלבד בערוץ זה.", "correct": true },
       { "id": "ב", "text": "ערוץ זה מיועד לבטיחות השייט בלבד.", "correct": false },
-      { "id": "ג", "text": "ערוץ לפיקוח תנועת כלי שייט ב- .DUPLEX", "correct": false },
+      { "id": "ג", "text": "ערוץ לפיקוח תנועת כלי שייט ב- DUPLEX.", "correct": false },
       { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": false }
     ],
     "explanation": "ערוצים 15 ו-17 מיועדים לתקשורת פנים-אונייתית (On-Board Communications). מכיוון שתקשורת זו נדרשת רק למרחקים קצרים מאוד (למשל, בין הגשר לחרטום בזמן עגינה), השידור בהם מוגבל להספק נמוך (1 וואט) כדי למנוע הפרעות לכלי שיט אחרים. הם אינם מיועדים לבטיחות כללית או לתקשורת בין-אונייתית."
@@ -210,7 +210,7 @@ window.americanQuestions = [
   },
   {
     "id": "20",
-    "question": "מה תפקיד האזעקה הקולית במקלט ה- ?SART",
+    "question": "מה תפקיד האזעקה הקולית במקלט ה-SART?",
     "options": [
       { "id": "א", "text": "הוא מודיע לניצולים שיש כנראה עזרה בקרבתם.", "correct": true },
       { "id": "ב", "text": "הוא מודיע לניצולים שמצב טעינת הסוללה נחלש.", "correct": false },
@@ -221,7 +221,7 @@ window.americanQuestions = [
   },
   {
     "id": "21",
-    "question": "איזה פרסומים דרושים בכלי שייט לפי דרישות ה- GMDSS להפלגה בינלאומית? (חוזרת על )12",
+    "question": "איזה פרסומים דרושים בכלי שייט לפי דרישות ה- GMDSS להפלגה בינלאומית? (חוזרת על 12)",
     "options": [
       { "id": "א", "text": "ספר רשימת תחנות החוף.", "correct": false },
       { "id": "ב", "text": "ספר רשימת אוניות אלפביתי.", "correct": false },
@@ -232,7 +232,7 @@ window.americanQuestions = [
   },
   {
     "id": "22",
-    "question": "מהו הגורם הקובע את טווח ה- ?VHF",
+    "question": "מהו הגורם הקובע את טווח ה-VHF?",
     "options": [
       { "id": "א", "text": "ערוץ השידור.", "correct": false },
       { "id": "ב", "text": "רגישות הקליטה.", "correct": false },
@@ -245,7 +245,7 @@ window.americanQuestions = [
     "id": "23",
     "question": "בחר את ההצהרה הנכונה:",
     "options": [
-      { "id": "א", "text": "PRUDONCE פירושו שיש אפשרות לעבודה מוגבלת וזהירה על .CH16", "correct": true },
+      { "id": "א", "text": "PRUDONCE פירושו שיש אפשרות לעבודה מוגבלת וזהירה על CH16.", "correct": true },
       { "id": "ב", "text": "משמעות המילה SEELONCE במצוקה היא סיום מצב מצוקה.", "correct": false },
       { "id": "ג", "text": "PRUDONCE פירושו השתקת אניה מפריעה.", "correct": false },
       { "id": "ד", "text": "FEENEE SEELONCE פירושו השתקת תחנה מפריעה ע\"י התחנה המפקחת.", "correct": false }
@@ -265,7 +265,7 @@ window.americanQuestions = [
   },
   {
     "id": "25",
-    "question": "מהי קריאה מקוצרת על ערוץ CH16 ?",
+    "question": "מהי קריאה מקוצרת על ערוץ CH16?",
     "options": [
       { "id": "א", "text": "קריאה באזור תנועה צפופה (אזור בו פועלות מס' רב של תחנות הן של חוף והן של כלי שייט.)", "correct": false },
       { "id": "ב", "text": "קריאה בה קוראים לתחנה הנקראת פעם אחת ומזדהים פעמיים.", "correct": true },
@@ -276,7 +276,7 @@ window.americanQuestions = [
   },
   {
     "id": "26",
-    "question": "מה פירוש ?DSC",
+    "question": "מה פירוש DSC?",
     "options": [
       { "id": "א", "text": "Direct Selective Command.", "correct": false },
       { "id": "ב", "text": "Digital Selective Communication.", "correct": false },
@@ -320,7 +320,7 @@ window.americanQuestions = [
   },
   {
     "id": "30",
-    "question": "המונח Relay Mayday מתייחס לאפשרויות הבאות:",
+    "question": "המונח Mayday Relay מתייחס לאפשרויות הבאות:",
     "options": [
       { "id": "א", "text": "אנייה מודיעה לתחנה שבמצוקה שהיא מוכנה לסייע לה.", "correct": false },
       { "id": "ב", "text": "העברת הודעת בטיחות מתחנת חוף לכל כלי השייט בסביבה.", "correct": false },
@@ -331,7 +331,7 @@ window.americanQuestions = [
   },
   {
     "id": "31",
-    "question": "כאשר EPIRB הפועלת בתדר MHZ406.025 היא תיקלט על-ידי:",
+    "question": "כאשר EPIRB הפועלת בתדר 406.025MHz היא תיקלט על-ידי:",
     "options": [
       { "id": "א", "text": "כל תחנת חוף המחזיקה מתקן DSC והיא נמצאת בטווח הפעולה של ה- .EPIRB", "correct": false },
       { "id": "ב", "text": "לוויני ה- Cospas-Sarsat (לוויני הקפה.)", "correct": true },
@@ -342,7 +342,7 @@ window.americanQuestions = [
   },
   {
     "id": "32",
-    "question": "מהי מטרת שרות Bridge to Bridge ב- VHF ?",
+    "question": "מהי מטרת שרות Bridge to Bridge ב- VHF?",
     "options": [
       { "id": "א", "text": "תקשורת בין אניות להגברת בטיחות השייט שלהן.", "correct": true },
       { "id": "ב", "text": "תקשורת בין אניות לתחנות חוף להגברת בטיחות השייט.", "correct": false },
@@ -364,7 +364,7 @@ window.americanQuestions = [
   },
   {
     "id": "34",
-    "question": "משיב המכ\"מ (ה)SART- משדר כאשר:",
+    "question": "משיב המכ\"מ (SART) משדר כאשר:",
     "options": [
       { "id": "א", "text": "מיד כאשר מפעילים אותו ידנית.", "correct": false },
       { "id": "ב", "text": "הSART- אינו משדר כלל אלא רק קולט אותות מכ\"מ.", "correct": false },
@@ -430,7 +430,7 @@ window.americanQuestions = [
   },
   {
     "id": "40",
-    "question": "לכמה רמות בטיחות מחולקות הודעות ה- ?NAVTEX",
+    "question": "לכמה רמות בטיחות מחולקות הודעות ה-NAVTEX?",
     "options": [
       { "id": "א", "text": "VITAL, IMPORTANT, ROUTINE.", "correct": true },
       { "id": "ב", "text": "DISTRESS, URGENCY, SAFETY.", "correct": false },
@@ -441,7 +441,7 @@ window.americanQuestions = [
   },
   {
     "id": "41",
-    "question": "מה פירושה של ההודעה הבאה על ערוץ 16 - All stations X 3 this is RotaRadio X 3 gale warning channel 27 ?",
+    "question": "מה פירושה של ההודעה הבאה על ערוץ 16: All stations X 3 this is RotaRadio X 3 gale warning channel 27?",
     "options": [
       { "id": "א", "text": "תחנת החוף ROTA מודיעה שיש לה אזהרת סערה והיא תפרט אותה על ערוץ .27", "correct": true },
       { "id": "ב", "text": "תחנת אנייה שואלת את תחנת החוף ROTA אם יש לה אזהרת סערה על ערוץ .27", "correct": false },
@@ -474,7 +474,7 @@ window.americanQuestions = [
   },
   {
     "id": "44",
-    "question": "כיצד תשתיק הYARDEN- המפקחת על המצוקה את TOPAZ המפריעה ?",
+    "question": "כיצד תשתיק ה-YARDEN המפקחת על המצוקה את TOPAZ המפריעה?",
     "options": [
       { "id": "א", "text": "TOPAZ SEELONCE DISTRESS THIS IS YARDEN.", "correct": false },
       { "id": "ב", "text": "TOPAZ SEELONCE DISTRESS.", "correct": false },
@@ -485,7 +485,7 @@ window.americanQuestions = [
   },
   {
     "id": "45",
-    "question": "המונח Relay Mayday מתייחס לאפשרויות הבאות:",
+    "question": "המונח Mayday Relay מתייחס לאפשרויות הבאות:",
     "options": [
       { "id": "א", "text": "אנייה מודיעה לתחנה שבמצוקה שהיא מוכנה לסייע לה.", "correct": false },
       { "id": "ב", "text": "העברת הודעת בטיחות מתחנת חוף לכל כלי השייט בסביבה.", "correct": false },
@@ -518,7 +518,7 @@ window.americanQuestions = [
   },
   {
     "id": "48",
-    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא ב- :VHF",
+    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא ב-VHF:",
     "options": [
       { "id": "א", "text": "שלח הודעת DSC על ערוץ 70 לביטול אתרעת השווא.", "correct": false },
       { "id": "ב", "text": "ערוך הודעה קולית לביטול אתרעת השווא ושדר אותה על ערוץ .16", "correct": true },
@@ -540,7 +540,7 @@ window.americanQuestions = [
   },
   {
     "id": "50",
-    "question": "מהי משמעות הקוד B1B2B3B4 בהודעת NAVTEX כאשר B3B4=00 ?",
+    "question": "מהי משמעות הקוד B1B2B3B4 בהודעת NAVTEX כאשר B3B4=00?",
     "options": [
       { "id": "א", "text": "ההודעה תיקלט בכל המקלטים שבסביבה ללא קשר לתכנות המכשיר על-ידי המפעיל.", "correct": true },
       { "id": "ב", "text": "אין לתחנה המשדרת הודעה כלשהי אבל היא מצהירה שהיא פועלת.", "correct": false },
@@ -617,7 +617,7 @@ window.americanQuestions = [
   },
   {
     "id": "57",
-    "question": "הציוד של כלי הצלה ב- :GMDSS",
+    "question": "הציוד של כלי הצלה ב-GMDSS:",
     "options": [
       { "id": "א", "text": "מקמ\"ש נייד הפועל על ערוץ 16 וערוץ נוסף.", "correct": false },
       { "id": "ב", "text": "SART.", "correct": false },
@@ -650,7 +650,7 @@ window.americanQuestions = [
   },
   {
     "id": "60",
-    "question": "מהי מטרתה של מערכת ה- ?AIS",
+    "question": "מהי מטרתה של מערכת ה-AIS?",
     "options": [
       { "id": "א", "text": "לשמש כתחליף למערכת ה- .DSC", "correct": false },
       { "id": "ב", "text": "לספק לכלי השייט מידע בטיחות כתחליף למערכת ה- .NAVTEX", "correct": false },
@@ -694,7 +694,7 @@ window.americanQuestions = [
   },
   {
     "id": "64",
-    "question": "מי ישדר את ההודעה הבאה: Mayday Seelonce ?Alfa",
+    "question": "מי ישדר את ההודעה הבאה: SEELONCE MAYDAY Alfa?",
     "options": [
       { "id": "א", "text": "תחנת חוף המפקחת על המצוקה.", "correct": false },
       { "id": "ב", "text": "אנייה הנמצאת במצוקה (והיא מפקחת על המצוקה) משתיקה את התחנה .Alfa", "correct": false },
@@ -705,7 +705,7 @@ window.americanQuestions = [
   },
   {
     "id": "65",
-    "question": "הציוד של כלי הצלה ב - GMDSS :",
+    "question": "הציוד של כלי הצלה ב-GMDSS:",
     "options": [
       { "id": "א", "text": "sart-epirb-dsc.", "correct": false },
       { "id": "ב", "text": "dsc ch70-sart-epirb-portable vhf.", "correct": false },
@@ -716,7 +716,7 @@ window.americanQuestions = [
   },
   {
     "id": "66",
-    "question": "בערוצים הבאים מדברים רק ב- SIMPLEX :",
+    "question": "בערוצים הבאים מדברים רק ב-SIMPLEX:",
     "options": [
       { "id": "א", "text": "CH06 CH16.", "correct": true },
       { "id": "ב", "text": "CH79 CH17.", "correct": false },
@@ -727,7 +727,7 @@ window.americanQuestions = [
   },
   {
     "id": "67",
-    "question": "מה תפקיד ההתראה הקולית במקלט ה- ?SART",
+    "question": "מה תפקיד ההתראה הקולית במקלט ה-SART?",
     "options": [
       { "id": "א", "text": "הוא מודיע לניצולים שיש כנראה עזרה בקרבתם.", "correct": true },
       { "id": "ב", "text": "הוא מודיע לניצולים שמצב טעינת הסוללה נחלש.", "correct": false },
@@ -738,7 +738,7 @@ window.americanQuestions = [
   },
   {
     "id": "68",
-    "question": "מהי משמעות הקוד B1B2B3B4 בהודעת NAVTEX כאשר B3B4=00 ?",
+    "question": "מהי משמעות הקוד B1B2B3B4 בהודעת NAVTEX כאשר B3B4=00?",
     "options": [
       { "id": "א", "text": "ההודעה תיקלט בכל המקלטים שבסביבה ללא קשר לתכנות המכשיר על-ידי המפעיל.", "correct": true },
       { "id": "ב", "text": "אין לתחנה המשדרת הודעה כלשהי אבל היא מצהירה שהיא פועלת.", "correct": false },
@@ -749,7 +749,7 @@ window.americanQuestions = [
   },
   {
     "id": "69",
-    "question": "איזו הצהרה נכונה ביחס ללוויני SARSAT ?COSPAS",
+    "question": "איזו הצהרה נכונה ביחס ללוויני COSPAS-SARSAT?",
     "options": [
       { "id": "א", "text": "ה- EPIRB משמש משואה לוויינית וציוד אזעקה באניות.", "correct": false },
       { "id": "ב", "text": "אותות המתקבלים בלוויינים מנמיכי טוס במסלול קוטבי, משודרים לתחנות קליטה קרקעיות הנקראות .LUT", "correct": false },
@@ -771,7 +771,7 @@ window.americanQuestions = [
   },
   {
     "id": "71",
-    "question": "אות הקריאה של סירת הצלה של ספינה :",
+    "question": "אות הקריאה של סירת הצלה של ספינה:",
     "options": [
       { "id": "א", "text": "SKTY26.", "correct": true },
       { "id": "ב", "text": "SKT226.", "correct": false },
@@ -793,7 +793,7 @@ window.americanQuestions = [
   },
   {
     "id": "73",
-    "question": "על נשמעת הבאה ההודעה CH16 - All ships x3 this is Haifaradio x3 traffic list listen on channel 25 (חוזרת על 8)",
+    "question": "על CH16 נשמעת ההודעה הבאה: All ships x3 this is Haifaradio x3 traffic list listen on channel 25 (חוזרת על 8)",
     "options": [
       { "id": "א", "text": "לתחנת החוף חיפה יש תעבורת בטיחות חשובה.", "correct": false },
       { "id": "ב", "text": "לתחנת החוף חיפה יש תעבורה למס' כלי שייט והיא מודיעה זאת דרך רשימות תעבורה שתשדר אותן על ערוץ .25", "correct": true },
@@ -815,7 +815,7 @@ window.americanQuestions = [
   },
   {
     "id": "75",
-    "question": "חובה לבדוק את המצברים תחת עומס :",
+    "question": "חובה לבדוק את המצברים תחת עומס:",
     "options": [
       { "id": "א", "text": "כל יום.", "correct": true },
       { "id": "ב", "text": "פעם בשבוע.", "correct": false },
@@ -826,7 +826,7 @@ window.americanQuestions = [
   },
   {
     "id": "76",
-    "question": "אות הרדיוטלפון לבטיחות הוא : (חוזרת )14",
+    "question": "אות הרדיוטלפון לבטיחות הוא: (חוזרת 14)",
     "options": [
       { "id": "א", "text": "SECURITE חוזר על עצמו 3 פעמים.", "correct": true },
       { "id": "ב", "text": "SAFETY SAFETY SAFETY.", "correct": false },
@@ -859,7 +859,7 @@ window.americanQuestions = [
   },
   {
     "id": "79",
-    "question": "מהי מטרתה של מערכת ה- ?AIS",
+    "question": "מהי מטרתה של מערכת ה-AIS?",
     "options": [
       { "id": "א", "text": "לשמש כתחליף למערכת ה- .DSC", "correct": false },
       { "id": "ב", "text": "לספק לכלי השייט מידע בטיחות כתחליף למערכת ה- .NAVTEX", "correct": false },
@@ -870,7 +870,7 @@ window.americanQuestions = [
   },
   {
     "id": "80",
-    "question": "למה משמש ערוץ ?CH16",
+    "question": "למה משמש ערוץ CH16?",
     "options": [
       { "id": "א", "text": "להודעות הנוגעות לשידורי הנווטקס.", "correct": false },
       { "id": "ב", "text": "לאזהרות בטיחות בשיטת הקריאה האוטומטית.", "correct": false },
@@ -881,7 +881,7 @@ window.americanQuestions = [
   },
   {
     "id": "81",
-    "question": "כמה זמן הסוללה חייבת להפעיל את ה- SART במצב STANBY ?",
+    "question": "כמה זמן הסוללה חייבת להפעיל את ה- SART במצב STANBY?",
     "options": [
       { "id": "א", "text": "48 שעות.", "correct": false },
       { "id": "ב", "text": "96 שעות.", "correct": true },
@@ -892,7 +892,7 @@ window.americanQuestions = [
   },
   {
     "id": "82",
-    "question": "צייו את ההצהרה הנכונה :",
+    "question": "ציין את ההצהרה הנכונה:",
     "options": [
       { "id": "א", "text": "כלי שייט חייבים להאזין על ערוץ .13", "correct": false },
       { "id": "ב", "text": "התחנה המפקחת על המצוקה משדרת DISTRESS SEELONCE MAYDAY.", "correct": false },
@@ -903,7 +903,7 @@ window.americanQuestions = [
   },
   {
     "id": "83",
-    "question": "על איזה ערוץ תקיים קשר עם ספינה שאתה גורר ?",
+    "question": "על איזה ערוץ תקיים קשר עם ספינה שאתה גורר?",
     "options": [
       { "id": "א", "text": "CH14.", "correct": false },
       { "id": "ב", "text": "CH06.", "correct": true },
@@ -925,7 +925,7 @@ window.americanQuestions = [
   },
   {
     "id": "85",
-    "question": "מה פירוש ?RCC",
+    "question": "מה פירוש RCC?",
     "options": [
       { "id": "א", "text": "RADIO COAST CONTR0L.", "correct": false },
       { "id": "ב", "text": "RESCUE CONTROL CENTRE.", "correct": false },
@@ -958,7 +958,7 @@ window.americanQuestions = [
   },
   {
     "id": "88",
-    "question": "איזה מהבאים הוקצה בVHF- GMDSS לתקשורת עם מטוסים בזצן מצוקה?",
+    "question": "איזה מהבאים הוקצה ב-VHF GMDSS לתקשורת עם מטוסים בזמן מצוקה?",
     "options": [
       { "id": "א", "text": "ערוץ .13", "correct": false },
       { "id": "ב", "text": "ערוץ .06", "correct": true },
@@ -991,7 +991,7 @@ window.americanQuestions = [
   },
   {
     "id": "91",
-    "question": "איזו מהדרישות הבאות היא דרישה תפקודית ב- GMDSS ?",
+    "question": "איזו מהדרישות הבאות היא דרישה תפקודית ב- GMDSS?",
     "options": [
       { "id": "א", "text": "תקשורת גשר לגשר.", "correct": false },
       { "id": "ב", "text": "שידור אתרעת מצוקה מכלי שייט לתחנת חוף.", "correct": false },
@@ -1002,7 +1002,7 @@ window.americanQuestions = [
   },
   {
     "id": "92",
-    "question": "מתי טווח הNAVTEX- מירבי ?",
+    "question": "מתי טווח ה-NAVTEX מירבי?",
     "options": [
       { "id": "א", "text": "כל הזמן – 400 מיל.", "correct": false },
       { "id": "ב", "text": "בלילה.", "correct": true },
@@ -1013,7 +1013,7 @@ window.americanQuestions = [
   },
   {
     "id": "93",
-    "question": "לכמה רמות מחולקות ההודעות בתקשורת הימית ?",
+    "question": "לכמה רמות מחולקות ההודעות בתקשורת הימית?",
     "options": [
       { "id": "א", "text": "VITAL, IMPORTANT, ROUTINE.", "correct": false },
       { "id": "ב", "text": "Distress, Urgency, Safety Routine.", "correct": true },
@@ -1035,7 +1035,7 @@ window.americanQuestions = [
   },
   {
     "id": "95",
-    "question": "מי קובע את מיקום ה- EPIRB הפועלת במערכת ה- Sarsat Cospas ? (חוזרת על )7",
+    "question": "מי קובע את מיקום ה- EPIRB הפועלת במערכת ה- Cospas Sarsat? (חוזרת על 7)",
     "options": [
       { "id": "א", "text": "תחנת ה- MCC הקולטת את התשדורת מה- .LUT", "correct": false },
       { "id": "ב", "text": "תחנת ה- LUT הקולטת את התשדורת מהלווין.", "correct": true },
@@ -1046,7 +1046,7 @@ window.americanQuestions = [
   },
   {
     "id": "96",
-    "question": "מהן ההוראות שניתן לתת לתחנה שאיתה אתה בקשר ? (חוזרתעל )10",
+    "question": "מהן ההוראות שניתן לתת לתחנה שאיתה אתה בקשר? (חוזרת על 10)",
     "options": [
       { "id": "א", "text": "STANDBY.", "correct": false },
       { "id": "ב", "text": "OUT , OVER ,.", "correct": false },
@@ -1057,7 +1057,7 @@ window.americanQuestions = [
   },
   {
     "id": "97",
-    "question": "למה משמש ערוץ ?CH16",
+    "question": "למה משמש ערוץ CH16?",
     "options": [
       { "id": "א", "text": "להודעות הנוגעות לשידורי הנווטקס.", "correct": false },
       { "id": "ב", "text": "לאזהרות בטיחות בשיטת הקריאה האוטומטית.", "correct": false },
@@ -1068,7 +1068,7 @@ window.americanQuestions = [
   },
   {
     "id": "98",
-    "question": "מהו האיות הפונטי הנכון ל - 2.4 SHEKEL ?",
+    "question": "מהו האיות הפונטי הנכון ל-2.4 SHEKEL?",
     "options": [
       { "id": "א", "text": "TWO DECIMAL FOUR SIERRA HOTEL ECHO KILO ECHO LIMA.", "correct": false },
       { "id": "ב", "text": "BISSOTWO DECIMAL KARTEFOUR SIERRA HOTEL ECHO KILO ECHO LIMA.", "correct": true },
@@ -1079,7 +1079,7 @@ window.americanQuestions = [
   },
   {
     "id": "99",
-    "question": "לאיזה סוג תקשורת מיועד השירות של Communications ?On-Scene",
+    "question": "לאיזה סוג תקשורת מיועד השירות של On-Scene Communications?",
     "options": [
       { "id": "א", "text": "תקשורת פנים בזמן הפלגה.", "correct": false },
       { "id": "ב", "text": "תקשורת בין כלי נייד (כלי שייט או מטוס) הנמצא במצוקה לבין תחנות ניידות אחרות המגישות עזרה.", "correct": true },
@@ -1090,7 +1090,7 @@ window.americanQuestions = [
   },
   {
     "id": "100",
-    "question": "זיהוי של קבצת ספינות:",
+    "question": "זיהוי של קבוצת ספינות:",
     "options": [
       { "id": "א", "text": "428000501.", "correct": false },
       { "id": "ב", "text": "023200043.", "correct": false },
@@ -1104,8 +1104,8 @@ window.americanQuestions = [
     "question": "אחד מההיבטים החשובים של משואת רדיו מסוג Cospas-Sarsat הוא אפשרות התבייתות עליה. על איזה תדר זה מתבצע?",
     "options": [
       { "id": "א", "text": "X-band.", "correct": false },
-      { "id": "ב", "text": "MHz121.5", "correct": true },
-      { "id": "ג", "text": "MHz406.025", "correct": false },
+      { "id": "ב", "text": "121.5MHz", "correct": true },
+      { "id": "ג", "text": "406.025MHz", "correct": false },
       { "id": "ד", "text": "CH70.", "correct": false }
     ],
     "explanation": "משואת EPIRB משדרת על שני תדרים עיקריים. התדר הראשי (406.025 מגה-הרץ) משמש להתרעה גלובלית דרך לוויינים. בנוסף, היא משדרת אות חלש יותר בתדר 121.5 מגה-הרץ, המשמש כ'אות התבייתות' (Homing signal). כוחות חיפוש והצלה, כמו מטוסים וספינות, משתמשים בציוד ייעודי כדי להתביית על תדר זה ולאתר את מיקום המשואה בדיוק רב בשלב הסופי של החיפוש."
@@ -1156,7 +1156,7 @@ window.americanQuestions = [
   },
   {
     "id": "106",
-    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא ב- DSC ?VHF",
+    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא ב- DSC VHF?",
     "options": [
       { "id": "א", "text": "שלח הודעת DSC על ערוץ 70 לביטול אתרעת השווא.", "correct": false },
       { "id": "ב", "text": "ערוך הודעה קולית לביטול אתרעת השווא ושדר אותה על ערוץ .16", "correct": true },
@@ -1178,7 +1178,7 @@ window.americanQuestions = [
   },
   {
     "id": "108",
-    "question": "מהו המרחק המינימאלי בין שתי תחנות נווטקס בעלות אותו זיהוי המשדרות בו זמנית, האחת ב- Navarea2 והשנייה ב-?Navarea3",
+    "question": "מהו המרחק המינימאלי בין שתי תחנות נווטקס בעלות אותו זיהוי המשדרות בו זמנית, האחת ב- Navarea2 והשנייה ב-Navarea3?",
     "options": [
       { "id": "א", "text": "מחצית טווח גל הקרקע של תחנה אחת, כ- .NM200", "correct": false },
       { "id": "ב", "text": "טווח גל הקרקע של תחנה אחת, כ- .NM400", "correct": false },
@@ -1189,7 +1189,7 @@ window.americanQuestions = [
   },
   {
     "id": "109",
-    "question": "מה נכון ביחס ל- ?MSI",
+    "question": "מה נכון ביחס ל-MSI?",
     "options": [
       { "id": "א", "text": "מתקן ה- Navtex מהווה חלק ממערך הקשר בשרות חשוב זה.", "correct": true },
       { "id": "ב", "text": "מתקן ה- Dsc מהווה חלק ממערך הקשר בשרות חשוב זה.", "correct": false },
@@ -1200,11 +1200,11 @@ window.americanQuestions = [
   },
   {
     "id": "110",
-    "question": "כיצד נשמע או נראה אות ה?SART-",
+    "question": "כיצד נשמע או נראה אות ה-SART?",
     "options": [
       { "id": "א", "text": "שידור SOS שם האנייה והמיקום בשידור איטי של קוד מורס.", "correct": false },
-      { "id": "ב", "text": "הוא יופיע על צג המכ\"ם כשורת נקודות או קשתות המקרינה לכיוון החוצה. הנקודה הפנימית ביותר היא מיקום ה- .SART", "correct": true },
-      { "id": "ג", "text": "הוא יופיע על צג המכ\"ם כשורת נקודות או קשתות המקרינה לכיוון החוצה. הנקודה החיצונית ביותר היא מיקום ה- .SART", "correct": false },
+      { "id": "ב", "text": "הוא יופיע על צג המכ\"מ כשורת נקודות או קשתות המקרינה לכיוון החוצה. הנקודה הפנימית ביותר היא מיקום ה- .SART", "correct": true },
+      { "id": "ג", "text": "הוא יופיע על צג המכ\"מ כשורת נקודות או קשתות המקרינה לכיוון החוצה. הנקודה החיצונית ביותר היא מיקום ה- .SART", "correct": false },
       { "id": "ד", "text": "אין תשובה נכונה.", "correct": false }
     ],
     "explanation": "כאשר מכ\"ם של ספינת חיפוש מאתר SART, האות המוחזר מה-SART יוצר תצוגה ייחודית על צג המכ\"ם. התצוגה נראית כשורה של 12 נקודות (או קשתות) המסודרות בקו רדיאלי. ככל שספינת החיפוש מתקרבת, הנקודות הופכות לקשתות רחבות יותר, והנקודה/קשת הקרובה ביותר למרכז הצג מציינת את הכיוון והמרחק אל ה-SART."
@@ -1222,7 +1222,7 @@ window.americanQuestions = [
   },
   {
     "id": "112",
-    "question": "מה מהמקרים הבאים מתאים לבטיחות? (חוזרת )78",
+    "question": "מה מהמקרים הבאים מתאים לבטיחות? (חוזרת 78)",
     "options": [
       { "id": "א", "text": "איש צוות פצוע בלב ים.", "correct": false },
       { "id": "ב", "text": "הודעה על סערה טרופית מסוכנת.", "correct": true },
@@ -1233,7 +1233,7 @@ window.americanQuestions = [
   },
   {
     "id": "113",
-    "question": "אנייתך קלטה הודעת ממסר מצוקה על VHF DSC בערוץ ,70 באיזה ערוץ היית מגיב להודעה זו?",
+    "question": "אנייתך קלטה הודעת ממסר מצוקה על VHF DSC בערוץ 70, באיזה ערוץ היית מגיב להודעה זו?",
     "options": [
       { "id": "א", "text": "70.", "correct": false },
       { "id": "ב", "text": "16.", "correct": true },
@@ -1299,7 +1299,7 @@ window.americanQuestions = [
   },
   {
     "id": "119",
-    "question": "מהם ערוצי ה- ?AIS",
+    "question": "מהם ערוצי ה-AIS?",
     "options": [
       { "id": "א", "text": "CH75 CH76.", "correct": false },
       { "id": "ב", "text": "CH15 CH17.", "correct": false },
@@ -1310,7 +1310,7 @@ window.americanQuestions = [
   },
   {
     "id": "120",
-    "question": "על ערוץ/ערוצים אלה מותר לשדר בהספק של W1 בלבד:",
+    "question": "על ערוץ/ערוצים אלה מותר לשדר בהספק של 1W בלבד:",
     "options": [
       { "id": "א", "text": "CH17 & CH75.", "correct": true },
       { "id": "ב", "text": "CH15 & CH72.", "correct": false },
@@ -1325,7 +1325,7 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "יקרא ל- RCC וישתמש בעדיפות Safety.", "correct": false },
       { "id": "ב", "text": "יבקש מכלי שייט כל שהוא בסביבה וישתמש בעדיפות Urgency.", "correct": false },
-      { "id": "ג", "text": "יקרא ל- Stations All וישתמש בעדיפות שנייה ובקוד PanPan.", "correct": false },
+      { "id": "ג", "text": "יקרא ל- All Stations וישתמש בעדיפות שנייה ובקוד PanPan.", "correct": false },
       { "id": "ד", "text": "תשובות ג ו- ב נכונות.", "correct": true }
     ],
     "explanation": "כלי שיט שאינו תחת שליטה (Not Under Command) נמצא במצב חמור, אך לא בהכרח בסכנת חיים מיידית. לכן, המצב מתאים להודעת דחיפות (Urgency), שהיא עדיפות שנייה ומשתמשת בקוד PAN PAN. ניתן להפנות את הקריאה לכל התחנות (All Stations) או לתחנה ספציפית, בהתאם לנסיבות."
@@ -1343,10 +1343,10 @@ window.americanQuestions = [
   },
   {
     "id": "123",
-    "question": "טווח תחנת NAVTEX המשדרת על תדר kHz518 יהיה:",
+    "question": "טווח תחנת NAVTEX המשדרת על תדר 518 kHz יהיה:",
     "options": [
       { "id": "א", "text": "כיסוי עולמי, מאחר ותחנות ה- Navtex פרוסות לאורך כל החופים.", "correct": false },
-      { "id": "ב", "text": "NM 400 – 200.", "correct": true },
+      { "id": "ב", "text": "200 – 400 NM.", "correct": true },
       { "id": "ג", "text": "הטווח מוגבל בין 70 מעלות צפון לבין 70 מעלות דרום.", "correct": false },
       { "id": "ד", "text": "עד כ- 20-30 NM.", "correct": false }
     ],
@@ -1354,7 +1354,7 @@ window.americanQuestions = [
   },
   {
     "id": "124",
-    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא במשואת רדיו מסוג SARSAT ?COSPAS",
+    "question": "באילו אמצעים תנקוט לאחר שידור אתרעת שווא במשואת רדיו מסוג COSPAS SARSAT?",
     "options": [
       { "id": "א", "text": "שלח הודעת DSC על ערוץ 70 לביטול אתרעת השווא.", "correct": false },
       { "id": "ב", "text": "ערוך הודעה קולית לביטול אתרעת השווא ושדר אותה על ערוץ 16.", "correct": false },
@@ -1369,7 +1369,7 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "CH20.", "correct": false },
       { "id": "ב", "text": "CH12.", "correct": false },
-      { "id": "ג", "text": "אעיין בספר שרות Stations( Coast of )List כדי לאתר את ערוץ העבודה, או לחילופין תחנת החוף תקבע את הערוץ.", "correct": true },
+      { "id": "ג", "text": "אעיין בספר (List of Coast Stations) כדי לאתר את ערוץ העבודה, או לחילופין תחנת החוף תקבע את הערוץ.", "correct": true },
       { "id": "ד", "text": "CH16.", "correct": false }
     ],
     "explanation": "ערוצי העבודה לשיחות טלפון (Public Correspondence) משתנים בין תחנות חוף שונות ומדינות שונות. הנוהל המקצועי הנכון הוא לעיין בפרסום הרשמי של ITU, 'List of Coast Stations' (רשימת תחנות חוף), כדי למצוא את הערוצים המתאימים לתחנה הספציפית (איסטנבול רדיו). לחילופין, לאחר יצירת קשר ראשונית על 16, תחנת החוף עצמה תנחה לאיזה ערוץ לעבור."
@@ -1379,7 +1379,7 @@ window.americanQuestions = [
     "question": "ערוצים 06 ו- 16 משמשים כ:",
     "options": [
       { "id": "א", "text": "ערוץ קשר בין אניות וערוץ קשר פנים.", "correct": false },
-      { "id": "ב", "text": "ערוץ חיפוש והצלה )SAR( וערוץ מצוקה.", "correct": true },
+      { "id": "ב", "text": "ערוץ חיפוש והצלה (SAR) וערוץ מצוקה.", "correct": true },
       { "id": "ג", "text": "ערוץ PORT OPERATION וערוץ SHIP MOVEMENTS.", "correct": false },
       { "id": "ד", "text": "תשובות א ו- ב נכונות.", "correct": false }
     ],
@@ -1387,7 +1387,7 @@ window.americanQuestions = [
   },
   {
     "id": "127",
-    "question": "כל איזה תקופה יש לבדוק את תקינות הDSC- בזמן הפלגה?",
+    "question": "כל איזה תקופה יש לבדוק את תקינות ה-DSC בזמן הפלגה?",
     "options": [
       { "id": "א", "text": "אחת לכל הפלגה.", "correct": false },
       { "id": "ב", "text": "כהכנה לקראת בקורת של מפקח רדיו מורשה מטעם הרשות המקומית.", "correct": false },
@@ -1401,7 +1401,7 @@ window.americanQuestions = [
     "question": "מדוע יש לבדוק את המצברים תחת עומס?",
     "options": [
       { "id": "א", "text": "כדי לבדוק את תקינות המתקנים המחוברים למצברים.", "correct": false },
-      { "id": "ב", "text": "כדי לוודא שההמצברים אכן במצב טעינה מלא, קריאת המתח ללא עומס עלולה להטעות.", "correct": true },
+      { "id": "ב", "text": "כדי לוודא שהמצברים אכן במצב טעינה מלא, קריאת המתח ללא עומס עלולה להטעות.", "correct": true },
       { "id": "ג", "text": "כדי לרוקן את המצברים לפני כל טעינה חדשה.", "correct": false },
       { "id": "ד", "text": "בדיקה ללא עומס מסכנת את שלמות המצברים.", "correct": false }
     ],
@@ -1409,7 +1409,7 @@ window.americanQuestions = [
   },
   {
     "id": "129",
-    "question": "חישוב המיקום של משואת רדיו המשדרת ב- MHz406.025 נעשה ע\"י:",
+    "question": "חישוב המיקום של משואת רדיו המשדרת ב-406.025 MHz נעשה ע\"י:",
     "options": [
       { "id": "א", "text": "תחנת ה- חוף.", "correct": false },
       { "id": "ב", "text": "תחנת ה- LUT.", "correct": true },
@@ -1453,7 +1453,7 @@ window.americanQuestions = [
   },
   {
     "id": "133",
-    "question": "הערוצים הבאים מדברים רק ב- SIMPLEX :",
+    "question": "הערוצים הבאים מדברים רק ב-SIMPLEX:",
     "options": [
       { "id": "א", "text": "CH16 CH06.", "correct": true },
       { "id": "ב", "text": "CH26 CH27.", "correct": false },
@@ -1475,7 +1475,7 @@ window.americanQuestions = [
   },
   {
     "id": "135",
-    "question": "אות הדחיפות ברדיוטלפון :",
+    "question": "אות הדחיפות ברדיוטלפון:",
     "options": [
       { "id": "א", "text": "PRUDONCE.", "correct": false },
       { "id": "ב", "text": "PANPAN.", "correct": true },
@@ -1486,7 +1486,7 @@ window.americanQuestions = [
   },
   {
     "id": "136",
-    "question": "איזו מההצהרות נכונה בהתייחס למשואת רדיו מסוג ?Cospas-Sarsat",
+    "question": "איזו מההצהרות נכונה בהתייחס למשואת רדיו מסוג Cospas-Sarsat?",
     "options": [
       { "id": "א", "text": "פועלת בתחום VHF.", "correct": false },
       { "id": "ב", "text": "פועלת בתחום X-Band.", "correct": false },
@@ -1501,14 +1501,14 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "היא תשתמש במונח PRUDONCE MAYDAY.", "correct": false },
       { "id": "ב", "text": "היא תודיע NO FURTHER ASSISTANCE REQUIRED.", "correct": false },
-      { "id": "ג", "text": "היא תשתמש במונח FEENEE SEELONCE.", "correct": true },
+      { "id": "ג", "text": "היא תשתמש במונח SEELONCE FEENEE.", "correct": true },
       { "id": "ד", "text": "על CH70 ב- DSC היא תשלח ביטול מצב המצוקה.", "correct": false }
     ],
     "explanation": "המונח הבינלאומי לסיום מוחלט של אירוע מצוקה וביטול דממת האלחוט הוא 'SEELONCE FEENEE' (מבוטא סִילוֹנְס פִינִי). הכרזה זו, שנעשית על ידי התחנה שניהלה את המצוקה, מאותתת לכל התחנות כי ניתן לחזור לתקשורת רגילה על הערוץ."
   },
   {
     "id": "138",
-    "question": "מהי המשמעות של ?On-Board-Communication",
+    "question": "מהי המשמעות של On-Board-Communication?",
     "options": [
       { "id": "א", "text": "שני מכשירי מקמ\"ש VHF מקושרים ביניהם והם נמצאים על אותו כלי שייט.", "correct": true },
       { "id": "ב", "text": "תקשורת חיפוש והצלה.", "correct": false },
@@ -1543,7 +1543,7 @@ window.americanQuestions = [
     "id": "141",
     "question": "בחר את התשובה הנכונה ביותר מבין הבאות:",
     "options": [
-      { "id": "א", "text": "באזור הפלגה A1 Area אין חובה לפי תקנות ה- GMDSS לשאת מתקן NAVTEX.", "correct": false },
+      { "id": "א", "text": "באזור הפלגה Area A1 אין חובה לפי תקנות ה- GMDSS לשאת מתקן NAVTEX.", "correct": false },
       { "id": "ב", "text": "יש חובה לשלב GPS לכל משואת רדיו מסוג CH70.", "correct": true },
       { "id": "ג", "text": "יש חובה לצייד משואת רדיו מסוג Cospas-Sarsat במתקן SART.", "correct": false },
       { "id": "ד", "text": "מתקן VHF נייד (נישא) יכלול, כחובה, את הערוצים Ch16 ו- Ch70.", "correct": false }
@@ -1552,7 +1552,7 @@ window.americanQuestions = [
   },
   {
     "id": "142",
-    "question": "הביטוי Evacuation Medical משמעותו:",
+    "question": "הביטוי Medical Evacuation משמעותו:",
     "options": [
       { "id": "א", "text": "משתמשים בעדיפות שנייה כדי לבקש פינוי רפואי.", "correct": true },
       { "id": "ב", "text": "משתמשים בעדיפות Safety כדי להציל אדם חולה או פצוע.", "correct": false },
@@ -1585,9 +1585,9 @@ window.americanQuestions = [
   },
   {
     "id": "145",
-    "question": "מהו אמצעי הקשר בו תוכל תחנת חוף להרחיב את מעגל הגשת העזרה לאנייה במצוקה מעבר ל- A1 AREA ?",
+    "question": "מהו אמצעי הקשר בו תוכל תחנת חוף להרחיב את מעגל הגשת העזרה לאנייה במצוקה מעבר ל- AREA A1?",
     "options": [
-      { "id": "א", "text": "תבקש מכל כלי השייט באמצעות ה- DSC לשדר RELAY DISTRESS.", "correct": false },
+      { "id": "א", "text": "תבקש מכל כלי השייט באמצעות ה- DSC לשדר DISTRESS RELAY.", "correct": false },
       { "id": "ב", "text": "תשדר הודעת נווטקס ברמת VITAL.", "correct": false },
       { "id": "ג", "text": "תשדר בעצמה ממסור לקריאה והודעת המצוקה בתחומי קשר אחרים.", "correct": false },
       { "id": "ד", "text": "תשובות ב ו- ג נכונות.", "correct": true }
@@ -1600,14 +1600,14 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "מייד עם זריקתו למים.", "correct": false },
       { "id": "ב", "text": "כאשר יופעל ידנית ומכ\"מ X-BAND פועל בסביבה.", "correct": true },
-      { "id": "ג", "text": "ה- Sart אינו מסוגל לשדר אלא לקלוט מכ\"מ בסביבה המשדר בתדר GHz9.", "correct": false },
+      { "id": "ג", "text": "ה- Sart אינו מסוגל לשדר אלא לקלוט מכ\"מ בסביבה המשדר בתדר 9GHz.", "correct": false },
       { "id": "ד", "text": "כאשר יופעל ידנית ומכ\"מ S-BAND פועל בסביבה.", "correct": false }
     ],
     "explanation": "ה-SART הוא משיב מכ\"ם (Radar Transponder). לאחר שמפעילים אותו, הוא נכנס למצב האזנה (Standby). הוא יתחיל לשדר באופן פעיל רק כאשר הוא 'יואר' על ידי פולס של מכ\"ם בתחום תדרי X-Band (סביב 9GHz), שהוא תחום התדרים הנפוץ במכ\"מים ימיים."
   },
   {
     "id": "147",
-    "question": "איזו מערכת יכולה לספק מידע מיקום מדויק למתקן ה- ?DSC",
+    "question": "איזו מערכת יכולה לספק מידע מיקום מדויק למתקן ה-DSC?",
     "options": [
       { "id": "א", "text": "GPS.", "correct": true },
       { "id": "ב", "text": "COSPAS / SARSAT.", "correct": false },
@@ -1618,7 +1618,7 @@ window.americanQuestions = [
   },
   {
     "id": "148",
-    "question": "קריאת ממסור מצוקה Relay( )Mayday מורכבת מ:",
+    "question": "קריאת ממסור מצוקה (Mayday Relay) מורכבת מ:",
     "options": [
       { "id": "א", "text": "DISTRESS X 3 THIS IS NAME X 3.", "correct": false },
       { "id": "ב", "text": "DISTRESS RELAY X 3 THIS IS CALL/SIGN X 3.", "correct": false },
@@ -1629,7 +1629,7 @@ window.americanQuestions = [
   },
   {
     "id": "149",
-    "question": "שידור הודעת מצוקה ע\"י תחנה שאיננה במצוקה יתבצע :",
+    "question": "שידור הודעת מצוקה ע\"י תחנה שאיננה במצוקה יתבצע:",
     "options": [
       { "id": "א", "text": "כאשר הכלי במצוקה איננו במצב המאפשר לו לשדר מצוקה.", "correct": false },
       { "id": "ב", "text": "כאשר רב החובל או האדם האחראי בכלי שייט שאינו במצוקה מחליט כך.", "correct": false },
@@ -1640,10 +1640,10 @@ window.americanQuestions = [
   },
   {
     "id": "150",
-    "question": "Radio Cyprus קרא לכלי השייט OPHIRA על ערוץ .16 מי מהם יקבע מהו ערוץ העבודה ההמשכי?",
+    "question": "Cyprus Radio קרא לכלי השייט OPHIRA על ערוץ 16. מי מהם יקבע מהו ערוץ העבודה ההמשכי?",
     "options": [
       { "id": "א", "text": "התחנה הראשונה מביניהן שתציע ערוץ המשכי היא שתקבע.", "correct": false },
-      { "id": "ב", "text": "Radio Cyprus תקבע את הערוץ ההמשכי.", "correct": true },
+      { "id": "ב", "text": "Cyprus Radio תקבע את הערוץ ההמשכי.", "correct": true },
       { "id": "ג", "text": "כלי השייט OPHIRA.", "correct": false },
       { "id": "ד", "text": "התחנה הנקראת תמיד קובעת את הערוץ ההמשכי.", "correct": false }
     ],
@@ -1651,7 +1651,7 @@ window.americanQuestions = [
   },
   {
     "id": "151",
-    "question": "לאחר ביטול אתרעת שווא של מצוקה ב- :DSC",
+    "question": "לאחר ביטול אתרעת שווא של מצוקה ב-DSC:",
     "options": [
       { "id": "א", "text": "יש להתקשר לתחנה ששדרה בטול אתרעת שווא ולאשר את קבלת ההודעה.", "correct": false },
       { "id": "ב", "text": "יש לרשום את הודעת ביטול אתרעת השווא ביומן התחנה.", "correct": true },
@@ -1673,7 +1673,7 @@ window.americanQuestions = [
   },
   {
     "id": "153",
-    "question": "מקיימים תקשורת Bridge to Bridge על ערוץ/ערוצים:",
+    "question": "מקיימים תקשורת Bridge-to-Bridge על ערוץ/ערוצים:",
     "options": [
       { "id": "א", "text": "CH15 & CH17.", "correct": false },
       { "id": "ב", "text": "CH70.", "correct": false },
@@ -1687,9 +1687,9 @@ window.americanQuestions = [
     "question": "סמן את ההצהרה הנכונה:",
     "options": [
       { "id": "א", "text": "ה- RCC ממנה On-Scene-Coordinator על צוותי החיפוש וההצלה.", "correct": true },
-      { "id": "ב", "text": "תחנת ה- LUT ממנה מפקד במקום האירוע )OSC(.", "correct": false },
+      { "id": "ב", "text": "תחנת ה- LUT ממנה מפקד במקום האירוע (OSC).", "correct": false },
       { "id": "ג", "text": "ה- MCC הינה למעשה RCC ימי.", "correct": false },
-      { "id": "ד", "text": "לביטול אתרעת שווא של משואה מסוג SARSAT COSPAS יש להתקשר לתחנת NAVTEX קרובה.", "correct": false }
+      { "id": "ד", "text": "לביטול אתרעת שווא של משואה מסוג COSPAS SARSAT יש להתקשר לתחנת NAVTEX קרובה.", "correct": false }
     ],
     "explanation": "באירוע חיפוש והצלה (SAR), מרכז תיאום ההצלה (RCC) הוא הגוף המנהל את כל המבצע מהחוף. ה-RCC ממנה מפקד בזירת האירוע (OSC - On-Scene Coordinator), שהוא בדרך כלל רב החובל של כלי השיט המתאים ביותר במקום, כדי לתאם את פעולות החיפוש של כל היחידות המשתתפות."
   },
@@ -1706,18 +1706,18 @@ window.americanQuestions = [
   },
   {
     "id": "156",
-    "question": "ניתן לקלוט EPIRB ע\"י מערכת הDSC- בתנאי שהמשואה תשדר על:",
+    "question": "ניתן לקלוט EPIRB ע\"י מערכת ה-DSC בתנאי שהמשואה תשדר על:",
     "options": [
-      { "id": "א", "text": "1215 מגה הרץ.", "correct": false },
+      { "id": "א", "text": "121.5 מגה הרץ.", "correct": false },
       { "id": "ב", "text": "ערוץ 70.", "correct": true },
-      { "id": "ג", "text": "תחום 4061 - 406 מגה-הרץ.", "correct": false },
+      { "id": "ג", "text": "תחום 406 - 406.1 מגה-הרץ.", "correct": false },
       { "id": "ד", "text": "אחד מערוצי ה- AIS.", "correct": false }
     ],
     "explanation": "ישנו סוג ספציפי של משואת איתור המכונה 'EPIRB-DSC' או 'VHF-DSC EPIRB'. בניגוד ל-EPIRB הלווייני (406MHz), מכשיר זה משדר התרעת מצוקה דיגיטלית על ערוץ 70 של ה-VHF. התרעה זו נקלטת על ידי כל כלי שיט בטווח VHF המאזין ל-DSC, ומיועדת להתרעה מקומית מהירה."
   },
   {
     "id": "157",
-    "question": "מי ישדר את ההודעה הבאה: Mayday Seelonce ?Dalia",
+    "question": "מי ישדר את ההודעה הבאה: Seelonce Mayday ?Dalia",
     "options": [
       { "id": "א", "text": "תחנת חוף המפקחת על המצוקה.", "correct": false },
       { "id": "ב", "text": "אנייה הנמצאת במצוקה (והיא מפקחת על המצוקה) משתיקה את התחנה Dalia.", "correct": false },
@@ -1730,9 +1730,9 @@ window.americanQuestions = [
     "id": "158",
     "question": "התדר 518 קה\"צ מיועד לשימוש:",
     "options": [
-      { "id": "א", "text": "משואת רדיו לשעת חירום )EPIRB( הפועלת עם לוויני Sarsat Cospas.", "correct": false },
+      { "id": "א", "text": "משואת רדיו לשעת חירום (EPIRB) הפועלת עם לוויני Cospas Sarsat.", "correct": false },
       { "id": "ב", "text": "תדר לשידור הודעות NAVTEX בשפה בינלאומית.", "correct": false },
-      { "id": "ג", "text": "תדר לשידור במסגרת השירות של Information Safety Maritime (מידע בטיחות ימי).", "correct": false },
+      { "id": "ג", "text": "תדר לשידור במסגרת השירות של Maritime Safety Information (מידע בטיחות ימי).", "correct": false },
       { "id": "ד", "text": "תשובות ב ו- ג נכונות.", "correct": true }
     ],
     "explanation": "התדר 518 קילו-הרץ הוא התדר הבינלאומי והמחייב לשידורי NAVTEX בשפה האנגלית. שירות NAVTEX הוא מרכיב מרכזי במערכת הפצת מידע בטיחות ימי (MSI) הגלובלית, ומספק אזהרות ניווט ומטאורולוגיה באופן אוטומטי לכלי שיט."
@@ -1750,7 +1750,7 @@ window.americanQuestions = [
   },
   {
     "id": "160",
-    "question": "למי יכול ה- RCC לשדר ? Distress Relay Alert",
+    "question": "למי יכול ה- RCC לשדר Distress Relay Alert?",
     "options": [
       { "id": "א", "text": "לכל התחנות.", "correct": false },
       { "id": "ב", "text": "לקבוצת אניות או לאנייה מסוימת.", "correct": false },
@@ -1761,7 +1761,7 @@ window.americanQuestions = [
   },
   {
     "id": "161",
-    "question": "משיב מכ\"מ ימי )SART( יעבוד בתחום:",
+    "question": "משיב מכ\"מ ימי (SART) יעבוד בתחום:",
     "options": [
       { "id": "א", "text": "S-band", "correct": false },
       { "id": "ב", "text": "X-band", "correct": true },
@@ -1772,7 +1772,7 @@ window.americanQuestions = [
   },
   {
     "id": "162",
-    "question": "ערוץ הקשר בין שתי אוניות במתקן ה:DSC-",
+    "question": "ערוץ הקשר בין שתי אוניות במתקן ה-DSC:",
     "options": [
       { "id": "א", "text": "ch70", "correct": true },
       { "id": "ב", "text": "ch15", "correct": false },
@@ -1783,7 +1783,7 @@ window.americanQuestions = [
   },
   {
     "id": "163",
-    "question": "“Coordinated broadcast for auto-reception on MF frequency of maritime safety information” לאיזה מתקן מתייחס הציתות הנ\"ל?",
+    "question": "לאיזה מתקן מתייחס הציטוט “Coordinated broadcast for auto-reception on MF frequency of maritime safety information”?",
     "options": [
       { "id": "א", "text": "DSC", "correct": false },
       { "id": "ב", "text": "EPIRB", "correct": false },
@@ -1794,12 +1794,12 @@ window.americanQuestions = [
   },
   {
     "id": "164",
-    "question": "איזה מהאפשרויות הבאות אינה דרישה תפקודית במערכת ה?GMDSS-",
+    "question": "איזה מהאפשרויות הבאות אינה דרישה תפקודית במערכת ה-GMDSS?",
     "options": [
-      { "id": "א", "text": "לשדר ולקלוט תקשורת המוגדרת Communication On-Scene", "correct": false },
-      { "id": "ב", "text": "לשדר ולקלוט תקשורת המוגדרת Information Safety Maritime", "correct": true },
+      { "id": "א", "text": "לשדר ולקלוט תקשורת המוגדרת On-Scene Communication", "correct": false },
+      { "id": "ב", "text": "לשדר ולקלוט תקשורת המוגדרת Maritime Safety Information", "correct": true },
       { "id": "ג", "text": "לשדר ולקלוט תקשורת באמצעות SART", "correct": false },
-      { "id": "ד", "text": "לשדר ולקלוט תקשורת המוגדרת Alert Distress Ship to Ship", "correct": false }
+      { "id": "ד", "text": "לשדר ולקלוט תקשורת המוגדרת Ship to Ship Distress Alert", "correct": false }
     ],
     "explanation": "השאלה והתשובה שגויות. קליטת מידע בטיחות ימי (MSI - Maritime Safety Information) היא אחת מתשע הדרישות התפקודיות של GMDSS. הדרישות האחרות המצוינות (תקשורת בזירת האירוע, איתור באמצעות SART, התרעת מצוקה) הן גם כן דרישות תפקודיות. ככל הנראה יש טעות בניסוח המקורי של השאלה במאגר."
   },
@@ -1816,7 +1816,7 @@ window.americanQuestions = [
   },
   {
     "id": "166",
-    "question": "השימוש במונח Board Over Man במתקן הDSC- משמעו:",
+    "question": "השימוש במונח Man Over Board במתקן ה-DSC משמעו:",
     "options": [
       { "id": "א", "text": "מצב בו אדם נמצא בסכנה ברורה ומיידית ונדרשת עזרה מיידית בעדיפות ראשונה", "correct": true },
       { "id": "ב", "text": "מצב חרום של כלי השייט בעדיפות שנייה ונדרשת פעולת גרירה", "correct": false },
@@ -1838,7 +1838,7 @@ window.americanQuestions = [
   },
   {
     "id": "168",
-    "question": "שימוש בGPIRB- משמעו:",
+    "question": "שימוש ב-GPIRB משמעו:",
     "options": [
       { "id": "א", "text": "שהמשואה תיקלט מיידית על ידי לווין נייח בין 70°S - 70°N", "correct": false },
       { "id": "ב", "text": "שבמשואה מחובר GPS", "correct": false },
@@ -1872,7 +1872,7 @@ window.americanQuestions = [
   },
   {
     "id": "171",
-    "question": "מה מייצג את 3 האלפבית הראשונות כאשר הן מבוטאות פונטית?",
+    "question": "מה מייצג את 3 האותיות הראשונות באלפבית כאשר הן מבוטאות פונטית?",
     "options": [
       { "id": "א", "text": "Alpha Baker Choker", "correct": false },
       { "id": "ב", "text": "Alpha Baker Crystal", "correct": false },
@@ -1883,7 +1883,7 @@ window.americanQuestions = [
   },
   {
     "id": "172",
-    "question": "הביטוי Warning Gale משודר במסגרת:",
+    "question": "הביטוי Gale Warning משודר במסגרת:",
     "options": [
       { "id": "א", "text": "הודעת נווטקס בעלת קוד זיהוי הודעה לדוגמה: BB12", "correct": true },
       { "id": "ב", "text": "הודעת DSC המיועדת לכל התחנות הנמצאות בטווח השידור של תחנת החוף המשדרת", "correct": false },
@@ -1894,12 +1894,12 @@ window.americanQuestions = [
   },
   {
     "id": "173",
-    "question": "כאשר הSART- פועל:",
+    "question": "כאשר ה-SART פועל:",
     "options": [
       { "id": "א", "text": "הוא מאפשר לתחנות חוף למצוא את המיקום של האוניה שבמצוקה", "correct": false },
       { "id": "ב", "text": "ניתן לקלוט הודעות MSI", "correct": false },
       { "id": "ג", "text": "הוא מאפשר לאוניות המצוידות במכ\"מ X-band להתביית עליו", "correct": true },
-      { "id": "ד", "text": "הוא נקלט על ידי מתקן הDSC-", "correct": false }
+      { "id": "ד", "text": "הוא נקלט על ידי מתקן ה-DSC", "correct": false }
     ],
     "explanation": "ה-SART הוא משיב מכ\"ם שנועד לאיתור מקומי. כאשר הוא מופעל על ידי מכ\"ם של ספינת חיפוש, הוא משדר אות ייחודי שמופיע על צג המכ\"ם של המחפש ומאפשר להם לקבוע את הכיוון והמרחק אל הניצולים. הוא אינו משדר לתחנות חוף או למערכות אחרות כמו DSC."
   },
@@ -1909,7 +1909,7 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "בטיחות השייט (פינוי דרך) בין אוניות", "correct": true },
       { "id": "ב", "text": "עם מרינות העולם", "correct": false },
-      { "id": "ג", "text": "עם הנתב )pilot( בכניסה או ביציאה של הנמל", "correct": false },
+      { "id": "ג", "text": "עם הנתב (pilot) בכניסה או ביציאה של הנמל", "correct": false },
       { "id": "ד", "text": "כל התשובות נכונות", "correct": false }
     ],
     "explanation": "ערוץ 13 הוקצה בינלאומית לתקשורת גשר-אל-גשר (Bridge-to-Bridge) בין כלי שיט למטרות בטיחות הניווט. הוא משמש לתיאום תמרונים, להסכמה על אופן המעבר זה מול זה (למשל, 'נמל מול נמל'), ולמניעת התנגשויות. תקשורת עם נתבים או מרינות נעשית בדרך כלל בערוצי פעולות נמל (כמו 12 או 14)."
@@ -1930,7 +1930,7 @@ window.americanQuestions = [
     "question": "זהה את תחנת החוף:",
     "options": [
       { "id": "א", "text": "004560003", "correct": false },
-      { "id": "ב", "text": "Tel Aviv Radio", "correct": false },
+      { "id": "ב", "text": "Radio Tel Aviv", "correct": false },
       { "id": "ג", "text": "366888077", "correct": false },
       { "id": "ד", "text": "תשובות א ו-ב נכונות", "correct": true }
     ],
@@ -1938,11 +1938,11 @@ window.americanQuestions = [
   },
   {
     "id": "177",
-    "question": "הכיסוי של לוויני הLEOSAT- של :Cospas-Sarsat",
+    "question": "הכיסוי של לוויני ה-LEOSAT של Cospas-Sarsat:",
     "options": [
-      { "id": "א", "text": "כל איזורי ההפלגה בים פרט ל- A1 Area וA2- Area", "correct": false },
+      { "id": "א", "text": "כל איזורי ההפלגה בים פרט ל- Area A1 ו-Area A2", "correct": false },
       { "id": "ב", "text": "גלובלי, כל העולם", "correct": true },
-      { "id": "ג", "text": "כל האזורים שבין 70 מעלות צפון ל70- מעלות דרום", "correct": false },
+      { "id": "ג", "text": "כל האזורים שבין 70 מעלות צפון ל-70 מעלות דרום", "correct": false },
       { "id": "ד", "text": "כל האזורים המכוסים על ידי תחנות חוף קרקעיות", "correct": false }
     ],
     "explanation": "מערכת לווייני ה-LEOSAR (Low Earth Orbit Search and Rescue) מורכבת מלוויינים הנעים במסלולים קוטביים (מצפון לדרום). מסלולים אלה מבטיחים שהלוויינים חולפים מעל כל נקודה על פני כדור הארץ, כולל הקטבים. בכך הם מספקים כיסוי גלובלי מלא לאיתור משואות מצוקה."
@@ -1971,10 +1971,10 @@ window.americanQuestions = [
   },
   {
     "id": "180",
-    "question": "אתה נקרא על ידי תחנה של קלטת את זהותה, מה תעשה?",
+    "question": "אתה נקרא על ידי תחנה שלא קלטת את זהותה, מה תעשה?",
     "options": [
       { "id": "א", "text": "לא אגיב, אמתין לקריאה הבאה", "correct": false },
-      { "id": "ב", "text": "אגיב על ידי הקריאה: station Calling my vessel name repeat your call", "correct": true },
+      { "id": "ב", "text": "אגיב על ידי הקריאה: station calling my vessel name, repeat your call", "correct": true },
       { "id": "ג", "text": "אמתין 5 דקות ואגיב", "correct": false },
       { "id": "ד", "text": "כל התשובות נכונות ומקובלות", "correct": false }
     ],
@@ -2004,10 +2004,10 @@ window.americanQuestions = [
   },
   {
     "id": "183",
-    "question": "CH87B AIS באיות פונטי יהיה:",
+    "question": "AIS CH87B באיות פונטי יהיה:",
     "options": [
       { "id": "א", "text": "Automatic Identification System CH87B", "correct": false },
-      { "id": "ב", "text": "Alpha India Somali Charlie Hotel Octoeight Soxsiseven Bravo", "correct": false },
+      { "id": "ב", "text": "Alpha India Sierra Charlie Hotel Octoeight Soxsiseven Bravo", "correct": false },
       { "id": "ג", "text": "Africa India Sierra Charlie Hotel Octoeight Seteseven Bravo", "correct": false },
       { "id": "ד", "text": "Alpha India Sierra Charlie Hotel Octoeight Seteseven Bravo", "correct": true }
     ],
@@ -2015,7 +2015,7 @@ window.americanQuestions = [
   },
   {
     "id": "184",
-    "question": "ערוץ ההמשכי לאחר התרעת בטיחות בDSC- יהיה:",
+    "question": "ערוץ ההמשכי לאחר התרעת בטיחות ב-DSC יהיה:",
     "options": [
       { "id": "א", "text": "CH06", "correct": false },
       { "id": "ב", "text": "156.525 MHz", "correct": false },
@@ -2037,7 +2037,7 @@ window.americanQuestions = [
   },
   {
     "id": "186",
-    "question": "למה מתכוונים במונח Advice ?Medical",
+    "question": "למה מתכוונים במונח Medical Advice?",
     "options": [
       { "id": "א", "text": "אדם חולה או פצוע זקוק לייעוץ מהחוף כדי לטפל בבעייתו הרפואית", "correct": true },
       { "id": "ב", "text": "אדם חולה או פצוע זקוק לפינוי מיידי", "correct": false },
@@ -2048,7 +2048,7 @@ window.americanQuestions = [
   },
   {
     "id": "187",
-    "question": "מטרתו של ערוץ :13",
+    "question": "מטרתו של ערוץ 13:",
     "options": [
       { "id": "א", "text": "לתקשורת כלי שייט עם כלי טייס בחיפוש והצלה", "correct": false },
       { "id": "ב", "text": "לתקשורת בין שני כלי שייט למטרות בטיחות השייט", "correct": true },
@@ -2059,18 +2059,18 @@ window.americanQuestions = [
   },
   {
     "id": "188",
-    "question": "מה נכון בהתייחס ל\"קשר פנים\" בשרותי ה?VHF-",
+    "question": "מה נכון בהתייחס ל\"קשר פנים\" בשרותי ה-VHF?",
     "options": [
       { "id": "א", "text": "Gal Alpha this is Gal control over", "correct": false },
-      { "id": "ב", "text": "יש להשתמש ב1W- בערוצים 11 ו73-", "correct": false },
-      { "id": "ג", "text": "יש להשתמש ב1W- בערוצים 15 ו17-", "correct": false },
+      { "id": "ב", "text": "יש להשתמש ב-1W בערוצים 11 ו-73", "correct": false },
+      { "id": "ג", "text": "יש להשתמש ב-1W בערוצים 15 ו-17", "correct": false },
       { "id": "ד", "text": "תשובות א ו-ג נכונות", "correct": true }
     ],
     "explanation": "תקשורת פנים-אונייתית (On-Board) מתבצעת על ערוצים 15 ו-17 ומוגבלת להספק נמוך (1 וואט) למניעת הפרעות. נוהל הקריאה כולל שימוש בשם הספינה בתוספת כינוי המציין מיקום או תפקיד, למשל 'Galil Control' (גשר הפיקוד של הגליל) קורא ל-'Galil Alpha' (עמדה בחרטום). לכן, גם נוהל הקריאה וגם ציון הערוצים וההספק נכונים."
   },
   {
     "id": "189",
-    "question": "פרוש הקוד :ZCZC",
+    "question": "פרוש הקוד ZCZC:",
     "options": [
       { "id": "א", "text": "זיהוי הודעה מסוג Z מכל תחנה אפשרית", "correct": false },
       { "id": "ב", "text": "סוף הודעה של נווטקס", "correct": false },
@@ -2092,7 +2092,7 @@ window.americanQuestions = [
   },
   {
     "id": "191",
-    "question": "מה ההצדקה לשימוש במונח PAN ?PAN",
+    "question": "מה ההצדקה לשימוש במונח PAN PAN?",
     "options": [
       { "id": "א", "text": "אדם חולה /פצוע או כלי שייט ללא שליטה", "correct": true },
       { "id": "ב", "text": "אדם נפל לים", "correct": false },
@@ -2114,7 +2114,7 @@ window.americanQuestions = [
   },
   {
     "id": "193",
-    "question": "ערוץ 13 בVHF- משמש:",
+    "question": "ערוץ 13 ב-VHF משמש:",
     "options": [
       { "id": "א", "text": "לתקשורת בטיחות בין שני כלי שייט", "correct": true },
       { "id": "ב", "text": "לתקשורת חיפוש והצלה", "correct": false },
@@ -2138,9 +2138,9 @@ window.americanQuestions = [
     "id": "195",
     "question": "לאחר נטישה וכשנמצאים על אסדת ההצלה יש:",
     "options": [
-      { "id": "א", "text": "להציב את הSART- גבוה ואת הEPIRB- להשליך למים", "correct": true },
-      { "id": "ב", "text": "להציב את הEPIRB- גבוה ואת הSART- להשליך למים", "correct": false },
-      { "id": "ג", "text": "להפעיל את הEPIRB- והSART- רק אם יש אונייה בסביבה", "correct": false },
+      { "id": "א", "text": "להציב את ה-SART גבוה ואת ה-EPIRB להשליך למים", "correct": true },
+      { "id": "ב", "text": "להציב את ה-EPIRB גבוה ואת ה-SART להשליך למים", "correct": false },
+      { "id": "ג", "text": "להפעיל את ה-EPIRB וה-SART רק אם יש אונייה בסביבה", "correct": false },
       { "id": "ד", "text": "כל התשובות אינן נכונות", "correct": false }
     ],
     "explanation": "כדי להבטיח איתור יעיל, יש להפעיל את ציוד החירום בצורה נכונה. יש להפעיל את ה-EPIRB ולקשור אותו לאסדה כך שהאנטנה שלו תזדקר לשמיים (עדיף להשאירו במים ליציבות). את ה-SART, לעומת זאת, יש להציב בנקודה הגבוהה ביותר האפשרית (לפחות מטר אחד מעל פני המים) כדי להגדיל את טווח הגילוי שלו על ידי מכ\"מים."
@@ -2163,7 +2163,7 @@ window.americanQuestions = [
       { "id": "א", "text": "לפני כניסה ואחרי יציאה מנמל", "correct": true },
       { "id": "ב", "text": "כל 4 שעות", "correct": false },
       { "id": "ג", "text": "אחת ליום", "correct": false },
-      { "id": "ד", "text": "על פי דרישת הRCC- בזמן מצוקה", "correct": false }
+      { "id": "ד", "text": "על פי דרישת ה-RCC בזמן מצוקה", "correct": false }
     ],
     "explanation": "דיווח תנועה (TR - Traffic Report), המכונה גם מערכת דיווח אוניות (Ship Reporting System), הוא נוהל הנדרש באזורים רבים בעולם. כלי שיט מדווחים על כניסתם לאזור, יציאתם ממנו, ושינויים משמעותיים בנתיבם. המטרה היא לאפשר לרשויות החוף לעקוב אחר תנועת כלי השיט לצורכי בטיחות וחיפוש והצלה."
   },
@@ -2191,7 +2191,7 @@ window.americanQuestions = [
   },
   {
     "id": "200",
-    "question": "ציין מהו הMID- של התחנה :234280482",
+    "question": "ציין מהו ה-MID של התחנה 234280482:",
     "options": [
       { "id": "א", "text": "428", "correct": false },
       { "id": "ב", "text": "482", "correct": false },
@@ -2213,7 +2213,7 @@ window.americanQuestions = [
   },
   {
     "id": "202",
-    "question": "איזה מהביטויים הבאים מצביע על קוד זיהוי הודעה של נווטקס שנקלטה מתחנה ?N",
+    "question": "איזה מהביטויים הבאים מצביע על קוד זיהוי הודעה של נווטקס שנקלטה מתחנה N?",
     "options": [
       { "id": "א", "text": "NA23", "correct": true },
       { "id": "ב", "text": "AN23", "correct": false },
@@ -2224,7 +2224,7 @@ window.americanQuestions = [
   },
   {
     "id": "203",
-    "question": "Izmir Radio this is Renata X2 TR over :16 בערוץ נשמעת הבאה ה",
+    "question": "בערוץ 16 נשמעת הקריאה הבאה: Izmir Radio, this is Renata X2, TR, over",
     "options": [
       { "id": "א", "text": "לתחנת החוף איזמיר יש תעבורת בטיחות חשובה", "correct": false },
       { "id": "ב", "text": "לתחנת החוף איזמיר יש תעבורה למספר כלי שייט והיא מודיעה זאת דרך רשימת תעבורה", "correct": false },
@@ -2246,7 +2246,7 @@ window.americanQuestions = [
   },
   {
     "id": "205",
-    "question": "בעבודה על :CH27",
+    "question": "בעבודה על CH27:",
     "options": [
       { "id": "א", "text": "כלי שייט אחד מדבר עם כלי שייט אחר", "correct": false },
       { "id": "ב", "text": "כלי שייט אחד מדבר עם תחנת חוף", "correct": true },
@@ -2257,7 +2257,7 @@ window.americanQuestions = [
   },
   {
     "id": "206",
-    "question": "מה פרוש ?AIS",
+    "question": "מה פרוש AIS?",
     "options": [
       { "id": "א", "text": "Auto insert signal", "correct": false },
       { "id": "ב", "text": "Automatic identification system", "correct": true },
@@ -2268,7 +2268,7 @@ window.americanQuestions = [
   },
   {
     "id": "207",
-    "question": "כאשר שומעים בקשר את הביטוי: advice medical ,need הביטוי נשלח במסגרת:",
+    "question": "כאשר שומעים בקשר את הביטוי: need medical advice, הביטוי נשלח במסגרת:",
     "options": [
       { "id": "א", "text": "שידורים הנוגעים לעדיפות קשר שיגרה", "correct": false },
       { "id": "ב", "text": "שידורי בטיחות המשודרים מכלי שייט", "correct": false },
@@ -2279,7 +2279,7 @@ window.americanQuestions = [
   },
   {
     "id": "208",
-    "question": "איזה מהבאים הוקצה בVHF- GMDSS לתקשורת בטיחות בין שני כלי שייט?",
+    "question": "איזה מהבאים הוקצה ב-VHF GMDSS לתקשורת בטיחות בין שני כלי שייט?",
     "options": [
       { "id": "א", "text": "ערוץ 24", "correct": false },
       { "id": "ב", "text": "ערוץ 13", "correct": true },
@@ -2290,7 +2290,7 @@ window.americanQuestions = [
   },
   {
     "id": "209",
-    "question": "איזה ערוץ משמש לתקשורת במתקן ה?DSC-",
+    "question": "איזה ערוץ משמש לתקשורת במתקן ה-DSC?",
     "options": [
       { "id": "א", "text": "ch87b", "correct": false },
       { "id": "ב", "text": "ch70", "correct": true },
@@ -2301,7 +2301,7 @@ window.americanQuestions = [
   },
   {
     "id": "210",
-    "question": "באמצעות הDSC- ניתן לשדר קריאה שגרתית:",
+    "question": "באמצעות ה-DSC ניתן לשדר קריאה שגרתית:",
     "options": [
       { "id": "א", "text": "לכל התחנות", "correct": false },
       { "id": "ב", "text": "לקבוצת תחנות", "correct": false },
@@ -2312,23 +2312,23 @@ window.americanQuestions = [
   },
   {
     "id": "211",
-    "question": "מי קולט את הEPIRB- הפועלת בתדר MHz ?406.025",
+    "question": "מי קולט את ה-EPIRB הפועלת בתדר 406.025 MHz?",
     "options": [
-      { "id": "א", "text": "תחנת הRCC-", "correct": false },
-      { "id": "ב", "text": "תחנת הMCC-", "correct": false },
+      { "id": "א", "text": "תחנת ה-RCC", "correct": false },
+      { "id": "ב", "text": "תחנת ה-MCC", "correct": false },
       { "id": "ג", "text": "אחד מלוויני ה- Cospas-Sarsat", "correct": true },
-      { "id": "ד", "text": "יחידת הLUT-", "correct": false }
+      { "id": "ד", "text": "יחידת ה-LUT", "correct": false }
     ],
     "explanation": "השלב הראשון בשרשרת ההצלה הוא קליטת אות המצוקה מה-EPIRB. האות, המשודר בתדר 406.025 מגה-הרץ, נקלט על ידי אחד מלווייני מערכת COSPAS-SARSAT החולפים מעל. הלוויין הוא זה שמעביר את ההתרעה הלאה לתחנות הקרקע (LUT) להמשך עיבוד ואיתור."
   },
   {
     "id": "212",
-    "question": "למה משמש התדר KHz ?518",
+    "question": "למה משמש התדר 518 KHz?",
     "options": [
       { "id": "א", "text": "להודעות הנוגעות לשידורי נווטקס", "correct": true },
       { "id": "ב", "text": "להודעות הנוגעות לשידורי AIS", "correct": false },
-      { "id": "ג", "text": "לת'שורת מצוקה, דחיפות, בטיחות וקריאה", "correct": false },
-      { "id": "ד", "text": "להתרעות במתקן הDSC-", "correct": false }
+      { "id": "ג", "text": "לתקשורת מצוקה, דחיפות, בטיחות וקריאה", "correct": false },
+      { "id": "ד", "text": "להתרעות במתקן ה-DSC", "correct": false }
     ],
     "explanation": "התדר 518 קילו-הרץ הוא התדר הבינלאומי והראשי של מערכת NAVTEX. על תדר זה משודרות הודעות בטיחות ימיות (MSI) באנגלית לכל כלי השיט המצוידים במקלט מתאים. מערכות AIS ו-DSC פועלות בתחום תדרי ה-VHF."
   },
@@ -2345,11 +2345,11 @@ window.americanQuestions = [
   },
   {
     "id": "214",
-    "question": "מהו טווח הקשר(בקירוב) בין שתי ספינות העובדות על ערוץ 06 בלב ים?",
+    "question": "מהו טווח הקשר (בקירוב) בין שתי ספינות העובדות על ערוץ 06 בלב ים?",
     "options": [
       { "id": "א", "text": "60 מיילים ימיים", "correct": false },
       { "id": "ב", "text": "15 מייל ימי", "correct": true },
-      { "id": "ג", "text": "תלוי ב- volume המקלט, בדרך כלל לא פחות מ30- מייל", "correct": false },
+      { "id": "ג", "text": "תלוי ב- volume המקלט, בדרך כלל לא פחות מ-30 מייל", "correct": false },
       { "id": "ד", "text": "תלוי בהגבלת ההספק בערוץ זה", "correct": false }
     ],
     "explanation": "טווח הקשר ב-VHF תלוי ב'קו הראייה' בין האנטנות. בין שתי ספינות עם אנטנות בגובה ממוצע, הטווח האפקטיבי הוא בדרך כלל בין 10 ל-20 מייל ימי. 15 מייל ימי הוא הערכה ממוצעת וסבירה למצב זה. טווח של 30 מייל או יותר יושג בדרך כלל רק בתקשורת עם תחנת חוף, שהאנטנה שלה גבוהה משמעותית."
@@ -2367,7 +2367,7 @@ window.americanQuestions = [
   },
   {
     "id": "216",
-    "question": "איזו מערכת מספקת מידע מיקום מדויק למערכת הGMDSS-",
+    "question": "איזו מערכת מספקת מידע מיקום מדויק למערכת ה-GMDSS",
     "options": [
       { "id": "א", "text": "GPS", "correct": true },
       { "id": "ב", "text": "COSPAS/SARSAT", "correct": false },
@@ -2380,10 +2380,10 @@ window.americanQuestions = [
     "id": "217",
     "question": "התדר 490KHZ מיועד לשימוש:",
     "options": [
-      { "id": "א", "text": "משואת רדיו לשעת חרום )EPIRB( הפועלת עם לוויני Sarsat .Cospas", "correct": false },
+      { "id": "א", "text": "משואת רדיו לשעת חרום (EPIRB) הפועלת עם לוויני Cospas Sarsat.", "correct": false },
       { "id": "ב", "text": "תדר לשידור הודעות NAVTEX בשפה לאומית.", "correct": true },
       { "id": "ג", "text": "תדר לשידור הודעות NAVTEX בשפה האנגלית.", "correct": false },
-      { "id": "ד", "text": "תדר זה אינו בשימוש בשיטת ה.GMDSS-", "correct": false }
+      { "id": "ד", "text": "תדר זה אינו בשימוש בשיטת ה-GMDSS.", "correct": false }
     ],
     "explanation": "בעוד שהתדר 518 קילו-הרץ הוא התדר הבינלאומי לשידורי NAVTEX באנגלית, התדר 490 קילו-הרץ הוקצה לשידורים דומים בשפות המקומיות של המדינות המשדרות. הדבר מאפשר הפצת מידע בטיחותי גם לימאים מקומיים שאינם דוברי אנגלית, כמו דייגים או מפעילי כלי שיט קטנים."
   },
@@ -2403,7 +2403,7 @@ window.americanQuestions = [
     "question": "זהה את תחנת החוף:",
     "options": [
       { "id": "א", "text": "HAIFA", "correct": false },
-      { "id": "ב", "text": "DAKAR RADIO", "correct": false },
+      { "id": "ב", "text": "RADIO DAKAR", "correct": false },
       { "id": "ג", "text": "005673333", "correct": false },
       { "id": "ד", "text": "תשובות ב ו-ג.", "correct": true }
     ],
@@ -2424,20 +2424,20 @@ window.americanQuestions = [
     "id": "221",
     "question": "הצירוף DSC20 באיות פונטי יהיה:",
     "options": [
-      { "id": "א", "text": "DIGITAL SENSOR CALL BISSOTWO NADAZERO", "correct": false },
-      { "id": "ב", "text": "DELTA SENSOR CHARLIE BISSOTWO NADAZERO", "correct": false },
-      { "id": "ג", "text": "DOLPHIN SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
+      { "id": "א", "text": "DIGITAL SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
+      { "id": "ב", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
+      { "id": "ג", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
       { "id": "ד", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": true }
     ],
     "explanation": "איות פונטי תקני הוא חיוני למניעת אי הבנות. לפי האלפבית של ITU, האות D היא Delta, האות S היא Sierra, והאות C היא Charlie. המספר 2 הוא BISSOTWO, והמספר 0 הוא NADAZERO. התשובה הנכונה משלבת את כל המילים הפונטיות התקניות לפי הסדר."
   },
   {
     "id": "222",
-    "question": "איזו מההצהרות איננה נכונה בהתייחס למכשיר הקשר הנייד ב- VHF לסירת הצלה?",
+    "question": "איזו מההצהרות איננה נכונה בהתייחס למכשיר הקשר הנייד ב-VHF לסירת הצלה?",
     "options": [
-      { "id": "א", "text": "פועל בSIMPLEX- על 156.525 מה\"צ (ערוץ )70 ולפחות על עוד ערוץ נוסף.", "correct": false },
-      { "id": "ב", "text": "אטום למים עד עומק של 1 מטר ל5- דקות לפחות.", "correct": true },
-      { "id": "ג", "text": "הספק שידור אפקטיבי מינימלי של .0.25W", "correct": false },
+      { "id": "א", "text": "פועל ב-SIMPLEX על 156.525 מה\"צ (ערוץ 70) ולפחות על עוד ערוץ נוסף.", "correct": false },
+      { "id": "ב", "text": "אטום למים עד עומק של 1 מטר ל-5 דקות לפחות.", "correct": true },
+      { "id": "ג", "text": "הספק שידור אפקטיבי מינימלי של 0.25W.", "correct": false },
       { "id": "ד", "text": "חייב לשדר על ערוץ 16 ולפחות ערוץ נוסף.", "correct": false }
     ],
     "explanation": "השאלה והתשובה שגויות. ערוץ 70 (156.525 מגה-הרץ) הוא ערוץ דיגיטלי בלבד ואינו משמש לתקשורת קולית, ולכן מכשיר VHF נייד לא צריך לפעול בו. הדרישה היא שהמכשיר יפעל על ערוץ 16 (ערוץ המצוקה הקולי) ולפחות על ערוץ עבודה נוסף אחד. שאר ההצהרות (אטימות למים, הספק מינימלי) נכונות."
@@ -2459,14 +2459,14 @@ window.americanQuestions = [
     "options": [
       { "id": "א", "text": "ערוץ מצוקה, דחיפות, בטיחות וקריאה ברדיו-טלפון.", "correct": true },
       { "id": "ב", "text": "ערוץ DSC לאתרעת מצוקה,דחיפות ובטיחות.", "correct": false },
-      { "id": "ג", "text": "ערוץ המחליף את CH70 בשיטת ה.GMDSS-", "correct": false },
+      { "id": "ג", "text": "ערוץ המחליף את CH70 בשיטת ה-GMDSS.", "correct": false },
       { "id": "ד", "text": "ערוץ המשמש לשידורי הודעות ניווט ומהדורות מזג אוויר.", "correct": false }
     ],
     "explanation": "ערוץ 16 הוא ערוץ ה-VHF הרב-תכליתי והחשוב ביותר לבטיחות. הוא מיועד לתקשורת קולית (רדיו-טלפון) בכל רמות החירום (מצוקה, דחיפות, בטיחות), וכן לקריאות ראשוניות לפני מעבר לערוץ עבודה. ערוץ DSC הייעודי הוא ערוץ 70."
   },
   {
     "id": "225",
-    "question": "מדוע מכשיר הAis-Sart- אינו יכול לשמש להתרעת מצוקה?",
+    "question": "מדוע מכשיר ה-Ais-Sart אינו יכול לשמש להתרעת מצוקה?",
     "options": [
       { "id": "א", "text": "אין לו מנגנון שחרור אוטומטי", "correct": false },
       { "id": "ב", "text": "אין לו אופציה לשדר התרעת מצוקה מלאה", "correct": false },
@@ -2477,7 +2477,7 @@ window.americanQuestions = [
   },
   {
     "id": "226",
-    "question": "איזה מבין הצירופים הבאים מציין MMSI של מתקן ?MOB-Personal",
+    "question": "איזה מבין הצירופים הבאים מציין MMSI של מתקן Personal MOB?",
     "options": [
       { "id": "א", "text": "994281234", "correct": false },
       { "id": "ב", "text": "970721234", "correct": false },
@@ -2488,7 +2488,7 @@ window.americanQuestions = [
   },
   {
     "id": "227",
-    "question": "התדר MHz 156.525 מתפשט במרחב כ:",
+    "question": "התדר 156.525 MHz מתפשט במרחב כ:",
     "options": [
       { "id": "א", "text": "כגל קרקע שאינו חודר את היונוספירה", "correct": false },
       { "id": "ב", "text": "כגל מרחבי או כגל ישיר", "correct": true },
@@ -2499,10 +2499,10 @@ window.americanQuestions = [
   },
   {
     "id": "228",
-    "question": "מהי החשיבות בשימוש ערוץ ?13",
+    "question": "מהי החשיבות בשימוש ערוץ 13?",
     "options": [
       { "id": "א", "text": "לפינוי דרך בין שני כלי שייט בכל מקום", "correct": true },
-      { "id": "ב", "text": "לפינוי דרך בין שני כלי שייט באיזורי צפיפות ב- A1 Area בלבד", "correct": false },
+      { "id": "ב", "text": "לפינוי דרך בין שני כלי שייט באיזורי צפיפות ב- Area A1 בלבד", "correct": false },
       { "id": "ג", "text": "משמש כערוץ גיבוי Intership לערוצים 06 ו- 08", "correct": false },
       { "id": "ד", "text": "לשידורי בטיחות MSI בין כלי שיט", "correct": false }
     ],
@@ -2510,7 +2510,7 @@ window.americanQuestions = [
   },
   {
     "id": "229",
-    "question": "הודעת Warning Navigational בנווטקס מתייחסת לקטגוריה בעדיפות:",
+    "question": "הודעת Navigational Warning בנווטקס מתייחסת לקטגוריה בעדיפות:",
     "options": [
       { "id": "א", "text": "Vital", "correct": false },
       { "id": "ב", "text": "Important", "correct": true },
@@ -2521,9 +2521,9 @@ window.americanQuestions = [
   },
   {
     "id": "230",
-    "question": "דרישות האזנה של כלי שיט הנמצא ב- A1 Area הן:",
+    "question": "דרישות האזנה של כלי שיט הנמצא ב- Area A1 הן:",
     "options": [
-      { "id": "א", "text": "ברציפות על הערוצים ,06 13 ו- 16 (אם יש אופציה ל- (DualWatch", "correct": false },
+      { "id": "א", "text": "ברציפות על הערוצים 06, 13 ו- 16 (אם יש אופציה ל- DualWatch)", "correct": false },
       { "id": "ב", "text": "24/7 על ערוץ 70 ועל תדר 518 קה\"ץ + על ערוץ 16 בתנאים מוגדרים", "correct": true },
       { "id": "ג", "text": "518kHz, 490kHz, 4209.5kHz, Ch70", "correct": false },
       { "id": "ד", "text": "לפי התקנות העדקניות החדשות רק על ערוצי החירום", "correct": false }
@@ -2534,10 +2534,10 @@ window.americanQuestions = [
     "id": "231",
     "question": "המונח CER בא לידי שימוש בתקנות:",
     "options": [
-      { "id": "א", "text": "בהודעת Advice Medical בהערכת מצב רפואי Report) Evaluation (Clinical", "correct": false },
-      { "id": "ב", "text": "בהגבלות שידור של מתקני רדיו Regulation) Electronic (Controlled", "correct": false },
-      { "id": "ג", "text": "שיעור שגיאת התו בשידורי טקסט Rate) Error (Character", "correct": true },
-      { "id": "ד", "text": "חוקי הגבלת הספק במשדר Reduction) Emission (Controlled", "correct": false }
+      { "id": "א", "text": "בהודעת Medical Advice בהערכת מצב רפואי (Clinical Evaluation Report)", "correct": false },
+      { "id": "ב", "text": "בהגבלות שידור של מתקני רדיו (Controlled Electronic Regulation)", "correct": false },
+      { "id": "ג", "text": "שיעור שגיאת התו בשידורי טקסט (Character Error Rate)", "correct": true },
+      { "id": "ד", "text": "חוקי הגבלת הספק במשדר (Controlled Emission Reduction)", "correct": false }
     ],
     "explanation": "המונח CER (Character Error Rate) הוא מדד טכני לאיכות של ערוץ תקשורת דיגיטלי, כמו זה המשמש ב-NAVTEX. הוא מודד את אחוז התווים (אותיות, מספרים) שנקלטו באופן שגוי מתוך סך התווים ששודרו. תקנות הביצוע של IMO דורשות ששיעור השגיאה במקלטי NAVTEX יהיה נמוך מאוד (פחות מ-4%) כדי להבטיח קבלת מידע אמין."
   },
@@ -2545,7 +2545,7 @@ window.americanQuestions = [
     "id": "232",
     "question": "מה משמעות השימוש של הנווטקס באירוע מצוקה?",
     "options": [
-      { "id": "א", "text": "הרחבת מעגל החיפוש והצלה מחוץ לטווח A1 Area ע\"י ניצול טווח קשר גדול יותר", "correct": true },
+      { "id": "א", "text": "הרחבת מעגל החיפוש והצלה מחוץ לטווח Area A1 ע\"י ניצול טווח קשר גדול יותר", "correct": true },
       { "id": "ב", "text": "שידור אוטומטי של אירוע המצוקה כל 4 שעות כל עוד האירוע בתוקף", "correct": false },
       { "id": "ג", "text": "להוריד משמעותית את עומס תעבורת המצוקה מערוץ 16", "correct": false },
       { "id": "ד", "text": "תשובות ב ו- ג נכונות", "correct": false }
@@ -2568,7 +2568,7 @@ window.americanQuestions = [
     "question": "מה מאפיין את הדור השלישי Meo-Sar העוסק באיכון מיקום משואת הרדיו?",
     "options": [
       { "id": "א", "text": "זמינות מיידית באמצעות 70-90 לווינים העוטפים את כדה\"א", "correct": false },
-      { "id": "ב", "text": "כשהמשואה נקלטה, הניצולים יקבלו חיווי על כך בתצוגה על-פני המכשיר", "correct": false },
+      { "id": "ב", "text": "כשהמשואה נקלטה, הניצולים יקבלu חיווי על כך בתצוגה על-פני המכשיר", "correct": false },
       { "id": "ג", "text": "המערכת עובדת ללא צורך ביחידה הקרקעית LUT כדי לקצר את זמן התגובה", "correct": false },
       { "id": "ד", "text": "תשובות א ו- ב נכונות", "correct": true },
       { "id": "ה", "text": "תשובות ב ו- ג נכונות", "correct": false }
@@ -2611,14 +2611,14 @@ window.americanQuestions = [
   },
   {
     "id": "238",
-    "question": "בערוצים הבאים אפשר לדבר ב- :DUPLEX",
+    "question": "בערוצים הבאים אפשר לדבר בשיטת DUPLEX:",
     "options": [
       { "id": "א", "text": "CH12 CH14", "correct": false },
       { "id": "ב", "text": "CH24 CH26", "correct": true },
       { "id": "ג", "text": "CH67 CH73", "correct": false },
       { "id": "ד", "text": "CH15 CH75", "correct": false }
     ],
-    "explanation": "תקשורת דופלקס (שיחה דו-כיוונית רציפה) מתאפשרת בערוצים המשתמשים בזוג תדרים - אחד לשידור ואחד לקליטה. ערוצי התקשורת הציבורית, המיועדים לשיחות טלפון דרך תחנות חוף, כמו ערוצים 24 ו-26, פועלים בשיטה זו. ערוצים אחרים המוזכרים פועלים בסימפלקס (תדר בודד)."
+    "explanation": "תקשורת דופלקס (Duplex) מאפשרת שיחה דו-כיוונית רציפה, כמו בטלפון, מכיוון שהיא משתמשת בשני תדרים נפרדים (אחד לשידור ואחד לקליטה). ערוצי התקשורת הציבורית, המיועדים לשיחות טלפון דרך תחנות חוף כמו 24 ו-26, פועלים בשיטה זו. ערוצי סימפלקס, לעומת זאת, משתמשים בתדר בודד."
   },
   {
     "id": "239",
@@ -2629,61 +2629,61 @@ window.americanQuestions = [
       { "id": "ג", "text": "Seelonce ולאחריה Mayday", "correct": true },
       { "id": "ד", "text": "Seelonce ולאחריה Out", "correct": false }
     ],
-    "explanation": "הביטוי הבינלאומי להטלת דממת אלחוט על ערוץ המצוקה הוא 'SEELONCE MAYDAY' (מבוטא סִילוֹנְס מֶיידֶיי). פקודה זו ניתנת על ידי התחנה המנהלת את אירוע המצוקה, ומחייבת את כל התחנות האחרות לחדול משידור על הערוץ, כדי לאפשר תקשורת חלקה וברורה בין הגורמים המעורבים בהצלה. 'SEELONCE FEENEE' משמש לסיום המצוקה."
+    "explanation": "הביטוי הבינלאומי להטלת דממת אלחוט על ערוץ המצוקה הוא 'SEELONCE MAYDAY'. פקודה זו ניתנת על ידי התחנה המנהלת את אירוע המצוקה, ומחייבת את כל התחנות האחרות לחדול מיידית משידור על הערוץ, כדי לפנות אותו לתקשורת חיונית להצלה. הביטוי 'SEELONCE FEENEE' משמש לביטול דממת האלחוט בסיום האירוע."
   },
   {
     "id": "240",
-    "question": "בהפעלת DW בקליטה, על כמה ערוצים ה- DSC מבצע האזנה למעשה?",
+    "question": "בהפעלת האזנה כפולה (DW) במקלט, על כמה ערוצים מכשיר ה-DSC מאזין למעשה?",
     "options": [
       { "id": "א", "text": "1", "correct": false },
       { "id": "ב", "text": "2", "correct": false },
       { "id": "ג", "text": "3", "correct": true },
       { "id": "ד", "text": "4", "correct": false }
     ],
-    "explanation": "פונקציית 'האזנה כפולה' (DW - Dual Watch) במכשיר VHF מאפשרת להאזין לערוץ העבודה הנבחר ובמקביל לסרוק את ערוץ 16. אולם, מכשיר DSC-VHF מאזין תמיד ובאופן רציף גם לערוץ 70 (DSC). לכן, כאשר מפעילים DW על ערוץ עבודה כלשהו, המכשיר מאזין בפועל לשלושה ערוצים: ערוץ העבודה, ערוץ 16, וערוץ 70."
+    "explanation": "מכשיר DSC-VHF מודרני מאזין באופן קבוע ורציף לערוץ 70 (הערוץ הדיגיטלי). פונקציית האזנה כפולה (Dual Watch) מאפשרת למכשיר להאזין במקביל לערוץ עבודה כלשהו ולערוץ 16. לכן, כאשר מפעילים DW, המכשיר מאזין בפועל לשלושה ערוצים: ערוץ העבודה שנבחר, ערוץ 16 וערוץ 70."
   },
   {
     "id": "241",
-    "question": "מהיא או מהן המערכות הלווייניות בעלות הזמינות המיידית לקליטת משואת רדיו בכל נקודה ע\"פ כדה\"א?",
+    "question": "איזו מערכת לוויינית מאפשרת קליטה מיידית של אות משואת רדיו מכל נקודה על פני כדור הארץ?",
     "options": [
       { "id": "א", "text": "Geo-Sat & Meo-Sat", "correct": false },
       { "id": "ב", "text": "Meo-Sat", "correct": true },
       { "id": "ג", "text": "Leo-Sat & Meo-Sat", "correct": false },
       { "id": "ד", "text": "Leo-Sat", "correct": false }
     ],
-    "explanation": "מערכת לווייני ה-MEOSAR (מסלול בינוני) היא המערכת המתקדמת ביותר כיום. היא כוללת קונסטלציה גדולה של לוויינים המבטיחה שבכל רגע נתון, מספר לוויינים 'רואים' כל נקודה על פני כדור הארץ. הדבר מאפשר קליטה מיידית ורציפה של אותות מצוקה ואיכון מהיר, בניגוד למערכת LEOSAR שבה יש להמתין שהלוויין יחלוף מעל."
+    "explanation": "מערכת לווייני ה-MEOSAR (מסלול בגובה בינוני) היא המערכת המתקדמת ביותר, המבטיחה שבכל רגע נתון כל נקודה על פני כדור הארץ מכוסה על ידי מספר לוויינים. הדבר מאפשר קליטה מיידית של אות מצוקה ואיכון מהיר. מערכת LEOSAR דורשת המתנה למעבר לוויין, ומערכת GEOSAR אינה מכסה את אזורי הקטבים."
   },
   {
     "id": "242",
-    "question": "שמות/כינויים של Haifa, Cyprus, Napoli, America הם:",
+    "question": "השמות/כינויים הבאים: Haifa, Cyprus, Napoli, America, הם זיהויים של:",
     "options": [
       { "id": "א", "text": "תחנות חוף", "correct": false },
       { "id": "ב", "text": "RCC", "correct": false },
       { "id": "ג", "text": "כלי-שיט", "correct": true },
       { "id": "ד", "text": "תשובות א' ו- ב'", "correct": false }
     ],
-    "explanation": "בתקשורת ימית, אות קריאה המורכב ממילה אחת הוא בדרך כלל שם של כלי שיט. תחנות חוף מזוהות על ידי שם המקום בתוספת המילה 'Radio' (למשל, Haifa Radio). לכן, הרשימה המוצגת מתייחסת לשמות של כלי שיט שונים."
+    "explanation": "בנוהלי התקשורת הימית, אות קריאה המורכב ממילה אחת הוא בדרך כלל שמו של כלי שיט. תחנת חוף מזוהה על פי שמה הגאוגרפי בתוספת המילה 'Radio' (למשל 'Haifa Radio'). לכן, רשימת השמות הזו מייצגת שמות של כלי שיט."
   },
   {
     "id": "243",
-    "question": "איזה ערוץ/ים מוקדש/ים לשירות Bridge-to-Bridge בהתחום ה- VHF ?",
+    "question": "איזה ערוץ/ים בתחום ה-VHF מוקדש/ים לשירות Bridge-to-Bridge?",
     "options": [
       { "id": "א", "text": "CH 06", "correct": false },
       { "id": "ב", "text": "CHs 75,76", "correct": false },
       { "id": "ג", "text": "CHs 15,17", "correct": false },
       { "id": "ד", "text": "Ch 13", "correct": true }
     ],
-    "explanation": "ערוץ 13 הוקצה באופן בינלאומי לתקשורת בין גשרי פיקוד (Bridge-to-Bridge) למטרות בטיחות הניווט. הוא משמש לתקשורת ישירה בין קציני משמרת כדי לתאם תמרונים בטוחים ולמנוע התנגשויות. ערוץ 6 הוא ל-SAR, ערוצים 75/76 קשורים לניווט בהספק נמוך, וערוצים 15/17 הם לתקשורת פנים-אונייתית."
+    "explanation": "ערוץ 13 הוקצה באופן בינלאומי לתקשורת בין גשרי פיקוד (Bridge-to-Bridge) למטרות בטיחות הניווט. הוא משמש לתקשורת ישירה בין קציני משמרת כדי לתאם תמרונים בטוחים ולמנוע התנגשויות, במיוחד באזורי תנועה צפופים."
   },
   {
     "id": "244",
-    "question": "באיזה מרחק ייקלט Ais-Sart ע\"י כלי שייט המפעיל האזנה של מתקן ?AIS",
+    "question": "באיזה מרחק ייקלט מכשיר Ais-Sart על ידי כלי שייט המפעיל מתקן AIS?",
     "options": [
       { "id": "א", "text": "1nm", "correct": false },
       { "id": "ב", "text": "5nm", "correct": false },
-      { "id": "ג", "text": "תלוי, בעיקר, בגובה אנטנת ה- ,VHF המשותפת ל- ,AIS של כלי השיט המפעיל את המתקן", "correct": true },
+      { "id": "ג", "text": "הטווח תלוי, בעיקר, בגובה אנטנת ה-VHF של כלי השיט הקולט", "correct": true },
       { "id": "ד", "text": "50 מיל ימי לפחות", "correct": false }
     ],
-    "explanation": "מכשיר AIS-SART משדר בתדרי VHF, שהתפשטותם מוגבלת לטווח קו הראייה. לכן, טווח הגילוי שלו תלוי באופן ישיר בגובה האנטנה של כלי השיט המחפש ובגובה שבו מוחזק ה-AIS-SART מעל פני המים. ככל שהאנטנה הקולטת גבוהה יותר, כך טווח הגילוי יהיה גדול יותר, ובדרך כלל מדובר על טווח של מספר מיילים ימיים."
+    "explanation": "מכשיר AIS-SART משדר בתדרי VHF, שהתפשטותם מוגבלת לטווח קו הראייה (Line of Sight). לכן, טווח הגילוי שלו אינו מספר קבוע אלא תלוי ישירות בגובה אנטנת ה-VHF של כלי השיט המחפש ובגובה שבו מוחזק ה-AIS-SART מעל המים. אנטנה גבוהה יותר משמעה קו אופק רחוק יותר וטווח גילוי גדול יותר."
   }
 ]
