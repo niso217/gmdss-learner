@@ -67,6 +67,7 @@ let state = {
   showExplanation: false, // Track if explanation modal is shown
   currentExplanation: '', // Current explanation text
   soundFeedback: true, // Enable/disable sound and vibration feedback
+  savedScrollPosition: undefined, // Save scroll position for explanation modal
 };
 
 // User preferences management
@@ -129,6 +130,11 @@ function loadUserPreferences() {
         state.sectionModes = preferences.sectionModes;
       }
       
+      // Load saved scroll position
+      if (preferences.savedScrollPosition !== undefined) {
+        state.savedScrollPosition = preferences.savedScrollPosition;
+      }
+      
       console.log('User preferences loaded:', preferences);
     }
   } catch (error) {
@@ -150,7 +156,8 @@ function saveUserPreferences() {
       distressQuestionIndex: state.distressQuestionIndex,
       americanQuestionIndex: state.americanQuestionIndex,
       soundFeedback: state.soundFeedback,
-      sectionModes: state.sectionModes
+      sectionModes: state.sectionModes,
+      savedScrollPosition: state.savedScrollPosition
     };
     
     localStorage.setItem(USER_PREFERENCES_KEY, JSON.stringify(preferences));
@@ -1996,6 +2003,20 @@ function renderAmericanExam() {
             </div>`;
           }).join('')}
         </div>
+        ${q.explanation ? `
+          <div style='margin-top:12px;display:flex;justify-content:center;'>
+            <button 
+              onclick="showExplanationFromData(this)" 
+              data-explanation="${q.explanation.replace(/"/g, '&quot;')}"
+              style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:white;border:none;border-radius:8px;padding:8px 16px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(102, 126, 234, 0.3);white-space:nowrap;display:flex;align-items:center;gap:6px;"
+              onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.4)'"
+              onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 8px rgba(102, 126, 234, 0.3)'"
+              title="הסבר מפורט"
+            >
+              📖 הסבר מפורט
+            </button>
+          </div>
+        ` : ''}
       </div>`;
     }).join('');
     return `<div class="content">
@@ -2005,10 +2026,23 @@ function renderAmericanExam() {
           <div style="font-size:2em;font-weight:800;color:#1976d2;text-shadow:0 2px 8px #1976d233;margin-bottom:12px;letter-spacing:1px;">סיימת את המבחן!</div>
           <div class="score" style="font-size:2.2em;font-weight:800;color:#388e3c;background:${correctBg};padding:16px 38px 10px 38px;border-radius:16px;box-shadow:0 2px 8px #388e3c22;margin-bottom:8px;letter-spacing:1px;">${score}</div>
           <div style="font-size:1em;color:#888;margin-bottom:18px;">נכונות: 25 / ${correct}</div>
-          <div style="width:100%;margin:24px 0 12px 0;max-height:50vh;overflow-y:auto;direction:rtl;text-align:right;">${reviewHtml}</div>
+          <div class="exam-review-container" style="width:100%;margin:24px 0 12px 0;max-height:50vh;overflow-y:auto;direction:rtl;text-align:right;">${reviewHtml}</div>
           <button onclick="restartAmericanExam()" class="restart-btn" style="margin-top:10px;padding:10px 28px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;box-shadow:0 2px 8px #1976d233;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">נסה שוב</button>
         </div>
       </div>
+      ${state.showExplanation ? `
+        <div class="explanation-modal-overlay" onclick="hideExplanation()">
+          <div class="explanation-modal" onclick="event.stopPropagation()">
+            <div class="explanation-header">
+              <h3>הסבר מפורט</h3>
+              <button class="explanation-close-btn" onclick="hideExplanation()">✕</button>
+            </div>
+            <div class="explanation-content">
+              ${state.currentExplanation}
+            </div>
+          </div>
+        </div>
+      ` : ''}
     </div>`;
   }
   // Improved progress indicator
@@ -2101,6 +2135,17 @@ window.showExplanationFromData = function (button) {
   const explanation = button.getAttribute('data-explanation');
   console.log('showExplanationFromData called with:', explanation);
   console.log('Button element:', button);
+  
+  // Save current scroll position of the inner container
+  const scrollContainer = document.querySelector('.exam-review-container');
+  if (scrollContainer) {
+    state.savedScrollPosition = scrollContainer.scrollTop;
+    localStorage.setItem('gmdss_saved_scroll_position', scrollContainer.scrollTop.toString());
+    console.log('Saved scroll position:', scrollContainer.scrollTop);
+  } else {
+    console.log('Scroll container not found');
+  }
+  
   state.showExplanation = true;
   state.currentExplanation = explanation;
   render();
@@ -2111,6 +2156,21 @@ window.hideExplanation = function () {
   state.showExplanation = false;
   state.currentExplanation = '';
   render();
+  
+  // Restore scroll position after DOM update
+  requestAnimationFrame(() => {
+    const savedPosition = state.savedScrollPosition || localStorage.getItem('gmdss_saved_scroll_position');
+    console.log('Restoring scroll position:', savedPosition);
+    if (savedPosition !== undefined && savedPosition !== null) {
+      const scrollContainer = document.querySelector('.exam-review-container');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = parseInt(savedPosition);
+        console.log('Restored scroll position to:', parseInt(savedPosition));
+      } else {
+        console.log('Scroll container not found for restoration');
+      }
+    }
+  });
 };
 
 
