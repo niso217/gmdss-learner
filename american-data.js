@@ -2424,12 +2424,12 @@ window.americanQuestions = [
     "id": "221",
     "question": "הצירוף DSC20 באיות פונטי יהיה:",
     "options": [
-      { "id": "א", "text": "DIGITAL SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
-      { "id": "ב", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
-      { "id": "ג", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
+      { "id": "א", "text": "DIGITAL SENSOR CALL BISSOTWO NADAZERO", "correct": false },
+      { "id": "ב", "text": "DELTA SENSOR CHARLIE BISSOTWO NADAZERO", "correct": false },
+      { "id": "ג", "text": "DOLPHIN SIERRA CHARLIE BISSOTWO NADAZERO", "correct": false },
       { "id": "ד", "text": "DELTA SIERRA CHARLIE BISSOTWO NADAZERO", "correct": true }
     ],
-    "explanation": "איות פונטי תקני הוא חיוני למניעת אי הבנות. לפי האלפבית של ITU, האות D היא Delta, האות S היא Sierra, והאות C היא Charlie. המספר 2 הוא BISSOTWO, והמספר 0 הוא NADAZERO. התשובה הנכונה משלבת את כל המילים הפונטיות התקניות לפי הסדר."
+    "explanation": "איות פונטי תקני הוא חיוני למניעת אי הבנות. לפי האSIERRA CHARLIE לפבית של ITU, האות D היא Delta, האות S היא Sierra, והאות C היא Charlie. המספר 2 הוא BISSOTWO, והמספר 0 הוא NADAZERO. התשובה הנכונה משלבת את כל המילים הפונטיות התקניות לפי הסדר."
   },
   {
     "id": "222",
