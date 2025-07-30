@@ -2224,12 +2224,11 @@ window.finishExam = function () {
 
 window.selectAmericanExamAnswer = function (qid, oid) {
   state.americanExamAnswers[qid] = oid;
-  // Auto-advance to next question or finish
+  // Auto-advance to next question only (not on last question)
   if (state.americanExamIndex < state.americanExamQuestionCount - 1) {
     state.americanExamIndex++;
-  } else {
-    state.americanExamFinished = true;
   }
+  // Don't auto-finish on last question - user must click "סיים מבחן"
   render();
 };
 window.finishAmericanExam = function () {
