@@ -59,10 +59,12 @@ let state = {
   distressAutoAdvanceSeconds: 5, // Seconds to wait before auto advance
   autoAdvance: false, // Auto advance between questions
   autoAdvanceSeconds: 5, // Seconds to wait before auto advance
-  americanExamQuestions: [], // 25 random questions for the exam
+  americanExamQuestions: [], // Random questions for the exam
   americanExamAnswers: {}, // { [questionId]: selectedOption }
   americanExamIndex: 0, // Current index in the exam
   americanExamFinished: false, // Exam finished flag
+  americanExamQuestionCount: 20, // Number of questions in the exam (default 25)
+  americanExamHistory: [], // Array of completed exams
   sectionModes: {}, // { [questionId_sectionIdx]: 'basic' | 'advanced' }
   showExplanation: false, // Track if explanation modal is shown
   currentExplanation: '', // Current explanation text
@@ -119,6 +121,12 @@ function loadUserPreferences() {
       if (preferences.americanQuestionIndex !== undefined) {
         state.americanQuestionIndex = preferences.americanQuestionIndex;
       }
+      if (preferences.americanExamQuestionCount !== undefined) {
+        state.americanExamQuestionCount = preferences.americanExamQuestionCount;
+      }
+      if (preferences.americanExamHistory !== undefined) {
+        state.americanExamHistory = preferences.americanExamHistory;
+      }
       
       // Load sound feedback setting
       if (preferences.soundFeedback !== undefined) {
@@ -155,6 +163,8 @@ function saveUserPreferences() {
       currentTab: state.tab,
       distressQuestionIndex: state.distressQuestionIndex,
       americanQuestionIndex: state.americanQuestionIndex,
+      americanExamQuestionCount: state.americanExamQuestionCount,
+      americanExamHistory: state.americanExamHistory,
       soundFeedback: state.soundFeedback,
       sectionModes: state.sectionModes,
       savedScrollPosition: state.savedScrollPosition
@@ -181,6 +191,7 @@ function clearUserPreferences() {
     state.tab = 0;
     state.distressQuestionIndex = 0;
     state.americanQuestionIndex = 0;
+    state.americanExamQuestionCount = 20;
     
     document.body.setAttribute('data-theme', state.theme);
     console.log('User preferences cleared and reset to defaults');
@@ -202,7 +213,8 @@ function showUserPreferences() {
     distressAutoAdvanceSeconds: state.distressAutoAdvanceSeconds,
     currentTab: ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'איות פונטי', 'סימולטורים'][state.tab],
     distressQuestionIndex: state.distressQuestionIndex + 1,
-    americanQuestionIndex: state.americanQuestionIndex + 1
+    americanQuestionIndex: state.americanQuestionIndex + 1,
+    americanExamQuestionCount: state.americanExamQuestionCount
   };
   
   const message = `
@@ -213,6 +225,7 @@ function showUserPreferences() {
 • טאב נוכחי: ${preferences.currentTab}
 • שאלת מצוקה נוכחית: ${preferences.distressQuestionIndex}
 • שאלה אמריקאית נוכחית: ${preferences.americanQuestionIndex}
+• מספר שאלות במבחן אמריקאי: ${preferences.americanExamQuestionCount}
 
 קיצורי מקלדת:
 • Ctrl+Shift+P: הצג העדפות
@@ -1432,6 +1445,15 @@ function updateScore(key) {
 // עדכון selectTab שיתאים למבנה החדש
 window.selectTab = function (i) {
   state.tab = i;
+  
+  // אם זה הטאב של המבחן האמריקאי (index 2), תמיד חזור למסך בחירת מספר שאלות
+  if (i === 2) {
+    state.americanExamQuestions = [];
+    state.americanExamAnswers = {};
+    state.americanExamIndex = 0;
+    state.americanExamFinished = false;
+  }
+  
   saveUserPreferences(); // Save current tab
   renderWithoutFocus();
 };
@@ -1941,11 +1963,72 @@ function getRandomQuestions(arr, n) {
   return shuffled.slice(0, n);
 }
 
-// New render function for the American Exam (identical to renderAmericanTest, but only 25 random questions, no nav bars, and with a finish button)
+// New render function for the American Exam (identical to renderAmericanTest, but with configurable number of random questions, no nav bars, and with a finish button)
 function renderAmericanExam() {
-  // Initialize 25 random questions if not already
-  if (state.americanExamQuestions.length !== 25) {
-    state.americanExamQuestions = getRandomQuestions(americanQuestions, 25);
+  console.log('renderAmericanExam called, questions length:', state.americanExamQuestions.length, 'question count:', state.americanExamQuestionCount);
+  // Show question count selection if no exam is in progress
+  if (state.americanExamQuestions.length === 0 && !state.americanExamFinished) {
+    return `<div class="content">
+      <div class="american-exam-setup" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;">
+        <div style="background:${state.theme === 'dark' ? '#23272e' : 'linear-gradient(120deg,#e3f2fd,#fffde7)'};padding:40px 32px 32px 32px;border-radius:24px;box-shadow:0 4px 32px #0002;display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%;color:${state.theme === 'dark' ? '#e3eaf7' : '#222'};">
+          <div style="font-size:3em;line-height:1;margin-bottom:12px;">📝</div>
+          <div style="font-size:2em;font-weight:800;color:#1976d2;text-shadow:0 2px 8px #1976d233;margin-bottom:12px;letter-spacing:1px;">מבחן אמריקאי</div>
+          <div style="font-size:1.2em;margin-bottom:24px;text-align:center;">בחר מספר שאלות למבחן</div>
+          
+          <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:24px;">
+            <button data-question-count="10" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">10 שאלות</button>
+            <button data-question-count="15" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">15 שאלות</button>
+            <button data-question-count="20" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#4caf50;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;font-weight:bold;" onmouseover="this.style.background='#45a049'" onmouseout="this.style.background='#4caf50'">20 שאלות (ברירת מחדל)</button>
+            <button data-question-count="25" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">25 שאלות</button>
+            <button data-question-count="30" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">30 שאלות</button>
+            <button data-question-count="50" class="exam-question-count-btn" style="padding:12px 20px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">50 שאלות</button>
+          </div>
+          
+          <div style="font-size:0.9em;color:#888;text-align:center;max-width:400px;">
+            המבחן יכלול שאלות אקראיות מתוך מאגר השאלות. 
+            <br>20 שאלות הוא המספר הסטנדרטי למבחן אמיתי.
+          </div>
+          
+          ${state.americanExamHistory.length > 0 ? `
+            <div style="margin-top:32px;width:100%;max-width:600px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="font-size:1.3em;font-weight:600;text-align:center;color:${state.theme === 'dark' ? '#e3eaf7' : '#222'};margin:0;">היסטוריית מבחנים</h3>
+                <button onclick="clearExamHistory()" style="padding:6px 12px;font-size:0.8em;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;" title="מחק היסטוריה">🗑️</button>
+              </div>
+              <div style="max-height:300px;overflow-y:auto;border-radius:12px;background:${state.theme === 'dark' ? '#2a2e35' : '#f8f9fa'};padding:16px;">
+                ${state.americanExamHistory.slice(0, 10).map((exam, index) => {
+                  const isDark = state.theme === 'dark';
+                  const bgColor = isDark ? '#23272e' : '#fff';
+                  const borderColor = isDark ? '#333a44' : '#e0e0e0';
+                  const textColor = isDark ? '#e3eaf7' : '#222';
+                  const scoreColor = exam.score >= 80 ? '#388e3c' : exam.score >= 60 ? '#fbc02d' : '#d32f2f';
+                  
+                  return `
+                    <div style="margin-bottom:12px;padding:12px;background:${bgColor};border-radius:8px;border:1px solid ${borderColor};color:${textColor};">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <span style="font-weight:600;font-size:1.1em;">מבחן ${index + 1}</span>
+                        <span style="font-weight:bold;color:${scoreColor};font-size:1.2em;">${exam.score}%</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;font-size:0.9em;color:#888;">
+                        <span>${exam.questionCount} שאלות</span>
+                        <span>${exam.correctAnswers}/${exam.totalQuestions} נכונות</span>
+                      </div>
+                      <div style="font-size:0.8em;color:#888;margin-top:4px;">${exam.date}</div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+  
+  // Initialize random questions if not already
+  if (state.americanExamQuestions.length !== state.americanExamQuestionCount) {
+    console.log('Generating questions:', state.americanExamQuestionCount);
+    state.americanExamQuestions = getRandomQuestions(americanQuestions, state.americanExamQuestionCount);
     state.americanExamAnswers = {};
     state.americanExamIndex = 0;
     state.americanExamFinished = false;
@@ -1959,7 +2042,9 @@ function renderAmericanExam() {
       const ans = state.americanExamAnswers[q.id];
       return q.options.find(o => o.id === ans && o.correct);
     }).length;
-    const score = Math.round((correct / 25) * 100);
+    const answered = Object.keys(state.americanExamAnswers).length;
+    const unanswered = state.americanExamQuestionCount - answered;
+    const score = Math.round((correct / state.americanExamQuestionCount) * 100);
     // Select icon by score
     let finishIcon = '🏆';
     if (score >= 96) finishIcon = '🏆';
@@ -1968,6 +2053,9 @@ function renderAmericanExam() {
     else finishIcon = '😢';
     // Confetti only for 96+
     setTimeout(() => { if (score >= 96 && typeof createConfetti === 'function') createConfetti(); }, 100);
+    
+    // Save exam to history
+    saveExamToHistory();
     // Dark mode colors
     const isDark = state.theme === 'dark';
     const reviewBg = isDark ? '#23272e' : '#f8fafc';
@@ -1987,6 +2075,7 @@ function renderAmericanExam() {
       const userAns = state.americanExamAnswers[q.id];
       return `<div style='margin-bottom:28px;padding:18px 16px 10px 16px;background:${reviewBg};border-radius:14px;box-shadow:0 1px 6px #0002;border:1px solid ${reviewBorder};color:${reviewText};'>
         <div style='font-weight:600;font-size:1.08em;margin-bottom:8px;'>${i+1}. ${q.question}</div>
+        ${!userAns ? `<div style='font-size:0.9em;color:#dc3545;margin-bottom:8px;'>⚠️ לא ענית על שאלה זו</div>` : ''}
         <div style='display:flex;flex-direction:column;gap:7px;'>
           ${q.options.map(opt => {
             const isCorrect = opt.correct;
@@ -2025,9 +2114,13 @@ function renderAmericanExam() {
           <div style="font-size:3em;line-height:1;margin-bottom:12px;">${finishIcon}</div>
           <div style="font-size:2em;font-weight:800;color:#1976d2;text-shadow:0 2px 8px #1976d233;margin-bottom:12px;letter-spacing:1px;">סיימת את המבחן!</div>
           <div class="score" style="font-size:2.2em;font-weight:800;color:#388e3c;background:${correctBg};padding:16px 38px 10px 38px;border-radius:16px;box-shadow:0 2px 8px #388e3c22;margin-bottom:8px;letter-spacing:1px;">${score}</div>
-          <div style="font-size:1em;color:#888;margin-bottom:18px;">נכונות: 25 / ${correct}</div>
+          <div style="font-size:1em;color:#888;margin-bottom:18px;">נכונות: ${correct} / ${state.americanExamQuestionCount}</div>
+          ${unanswered > 0 ? `<div style="font-size:0.9em;color:#dc3545;margin-bottom:18px;">⚠️ ${unanswered} שאלות לא נענו</div>` : ''}
           <div class="exam-review-container" style="width:100%;margin:24px 0 12px 0;max-height:50vh;overflow-y:auto;direction:rtl;text-align:right;">${reviewHtml}</div>
-          <button onclick="restartAmericanExam()" class="restart-btn" style="margin-top:10px;padding:10px 28px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;box-shadow:0 2px 8px #1976d233;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">נסה שוב</button>
+          <div style="display:flex;gap:12px;margin-top:16px;">
+            <button onclick="restartAmericanExam()" class="restart-btn" style="padding:10px 28px;font-size:1.1em;background:#1976d2;color:#fff;border:none;border-radius:8px;box-shadow:0 2px 8px #1976d233;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#125ea2'" onmouseout="this.style.background='#1976d2'">נסה שוב</button>
+            <button onclick="returnToSelection()" style="padding:10px 28px;font-size:1.1em;background:#6c757d;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#5a6268'" onmouseout="this.style.background='#6c757d'">חזור לבחירה</button>
+          </div>
         </div>
       </div>
       ${state.showExplanation ? `
@@ -2046,15 +2139,19 @@ function renderAmericanExam() {
     </div>`;
   }
   // Improved progress indicator
-  const progress = ((idx + 1) / 25) * 100;
+  const progress = ((idx + 1) / state.americanExamQuestionCount) * 100;
   return `<div class="content">
     <div class="american-exam-container">
       <div class="exam-progress-bar-container" style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
-        <div class="exam-progress-label" style="font-size:1.1em;font-weight:500;direction:rtl;">שאלה <span style='color:#1976d2;font-weight:bold;'>${idx + 1}</span> מתוך <span style='color:#1976d2;font-weight:bold;'>25</span></div>
+        <div class="exam-progress-label" style="font-size:1.1em;font-weight:500;direction:rtl;">שאלה <span style='color:#1976d2;font-weight:bold;'>${idx + 1}</span> מתוך <span style='color:#1976d2;font-weight:bold;'>${state.americanExamQuestionCount}</span></div>
         <div class="exam-progress-bar-outer" style="flex:1;height:14px;background:#e0e0e0;border-radius:7px;overflow:hidden;box-shadow:0 1px 4px #0001;">
           <div class="exam-progress-bar-inner" style="height:100%;width:${progress}%;background:linear-gradient(90deg,#1976d2,#42a5f5);transition:width 0.3s;"></div>
         </div>
+        <button onclick="finishExamEarly()" style="padding:8px 16px;font-size:0.9em;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;transition:background 0.2s;white-space:nowrap;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'" title="סיים מבחן עכשיו">
+          ⏰ סיים
+        </button>
       </div>
+      
       <div class="american-question">
         <h3 class="question-text">${current.question}</h3>
         <div class="options-container">
@@ -2087,6 +2184,8 @@ function renderAmericanExam() {
           }).join('')}
         </div>
       </div>
+      
+
     </div>
   </div>`;
 }
@@ -2098,7 +2197,7 @@ window.selectAmericanExamQuestion = function (index) {
 window.selectAmericanExamAnswer = function (qid, oid) {
   state.americanExamAnswers[qid] = oid;
   // Auto-advance to next question or finish
-  if (state.americanExamIndex < 24) {
+  if (state.americanExamIndex < state.americanExamQuestionCount - 1) {
     state.americanExamIndex++;
   } else {
     state.americanExamFinished = true;
@@ -2109,7 +2208,76 @@ window.finishAmericanExam = function () {
   state.americanExamFinished = true;
   render();
 };
+function saveExamToHistory() {
+  const questions = state.americanExamQuestions;
+  const correct = questions.filter(q => {
+    const ans = state.americanExamAnswers[q.id];
+    return q.options.find(o => o.id === ans && o.correct);
+  }).length;
+  const score = Math.round((correct / state.americanExamQuestionCount) * 100);
+  
+  const examRecord = {
+    id: Date.now(),
+    date: new Date().toLocaleString('he-IL'),
+    questionCount: state.americanExamQuestionCount,
+    correctAnswers: correct,
+    totalQuestions: state.americanExamQuestionCount,
+    score: score,
+    answers: { ...state.americanExamAnswers }
+  };
+  
+  state.americanExamHistory.unshift(examRecord); // Add to beginning of array
+  console.log('Saved exam to history:', examRecord);
+  
+  // Save to localStorage
+  saveUserPreferences();
+}
+
+function setExamQuestionCount(count) {
+  console.log('setExamQuestionCount called with:', count);
+  console.log('americanQuestions available:', americanQuestions ? americanQuestions.length : 'undefined');
+  state.americanExamQuestionCount = count;
+  state.americanExamQuestions = [];
+  state.americanExamAnswers = {};
+  state.americanExamIndex = 0;
+  state.americanExamFinished = false;
+  
+  // Immediately generate the questions
+  state.americanExamQuestions = getRandomQuestions(americanQuestions, state.americanExamQuestionCount);
+  console.log('Generated', state.americanExamQuestions.length, 'questions');
+  
+  render();
+}
+
+window.setExamQuestionCount = setExamQuestionCount;
+
+window.clearExamHistory = function () {
+  if (confirm('האם אתה בטוח שברצונך למחוק את כל היסטוריית המבחנים?')) {
+    state.americanExamHistory = [];
+    saveUserPreferences();
+    render();
+    alert('היסטוריית המבחנים נמחקה בהצלחה!');
+  }
+};
+
 window.restartAmericanExam = function () {
+  // Keep the same question count but generate new random questions
+  state.americanExamQuestions = getRandomQuestions(americanQuestions, state.americanExamQuestionCount);
+  state.americanExamAnswers = {};
+  state.americanExamIndex = 0;
+  state.americanExamFinished = false;
+  render();
+};
+
+window.finishExamEarly = function () {
+  if (confirm('האם אתה בטוח שברצונך לסיים את המבחן עכשיו? שאלות שלא ענית עליהן ייחשבו כטעויות.')) {
+    state.americanExamFinished = true;
+    render();
+  }
+};
+
+window.returnToSelection = function () {
+  // Clear everything and return to selection screen
   state.americanExamQuestions = [];
   state.americanExamAnswers = {};
   state.americanExamIndex = 0;
@@ -2212,6 +2380,13 @@ document.addEventListener('scroll', () => {
     // Copy text on mobile tap
     if (e.target.classList.contains('sentence-text')) {
       copyTextToClipboard(e.target.textContent);
+    }
+    
+    // Handle exam question count button clicks
+    if (e.target.classList.contains('exam-question-count-btn')) {
+      const questionCount = parseInt(e.target.getAttribute('data-question-count'));
+      console.log('Exam question count button clicked:', questionCount);
+      setExamQuestionCount(questionCount);
     }
   });
   
