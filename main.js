@@ -2147,8 +2147,14 @@ function renderAmericanExam() {
         <div class="exam-progress-bar-outer" style="flex:1;height:14px;background:#e0e0e0;border-radius:7px;overflow:hidden;box-shadow:0 1px 4px #0001;">
           <div class="exam-progress-bar-inner" style="height:100%;width:${progress}%;background:linear-gradient(90deg,#1976d2,#42a5f5);transition:width 0.3s;"></div>
         </div>
-        <button onclick="finishExamEarly()" style="padding:8px 16px;font-size:0.9em;background:#dc3545;color:#fff;border:none;border-radius:6px;cursor:pointer;transition:background 0.2s;white-space:nowrap;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'" title="סיים מבחן עכשיו">
-          ⏰ סיים
+      </div>
+      
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;">
+        <button onclick="previousQuestion()" ${idx === 0 ? 'disabled' : ''} style="padding:12px 20px;font-size:1em;background:${idx === 0 ? '#e9ecef' : '#007bff'};color:${idx === 0 ? '#6c757d' : '#fff'};border:2px solid ${idx === 0 ? '#dee2e6' : '#007bff'};border-radius:8px;cursor:${idx === 0 ? 'not-allowed' : 'pointer'};transition:all 0.3s ease;font-weight:600;min-width:120px;justify-content:center;" onmouseover="this.style.background='${idx === 0 ? '#e9ecef' : '#0056b3'}'" onmouseout="this.style.background='${idx === 0 ? '#e9ecef' : '#007bff'}'" title="שאלה קודמת">
+          קודמת
+        </button>
+        <button onclick="nextQuestion()" ${idx === questions.length - 1 ? 'disabled' : ''} style="padding:12px 20px;font-size:1em;background:${idx === questions.length - 1 ? '#e9ecef' : '#007bff'};color:${idx === questions.length - 1 ? '#6c757d' : '#fff'};border:2px solid ${idx === questions.length - 1 ? '#dee2e6' : '#007bff'};border-radius:8px;cursor:${idx === questions.length - 1 ? 'not-allowed' : 'pointer'};transition:all 0.3s ease;font-weight:600;min-width:120px;justify-content:center;" onmouseover="this.style.background='${idx === questions.length - 1 ? '#e9ecef' : '#0056b3'}'" onmouseout="this.style.background='${idx === questions.length - 1 ? '#e9ecef' : '#007bff'}'" title="שאלה הבאה">
+          הבאה
         </button>
       </div>
       
@@ -2160,31 +2166,29 @@ function renderAmericanExam() {
             const isCorrect = option.correct;
             const showResult = state.americanExamAnswers[current.id] !== undefined;
             let optionClass = 'option-button';
-            if (showResult) {
-              if (isCorrect) {
-                optionClass += ' correct';
-              } else if (isSelected && !isCorrect) {
-                optionClass += ' incorrect';
-              }
-            } else if (isSelected) {
+            if (isSelected) {
               optionClass += ' selected';
             }
             return `
               <button 
                 class="${optionClass}"
                 onclick="selectAmericanExamAnswer('${current.id}', '${option.id}')"
-                ${showResult ? 'disabled' : ''}
               >
                 <span class="option-letter">${option.id.toUpperCase()}</span>
                 <span class="option-text">${option.text}</span>
-                ${showResult && isCorrect ? '<span class="correct-icon">✓</span>' : ''}
-                ${showResult && isSelected && !isCorrect ? '<span class="incorrect-icon">✗</span>' : ''}
               </button>
             `;
           }).join('')}
         </div>
       </div>
       
+      ${idx === questions.length - 1 ? `
+        <div style="display:flex;justify-content:center;margin-top:24px;">
+          <button onclick="finishExam()" style="padding:12px 24px;font-size:1.1em;background:#28a745;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background 0.2s;font-weight:bold;" onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+            ✅ סיים מבחן
+          </button>
+        </div>
+      ` : ''}
 
     </div>
   </div>`;
@@ -2194,6 +2198,30 @@ window.selectAmericanExamQuestion = function (index) {
   state.americanExamIndex = index;
   render();
 };
+window.previousQuestion = function () {
+  if (state.americanExamIndex > 0) {
+    state.americanExamIndex--;
+    render();
+  }
+};
+
+window.nextQuestion = function () {
+  if (state.americanExamIndex < state.americanExamQuestions.length - 1) {
+    state.americanExamIndex++;
+    render();
+  }
+};
+
+window.goToQuestion = function (index) {
+  state.americanExamIndex = index;
+  render();
+};
+
+window.finishExam = function () {
+  state.americanExamFinished = true;
+  render();
+};
+
 window.selectAmericanExamAnswer = function (qid, oid) {
   state.americanExamAnswers[qid] = oid;
   // Auto-advance to next question or finish

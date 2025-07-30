@@ -1212,8 +1212,8 @@ hr {
 }
 
 [data-theme="dark"] .option-button.selected {
-  border-color: var(--md-success) !important;
-  background: linear-gradient(135deg, var(--md-success-light) 0%, var(--md-success) 100%) !important;
+  border-color: var(--md-primary) !important;
+  background: linear-gradient(135deg, var(--md-primary-light) 0%, var(--md-primary) 100%) !important;
   color: var(--md-on-primary) !important;
   font-weight: 700 !important;
   box-shadow: var(--md-elevation-3) !important;
@@ -2219,8 +2219,8 @@ button:focus, .input-sentence:focus {
 }
 
 .option-button.selected {
-  border-color: var(--md-success) !important;
-  background: linear-gradient(135deg, var(--md-success-light) 0%, var(--md-success) 100%) !important;
+  border-color: var(--md-primary) !important;
+  background: linear-gradient(135deg, var(--md-primary-light) 0%, var(--md-primary) 100%) !important;
   color: var(--md-on-primary) !important;
   font-weight: 700 !important;
   box-shadow: var(--md-elevation-3) !important;
