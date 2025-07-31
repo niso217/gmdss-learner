@@ -39,11 +39,14 @@ const tabs = [
   simulatorsTab
 ];
 
+
+
 console.log('Distress questions loaded:', distressQuestions.length);
 console.log('Other questions loaded:', otherQuestions.length);
 console.log('American questions loaded:', americanQuestions);
 console.log('American questions length:', americanQuestions.length);
 console.log('Tabs created:', tabs.length);
+console.log('Available tabs:', tabs.map(tab => tab.title || tab.id));
 
 // Add new state for the American Exam
 let state = {
@@ -394,19 +397,12 @@ function getSectionKey(qid, sidx) {
 }
 
 function renderTabs() {
-  // שלושה טאבים בלבד: שאלות מצוקה, מבחן אמריקאי, סימולטורים
-  const tabNames = [
-    { label: 'שאלות מצוקה', index: 0 },
-    { label: 'מאגר שאלות', index: 1 },
-    { label: 'מבחן אמריקאי', index: 2 },
-    { label: 'איות פונטי', index: 3 },
-    { label: 'סימולטורים', index: 4 }
-  ];
+  const tabNames = ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'איות פונטי', 'סימולטורים', 'חלק ב'];
   return `<div class="header-container">
     <div class="tabs">
       <div class="tabs-left">
-        ${tabNames.map((tab, i) =>
-          `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})">${tab.label}</button>`
+        ${tabNames.map((name, i) =>
+          `<button class="tab${state.tab === i ? ' active' : ''}" onclick="selectTab(${i})">${name}</button>`
         ).join('')}
       </div>
     </div>
@@ -1168,6 +1164,8 @@ function render() {
     app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
   } else if (state.tab === 4) {
     app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+  } else if (state.tab === 5) {
+    app.innerHTML = `${renderTabs()}${renderGmdssPart2()}`;
   }
   if (state.mode === 'advanced') {
     setTimeout(() => {
@@ -1197,6 +1195,8 @@ function renderWithoutFocus() {
     app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
   } else if (state.tab === 4) {
     app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+  } else if (state.tab === 5) {
+    app.innerHTML = `${renderTabs()}${renderGmdssPart2()}`;
   }
   if (state.mode === 'advanced') {
     const inputs = document.querySelectorAll('textarea.input-sentence');
@@ -1213,6 +1213,224 @@ function renderWithoutFocus() {
     scrollContainer.style.overflow = '';
   });
 }
+
+
+
+// GMDSS Part 2 Rendering Functions
+function renderGmdssPart2() {
+  const gmdssData = window.gmdssPart2Data;
+  if (!gmdssData) return '<div>Error: GMDSS Part 2 data not found</div>';
+
+  return `
+    <div class="gmdss-part2-container">
+      <!-- Floating Particles -->
+      <div class="floating-particle"></div>
+      <div class="floating-particle"></div>
+      <div class="floating-particle"></div>
+      <div class="floating-particle"></div>
+      <div class="floating-particle"></div>
+      
+      <!-- Progress Bar -->
+      <div class="progress-bar"></div>
+      
+
+      
+      <div class="gmdss-sections">
+        ${gmdssData.sections.map((section, sectionIndex) => {
+          if (section.flashcards) {
+            return renderFlashcardsSection(section, sectionIndex);
+          } else if (section.scenarios) {
+            return renderScenariosSection(section, sectionIndex);
+          } else if (section.challenges) {
+            return renderChallengesSection(section, sectionIndex);
+          }
+          return '';
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderFlashcardsSection(section, sectionIndex) {
+  return `
+    <div class="flashcards-section" data-section="${sectionIndex}">
+      <h2>${section.label}</h2>
+      <p class="section-description">${section.description}</p>
+      
+      <div class="flashcards-container">
+        ${section.flashcards.map((flashcard, index) => `
+          <div class="flashcard" data-flashcard="${index}">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <div class="flashcard-question">
+                  <h3>שאלה ${index + 1}</h3>
+                  <p>${flashcard.question}</p>
+                </div>
+                <button class="flip-btn" onclick="flipFlashcard(${sectionIndex}, ${index})">
+                  <span>הצג תשובה</span>
+                </button>
+              </div>
+              <div class="flashcard-back">
+                <div class="flashcard-answer">
+                  <h3>תשובה</h3>
+                  <p>${flashcard.answer}</p>
+                </div>
+                <button class="flip-btn" onclick="flipFlashcard(${sectionIndex}, ${index})">
+                  <span>הצג שאלה</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderScenariosSection(section, sectionIndex) {
+  return `
+    <div class="scenarios-section" data-section="${sectionIndex}">
+      <h2>${section.label}</h2>
+      <p class="section-description">${section.description}</p>
+      
+      <div class="scenarios-container">
+        ${section.scenarios.map((scenario, scenarioIndex) => `
+          <div class="scenario" data-scenario="${scenarioIndex}">
+            <div class="scenario-header">
+              <h3>${scenario.title}</h3>
+              <p class="scenario-description">${scenario.description}</p>
+            </div>
+            
+            <div class="scenario-tasks">
+              ${scenario.tasks.map((task, taskIndex) => `
+                <div class="task" data-task="${taskIndex}">
+                  <div class="task-question">
+                    <h4>משימה ${taskIndex + 1}</h4>
+                    <p>${task.question}</p>
+                  </div>
+                  
+                  <div class="task-input">
+                    <textarea 
+                      class="task-answer-input" 
+                      placeholder="הקלד את תשובתך כאן..."
+                      data-scenario="${scenarioIndex}"
+                      data-task="${taskIndex}"
+                      oninput="validateScenarioAnswer(${scenarioIndex}, ${taskIndex}, this.value)"
+                    ></textarea>
+                  </div>
+                  
+                  <div class="task-feedback" id="feedback-${scenarioIndex}-${taskIndex}"></div>
+                  
+                  <button class="show-answer-btn" onclick="showScenarioAnswer(${scenarioIndex}, ${taskIndex})">
+                    הצג תשובה נכונה
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderChallengesSection(section, sectionIndex) {
+  return `
+    <div class="challenges-section" data-section="${sectionIndex}">
+      <h2>${section.label}</h2>
+      <p class="section-description">${section.description}</p>
+      
+      <div class="challenges-container">
+        ${section.challenges.map((challenge, index) => `
+          <div class="challenge" data-challenge="${index}">
+            <div class="challenge-question">
+              <h3>אתגר ${index + 1}</h3>
+              <p>${challenge.question}</p>
+            </div>
+            
+            <div class="challenge-input">
+              <textarea 
+                class="challenge-answer-input" 
+                placeholder="הקלד את תשובתך כאן..."
+                data-challenge="${index}"
+              ></textarea>
+            </div>
+            
+            <button class="show-answer-btn" onclick="showChallengeAnswer(${index})">
+              הצג תשובה מפורטת
+            </button>
+            
+            <div class="challenge-answer" id="challenge-answer-${index}" style="display: none;">
+              <h4>תשובה מפורטת:</h4>
+              <p>${challenge.answer}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Flashcard flip function
+function flipFlashcard(sectionIndex, flashcardIndex) {
+  const flashcard = document.querySelector(`[data-section="${sectionIndex}"] .flashcard[data-flashcard="${flashcardIndex}"]`);
+  if (flashcard) {
+    flashcard.classList.toggle('flipped');
+  }
+}
+
+// Scenario validation function
+function validateScenarioAnswer(scenarioIndex, taskIndex, userAnswer) {
+  const gmdssData = window.gmdssPart2Data;
+  const scenario = gmdssData.sections[1].scenarios[scenarioIndex];
+  const task = scenario.tasks[taskIndex];
+  
+  const feedbackElement = document.getElementById(`feedback-${scenarioIndex}-${taskIndex}`);
+  const userAnswerLower = userAnswer.toLowerCase();
+  const keywords = task.keywords.map(keyword => keyword.toLowerCase());
+  
+  const matchedKeywords = keywords.filter(keyword => 
+    userAnswerLower.includes(keyword)
+  );
+  
+  if (matchedKeywords.length >= Math.ceil(keywords.length * 0.6)) {
+    feedbackElement.innerHTML = '<div class="feedback-success">✓ תשובה טובה! כללת את רוב המילות המפתח הנדרשות.</div>';
+    feedbackElement.className = 'task-feedback success';
+  } else if (matchedKeywords.length > 0) {
+    feedbackElement.innerHTML = '<div class="feedback-partial">⚠ תשובה חלקית. נסה לכלול יותר מילות מפתח.</div>';
+    feedbackElement.className = 'task-feedback partial';
+  } else {
+    feedbackElement.innerHTML = '<div class="feedback-error">✗ תשובה לא מדויקת. בדוק את המילות המפתח הנדרשות.</div>';
+    feedbackElement.className = 'task-feedback error';
+  }
+}
+
+// Show scenario answer function
+function showScenarioAnswer(scenarioIndex, taskIndex) {
+  const gmdssData = window.gmdssPart2Data;
+  const scenario = gmdssData.sections[1].scenarios[scenarioIndex];
+  const task = scenario.tasks[taskIndex];
+  
+  const feedbackElement = document.getElementById(`feedback-${scenarioIndex}-${taskIndex}`);
+  feedbackElement.innerHTML = `
+    <div class="feedback-answer">
+      <h4>תשובה נכונה:</h4>
+      <p>${task.answer}</p>
+    </div>
+  `;
+  feedbackElement.className = 'task-feedback answer';
+}
+
+// Show challenge answer function
+function showChallengeAnswer(challengeIndex) {
+  const gmdssData = window.gmdssPart2Data;
+  const challenge = gmdssData.sections[2].challenges[challengeIndex];
+  
+  const answerElement = document.getElementById(`challenge-answer-${challengeIndex}`);
+  answerElement.style.display = 'block';
+}
+
+
 
 // פונקציה ל-vibration וצליל שגיאה
 function triggerErrorFeedback() {
