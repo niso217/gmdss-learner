@@ -2,6 +2,15 @@ const app = document.getElementById('app');
 const questions = window.gmdssQuestions;
 const americanQuestions = window.americanQuestions || [];
 
+// Audio Player State
+let audioPlayerState = {
+  currentTime: 0,
+  isPlaying: false,
+  volume: 1,
+  muted: false,
+  currentQuestion: 0
+};
+
 // יצירת טאב שאלות מצוקה עם ניווט פנימי
 const distressQuestions = questions.slice(0, 13); // שאלות 1-13
 const otherQuestions = questions.slice(13); // שאר השאלות
@@ -617,6 +626,27 @@ function renderDistressQuestions() {
     `;
   }
   
+  // נגן אודיו לכל שאלות המצוקה (1-13)
+  let audioPlayer = '';
+  if (currentQuestionIndex >= 0 && currentQuestionIndex < 13) {
+    const questionNumber = currentQuestionIndex + 1;
+    const audioFile = `audio/q${questionNumber}_ditress_audio.mp3`;
+    audioPlayer = `
+      <div class="audio-player-container">
+        <div class="audio-player-header">
+          <div class="audio-player-icon">🎵</div>
+          <h3 class="audio-player-title">פודקסט שאלה ${questionNumber}</h3>
+        </div>
+        <div class="audio-player-controls">
+          <audio id="audio-player" controls preload="metadata" style="width: 100%; height: 40px;">
+            <source src="${audioFile}" type="audio/mpeg">
+            הדפדפן שלך לא תומך בנגן אודיו.
+          </audio>
+        </div>
+      </div>
+    `;
+  }
+  
   // נוסיף כאן את התיאור בלבד מחוץ לקופסה, עם sticky למעלה וצל
   const questionHeader = `
     <div class="question-description sticky">
@@ -628,6 +658,7 @@ function renderDistressQuestions() {
     <div class="content">
       ${topNav}
       ${bottomNav}
+      ${audioPlayer}
       ${questionHeader}
       ${currentQuestion.sections
         .map((section, sidx) => {
@@ -1221,6 +1252,9 @@ function renderQuestion(q) {
 }
 
 function render() {
+  // Save audio player state before render
+  saveAudioPlayerState();
+  
   console.log('render called, tab:', state.tab, 'showExplanation:', state.showExplanation);
   document.body.setAttribute('data-theme', state.theme);
   if (state.tab === 0) {
@@ -1250,9 +1284,17 @@ function render() {
       });
     }, 0);
   }
+  
+  // Restore audio player state after render
+  setTimeout(() => {
+    restoreAudioPlayerState();
+  }, 100);
 }
 
 function renderWithoutFocus() {
+  // Save audio player state before render
+  saveAudioPlayerState();
+  
   const currentScroll = window.scrollY;
   const scrollContainer = document.documentElement;
   scrollContainer.style.overflow = 'hidden';
@@ -1284,6 +1326,11 @@ function renderWithoutFocus() {
   requestAnimationFrame(() => {
     window.scrollTo(0, currentScroll);
     scrollContainer.style.overflow = '';
+    
+    // Restore audio player state after render
+    setTimeout(() => {
+      restoreAudioPlayerState();
+    }, 100);
   });
 }
 
@@ -2045,7 +2092,11 @@ window.selectDistressQuestion = function (index) {
   console.log('Selecting distress question:', index);
   state.distressQuestionIndex = index;
   saveUserPreferences(); // Save current distress question
+  // Force reset audio for new question
+  forceResetAudioForNewQuestion();
   render();
+  
+
 };
 
 window.previousDistressQuestion = function () {
@@ -2054,6 +2105,8 @@ window.previousDistressQuestion = function () {
     state.distressQuestionIndex--;
     console.log('Previous distress - New index:', state.distressQuestionIndex);
     saveUserPreferences(); // Save current distress question
+    // Force reset audio for new question
+    forceResetAudioForNewQuestion();
     render();
   } else {
     console.log('Already at first distress question');
@@ -2067,6 +2120,8 @@ window.nextDistressQuestion = function () {
     state.distressQuestionIndex++;
     console.log('Next distress - New index:', state.distressQuestionIndex);
     saveUserPreferences(); // Save current distress question
+    // Force reset audio for new question
+    forceResetAudioForNewQuestion();
     render();
   } else {
     console.log('Already at last distress question');
@@ -2079,6 +2134,8 @@ window.previousDistressQuestionBy10 = function () {
     state.distressQuestionIndex -= 10;
     console.log('Previous distress by 10 - New index:', state.distressQuestionIndex);
     saveUserPreferences(); // Save current distress question
+    // Force reset audio for new question
+    forceResetAudioForNewQuestion();
     render();
   } else {
     console.log('Cannot go back 10 distress questions');
@@ -2092,6 +2149,8 @@ window.nextDistressQuestionBy10 = function () {
     state.distressQuestionIndex += 10;
     console.log('Next distress by 10 - New index:', state.distressQuestionIndex);
     saveUserPreferences(); // Save current distress question
+    // Force reset audio for new question
+    forceResetAudioForNewQuestion();
     render();
   } else {
     console.log('Cannot go forward 10 distress questions');
@@ -2129,6 +2188,8 @@ function startDistressAutoAdvanceTimer() {
     distressAutoAdvanceTimer = setTimeout(() => {
       if (state.distressQuestionIndex < distressQuestions.length - 1) {
         state.distressQuestionIndex++;
+        // Force reset audio for new question
+        forceResetAudioForNewQuestion();
         render();
         startDistressAutoAdvanceTimer();
       }
@@ -2792,3 +2853,104 @@ function handleMobileKeyboard() {
     }
   });
 }
+
+// Audio Player - Using HTML5 native audio element
+
+// Load audio player state from localStorage
+function loadAudioPlayerState() {
+  try {
+    const savedState = localStorage.getItem('audioPlayerState');
+    if (savedState) {
+      const parsedState = JSON.parse(savedState);
+      audioPlayerState = { ...audioPlayerState, ...parsedState };
+    }
+  } catch (e) {
+    console.log('Could not load audio player state:', e);
+  }
+}
+
+// Save audio player state before render
+function saveAudioPlayerState() {
+  const audioElement = document.getElementById('audio-player');
+  if (audioElement) {
+    audioPlayerState.currentTime = audioElement.currentTime;
+    audioPlayerState.isPlaying = !audioElement.paused;
+    audioPlayerState.volume = audioElement.volume;
+    audioPlayerState.muted = audioElement.muted;
+    audioPlayerState.currentQuestion = state.distressQuestionIndex;
+    
+    // Save to localStorage
+    localStorage.setItem('audioPlayerState', JSON.stringify(audioPlayerState));
+  }
+}
+
+// Reset audio player completely
+function resetAudioPlayer() {
+  const audioElement = document.getElementById('audio-player');
+  if (audioElement) {
+    audioElement.pause();
+    audioElement.currentTime = 0;
+    audioElement.load(); // Force reload
+  }
+  audioPlayerState.currentTime = 0;
+  audioPlayerState.isPlaying = false;
+  
+  // Clear the saved state from localStorage
+  localStorage.removeItem('audioPlayerState');
+}
+
+// Force reset audio player for new question
+function forceResetAudioForNewQuestion() {
+  const audioElement = document.getElementById('audio-player');
+  if (audioElement) {
+    // Multiple resets to ensure it works
+    audioElement.pause();
+    audioElement.currentTime = 0;
+    audioElement.load();
+    
+    // Additional reset after a short delay
+    setTimeout(() => {
+      if (audioElement) {
+        audioElement.currentTime = 0;
+        audioElement.pause();
+      }
+    }, 50);
+    
+    // One more reset after the element is fully loaded
+    setTimeout(() => {
+      if (audioElement) {
+        audioElement.currentTime = 0;
+        audioElement.pause();
+      }
+    }, 200);
+  }
+}
+
+
+
+// Restore audio player state after render
+function restoreAudioPlayerState() {
+  const audioElement = document.getElementById('audio-player');
+  if (audioElement) {
+    // Check if we're on a new question
+    if (audioPlayerState.currentQuestion !== state.distressQuestionIndex) {
+      // Reset for new question - pause and reset to beginning
+      resetAudioPlayer();
+      audioPlayerState.currentQuestion = state.distressQuestionIndex;
+      
+      // Force reset multiple times to ensure it starts from 0
+      forceResetAudioForNewQuestion();
+    } else {
+      // Restore state for same question
+      audioElement.currentTime = audioPlayerState.currentTime;
+      audioElement.volume = audioPlayerState.volume;
+      audioElement.muted = audioPlayerState.muted;
+    }
+  }
+}
+
+// Initialize the app
+loadAudioPlayerState();
+render();
+loadUserPreferences();
+
