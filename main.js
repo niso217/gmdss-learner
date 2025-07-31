@@ -23,6 +23,14 @@ const phoneticTab = {
   description: 'מדריך לאלפבית הפונטי בתקשורת ימית'
 };
 
+// הוספת טאב סילבוס
+const syllabusTab = {
+  id: 'syllabus',
+  title: 'סילבוס',
+  type: 'syllabus',
+  description: 'תוכנית הלימודים המלאה לקורס GMDSS'
+};
+
 // הוספת טאב סימולטורים
 const simulatorsTab = {
   id: 'simulators',
@@ -33,6 +41,7 @@ const simulatorsTab = {
 
 // יצירת רשימת טאבים חדשה
 const tabs = [
+  syllabusTab,
   distressTab,
   ...otherQuestions,
   phoneticTab,
@@ -397,7 +406,7 @@ function getSectionKey(qid, sidx) {
 }
 
 function renderTabs() {
-  const tabNames = ['שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'איות פונטי', 'סימולטורים', 'חלק ב'];
+  const tabNames = ['סילבוס', 'שאלות מצוקה', 'מאגר שאלות', 'מבחן אמריקאי', 'איות פונטי', 'סימולטורים', 'חלק ב'];
   return `<div class="header-container">
     <div class="tabs">
       <div class="tabs-left">
@@ -761,6 +770,66 @@ function renderPhoneticAlphabet() {
         </div>
 
 
+      </div>
+    </div>
+  `;
+}
+
+function renderSyllabus() {
+  return `
+    <div class="content">
+      <div class="syllabus-container">
+
+                  <div class="syllabus-content">
+            <div class="syllabus-description">
+              <h3>תיאור הקורס</h3>
+              <p>קורס GMDSS (Global Maritime Distress and Safety System) מכשיר מפעילים לתקשורת ימית בטוחה ומקצועית. הקורס כולל לימוד תיאורטי ומעשי של מערכות התקשורת הימיות, נהלי מצוקה ובטיחות.</p>
+            </div>
+            <div class="syllabus-topics">
+              <h3>נושאי הקורס העיקריים</h3>
+              <div class="topics-list">
+                <div class="topic-item">
+                  <span class="topic-icon">📻</span>
+                  <span class="topic-text">מערכות GMDSS ורכיביהן</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">🚨</span>
+                  <span class="topic-text">נהלי מצוקה ודחיפות</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">📡</span>
+                  <span class="topic-text">תקשורת VHF, MF, HF</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">🛰️</span>
+                  <span class="topic-text">מערכות לווייניות (Inmarsat)</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">📊</span>
+                  <span class="topic-text">מערכות DSC (Digital Selective Calling)</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">🔍</span>
+                  <span class="topic-text">משואות מצוקה (EPIRB, SART)</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">📰</span>
+                  <span class="topic-text">מערכת NAVTEX</span>
+                </div>
+                <div class="topic-item">
+                  <span class="topic-icon">📝</span>
+                  <span class="topic-text">תיעוד ויומן רדיו</span>
+                </div>
+              </div>
+            </div>
+            <div class="syllabus-download">
+              <h3>הורדת הסילבוס המלא</h3>
+              <p>לחץ על הכפתור למטה כדי להוריד את הסילבוס המלא של הקורס בפורמט PDF:</p>
+              <a href="CodeSyllabusLongTermOperatorCertificate.pdf" download class="syllabus-download-btn">
+                📄 הורד סילבוס הקורס (PDF)
+              </a>
+            </div>
+          </div>
       </div>
     </div>
   `;
@@ -1155,16 +1224,18 @@ function render() {
   console.log('render called, tab:', state.tab, 'showExplanation:', state.showExplanation);
   document.body.setAttribute('data-theme', state.theme);
   if (state.tab === 0) {
-    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
+    app.innerHTML = `${renderTabs()}${renderSyllabus()}`;
   } else if (state.tab === 1) {
-    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
+    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
   } else if (state.tab === 2) {
-    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
+    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
   } else if (state.tab === 3) {
-    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
+    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
   } else if (state.tab === 4) {
-    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
   } else if (state.tab === 5) {
+    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+  } else if (state.tab === 6) {
     app.innerHTML = `${renderTabs()}${renderGmdssPart2()}`;
   }
   if (state.mode === 'advanced') {
@@ -1186,16 +1257,18 @@ function renderWithoutFocus() {
   const scrollContainer = document.documentElement;
   scrollContainer.style.overflow = 'hidden';
   if (state.tab === 0) {
-    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
+    app.innerHTML = `${renderTabs()}${renderSyllabus()}`;
   } else if (state.tab === 1) {
-    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
+    app.innerHTML = `${renderTabs()}${renderDistressQuestions()}`;
   } else if (state.tab === 2) {
-    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
+    app.innerHTML = `${renderTabs()}${renderAmericanTest()}`;
   } else if (state.tab === 3) {
-    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
+    app.innerHTML = `${renderTabs()}${renderAmericanExam()}`;
   } else if (state.tab === 4) {
-    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+    app.innerHTML = `${renderTabs()}${renderPhoneticAlphabet()}`;
   } else if (state.tab === 5) {
+    app.innerHTML = `${renderTabs()}${renderSimulators()}`;
+  } else if (state.tab === 6) {
     app.innerHTML = `${renderTabs()}${renderGmdssPart2()}`;
   }
   if (state.mode === 'advanced') {
