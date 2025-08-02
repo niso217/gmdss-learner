@@ -117,9 +117,11 @@ function loadUserPreferences() {
       // Load auto-advance settings
       if (preferences.autoAdvance !== undefined) {
         state.autoAdvance = preferences.autoAdvance;
+        console.log('Loaded autoAdvance:', state.autoAdvance);
       }
       if (preferences.autoAdvanceSeconds !== undefined) {
         state.autoAdvanceSeconds = preferences.autoAdvanceSeconds;
+        console.log('Loaded autoAdvanceSeconds:', state.autoAdvanceSeconds);
       }
       
       // Load distress auto-advance settings
@@ -253,6 +255,7 @@ function showUserPreferences() {
 • Ctrl+Shift+R: אפס העדפות
   `;
   
+  console.log('Current preferences:', preferences);
   alert(message);
 }
 
@@ -448,7 +451,7 @@ function renderBasicSection(section, qid, sidx) {
   return `
     ${section.sentences
       .map((sentence, idx) => {
-        if (idx < revealed) {
+        if (revealed >= section.sentences.length ? true : idx < revealed) {
           const isRadio = isRadioCommunication(sentence);
           const isEng = isEnglish(sentence);
           const direction = isEng ? 'ltr' : 'rtl';
@@ -1792,6 +1795,11 @@ window.selectTab = function (i) {
     state.americanExamFinished = false;
   }
   
+  // אם זה הטאב של השאלות האמריקאיות (index 2), עצור את הטיימר האוטומטי
+  if (i === 2 && state.autoAdvance) {
+    stopAutoAdvance();
+  }
+  
   saveUserPreferences(); // Save current tab
   renderWithoutFocus();
 };
@@ -1869,7 +1877,7 @@ window.showAllSentences = function (key) {
     // טאב אחר (אמריקאי/אחר)
     section = questions[state.tab].sections[parseInt(sidx)];
   }
-  state.revealed[key] = section.sentences.length;
+  state.revealed[key] = Infinity;
   render();
 };
 
@@ -2001,7 +2009,8 @@ window.selectAmericanAnswer = function (questionId, optionId) {
   render();
   
   // Start auto advance timer when user selects an answer
-  if (state.autoAdvance) {
+  if (state.autoAdvance && state.tab === 2) {
+    console.log('Starting auto advance timer for', state.autoAdvanceSeconds, 'seconds');
     startAutoAdvanceTimer();
   }
 
@@ -2016,6 +2025,11 @@ window.selectAmericanQuestion = function (index) {
   state.americanQuestionIndex = index;
   saveUserPreferences(); // Save current American question
   render();
+  
+  // Stop auto advance timer when manually selecting a question
+  if (state.autoAdvance) {
+    stopAutoAdvance();
+  }
 };
 
 window.previousAmericanQuestion = function () {
@@ -2208,16 +2222,18 @@ function stopDistressAutoAdvance() {
 let autoAdvanceTimer = null;
 
 function startAutoAdvance() {
-  if (state.autoAdvance && state.tab === 1) {
+  if (state.autoAdvance && state.tab === 2) {
     clearTimeout(autoAdvanceTimer);
     // Don't start timer immediately - wait for user to select an answer
   }
 }
 
 function startAutoAdvanceTimer() {
-  if (state.autoAdvance && state.tab === 1) {
+  if (state.autoAdvance && state.tab === 2) {
+    console.log('Auto advance timer started for', state.autoAdvanceSeconds, 'seconds');
     clearTimeout(autoAdvanceTimer);
     autoAdvanceTimer = setTimeout(() => {
+      console.log('Auto advance timer fired, advancing to next question');
       if (state.americanQuestionIndex < americanQuestions.length - 1) {
         state.americanQuestionIndex++;
         saveUserPreferences(); // Save the new question index when auto-advancing
@@ -2230,6 +2246,7 @@ function startAutoAdvanceTimer() {
 
 function stopAutoAdvance() {
   if (autoAdvanceTimer) {
+    console.log('Stopping auto advance timer');
     clearTimeout(autoAdvanceTimer);
     autoAdvanceTimer = null;
   }
@@ -2242,10 +2259,12 @@ window.toggleAutoAdvance = function () {
   } else {
     stopAutoAdvance();
   }
+  saveUserPreferences(); // Save auto-advance settings
   render();
 };
 
 window.setAutoAdvanceSeconds = function (seconds) {
+  console.log('Setting auto advance seconds to:', seconds);
   if (seconds === 0) {
     // Turn off auto advance
     state.autoAdvance = false;

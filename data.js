@@ -393,7 +393,6 @@ window.gmdssQuestions = [
         label: "סעיף א",
         description: "ערוך ורשום את כל הנהלים הדרושים להשגת עזרה מיידית.",
         sentences: [
-          "ACTIVE EPIRB A.S.A.P",
           "SEND DISTRESS MESSAGE ON VHF CH 16 25W SET SQUELCH",
           "MAYDAY RELAY MAYDAY RELAY MAYDAY RELAY",
           "ALL STATIONS ALL STATIONS ALL STATIONS",
