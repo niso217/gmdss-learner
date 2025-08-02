@@ -571,6 +571,9 @@ function renderDistressQuestions() {
           <div class="distress-test-header">
             <h2>שאלות מצוקה</h2>
             <p>בחר שאלה מהרשימה למטה</p>
+            <button class="cheat-sheet-btn" onclick="showCheatSheet()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin: 10px 0; width: 100%; max-width: 300px; font-size: 1em;">
+              📋 צ'יט שיט למבחן
+            </button>
           </div>
           <div class="distress-questions-list">
             ${distressQuestions.map((q, index) => `
@@ -663,6 +666,11 @@ function renderDistressQuestions() {
       ${bottomNav}
       ${audioPlayer}
       ${questionHeader}
+      <div class="cheat-sheet-button-container" style="margin: 10px 0; text-align: center;">
+        <button class="cheat-sheet-btn" onclick="showCheatSheet()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 100%; max-width: 300px; font-size: 1em;">
+          📋 צ'יט שיט למבחן
+        </button>
+      </div>
       ${currentQuestion.sections
         .map((section, sidx) => {
           const sectionKey = getSectionKey(currentQuestion.id, sidx);
@@ -2972,4 +2980,520 @@ function restoreAudioPlayerState() {
 loadAudioPlayerState();
 render();
 loadUserPreferences();
+
+// פונקציה להצגת הצ'יט שיט
+function showCheatSheet() {
+  const modal = document.createElement('div');
+  modal.className = 'cheat-sheet-modal';
+  modal.innerHTML = `
+    <div class="cheat-sheet-overlay" onclick="closeCheatSheet()"></div>
+    <div class="cheat-sheet-content">
+      <div class="cheat-sheet-header">
+        <h2>📋 צ'יט שיט למבחן GMDSS - שאלות מצוקה</h2>
+        <button class="close-btn" onclick="closeCheatSheet()">✕</button>
+      </div>
+      <div class="cheat-sheet-body">
+        <div class="cheat-sheet-section">
+          <p><strong>רוב השאלות במבחן בנויות על תבנית קבועה. המטרה היא לזהות את סוג התרחיש, לשלוף את הנתונים מהשאלה, ולהציב אותם בתבנית הנכונה.</strong></p>
+        </div>
+        
+        <div class="cheat-sheet-section">
+          <h3>📝 חלק 1: תבנית MAYDAY רגילה (עבור הספינה שלך)</h3>
+          <p><em>זו התבנית עבור רוב סעיפי א'. פשוט החליפו את מה שבסוגריים המרובעים.</em></p>
+          
+          <div class="template-section">
+            <h4>1. התרעת DSC (ערוץ 70):</h4>
+            <div class="code-block">
+              <code>SEND DISTRESS ALERT ON DSC CH 70 25W</code><br>
+              <code>DISTRESS - <strong>[סוג המצוקה באנגלית]</strong> - UPDATE TIME+POS - DISTRESS SEND</code>
+            </div>
+            
+            <h4>2. הודעת MAYDAY קולית (ערוץ 16):</h4>
+            <div class="code-block">
+              <code>MAYDAY MAYDAY MAYDAY</code><br>
+              <code>THIS IS <strong>[שם הספינה] [שם הספינה] [שם הספינה]</strong></code><br>
+              <code>MMSI <strong>[מספר ה-MMSI מאוית באנגלית]</strong></code><br>
+              <code>MAYDAY</code><br>
+              <code><strong>[שם הספינה]</strong></code><br>
+              <code><strong>[מיקום מאוית באנגלית]</strong></code><br>
+              <code><strong>[תיאור המצוקה באנגלית]</strong></code><br>
+              <code>REQUIRE IMMEDIATE ASSISTANCE</code><br>
+              <code><strong>[מספר נפשות]</strong> PERSONS ON BOARD</code><br>
+              <code>OVER</code>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cheat-sheet-section">
+          <h3>📊 חלק 2: טבלת הנתונים המשתנים (לפי מספר שאלה)</h3>
+          <p><em>השתמשו בטבלה זו כדי למלא את התבנית שלמעלה במהירות.</em></p>
+          
+          <div class="data-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>שאלה</th>
+                  <th>שם ספינה</th>
+                  <th>סוג מצוקה (DSC)</th>
+                  <th>תיאור מצוקה (קולי)</th>
+                  <th>מס' נפשות</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>1</strong></td><td>TOMA</td><td>DISABLE AND ADRIFT</td><td>Disabled and drifting into danger</td><td>7</td></tr>
+                <tr><td><strong>2</strong></td><td>GATO</td><td>FIRE AND EXPLOSION</td><td>Fire on board and in danger of sinking</td><td>8</td></tr>
+                <tr><td><strong>3</strong></td><td>RONI</td><td>FLOODING</td><td>Taking water and in danger of sinking</td><td>9</td></tr>
+                <tr><td><strong>4</strong></td><td>BARI</td><td>ABANDONING SHIP</td><td>Broken mast, no fuel, lost control...</td><td>6</td></tr>
+                <tr><td><strong>6</strong></td><td>SIVOTA</td><td>GROUNDING</td><td>Grounded and in danger of capsizing</td><td>10</td></tr>
+                <tr><td><strong>7</strong></td><td>YDRA</td><td>COLLISION</td><td>Collided with an unknown vessel...</td><td>5</td></tr>
+                <tr><td><strong>8</strong></td><td>ALONISSOS</td><td>PIRACY</td><td>In danger of pirates attack</td><td>11</td></tr>
+                <tr><td><strong>11</strong></td><td>TABOR</td><td>MAN OVER BOARD</td><td>Man over board at position...</td><td>6</td></tr>
+                <tr><td><strong>12</strong></td><td>MIKI</td><td>SINKING</td><td>Danger of capsizing or flooding...</td><td>7</td></tr>
+                <tr><td><strong>13</strong></td><td>JASMIN</td><td>DISABLE AND ADRIFT</td><td>Lost propeller, disabled...</td><td>13</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="cheat-sheet-section">
+          <h3>⚠️ חלק 3: מקרים מיוחדים (זיהוי מהיר)</h3>
+          <p><em>אם התרחיש לא מתאים לתבנית הרגילה, הוא אחד מאלה:</em></p>
+          
+          <div class="special-cases">
+            <div class="special-case">
+              <h4><strong>MAYDAY RELAY (שאלות 5, 10):</strong></h4>
+              <p><strong>המטרה:</strong> לדווח על מצוקה של ספינה <strong>אחרת</strong>.</p>
+              <p><strong>איך מזהים:</strong> שמעתם קריאה חלקית (Q5) או ראיתם ספינה במצוקה (Q10).</p>
+              <p><strong>מה עושים:</strong> מתחילים את הקריאה ב-<code>MAYDAY RELAY</code> (3 פעמים), מזהים את <strong>הספינה שלכם</strong> קודם, ורק אז מוסרים את המידע על הספינה במצוקה.</p>
+            </div>
+            
+            <div class="special-case">
+              <h4><strong>MAN OVERBOARD (שאלות 9, 11):</strong></h4>
+              <p><strong>המטרה:</strong> דיווח על אדם שנפל למים.</p>
+              <p><strong>איך מזהים:</strong> כתוב במפורש בשאלה.</p>
+              <p><strong>מה עושים:</strong> ב-DSC בוחרים <code>MAN OVER BOARD</code>. בהודעה הקולית, מציינים את מיקום הנפילה המדויק (או טווח מיקומים).</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cheat-sheet-section">
+          <h3>🎯 חלק 4: המדריך המהיר לסעיף ב' (הכי חשוב!)</h3>
+          <p><em>כל סעיף ב' בוחן נוהל אחר. זו הרשימה המקוצרת:</em></p>
+          
+          <div class="section-b-guide">
+            <div class="guide-item"><strong>שאלה 1:</strong> ביטול המצוקה → <code>SEELONCE FEENEE</code></div>
+            <div class="guide-item"><strong>שאלה 2:</strong> השתקת הפרעות → <code>SEELONCE MAYDAY</code></div>
+            <div class="guide-item"><strong>שאלה 3:</strong> איך ספינה אחרת מאשרת קבלה → <code>RECEIVED MAYDAY</code></div>
+            <div class="guide-item"><strong>שאלה 4:</strong> התראת SART (נצנוץ וצפצוף) → קליטת מכ"מ של כלי שיט קרוב</div>
+            <div class="guide-item"><strong>שאלה 5:</strong> סימני SART על המכ"מ (12 קשתות) → מכשיר SART נמצא במרחק קטן מ-5 מייל</div>
+            <div class="guide-item"><strong>שאלה 6:</strong> העברת פיקוח על מצוקה → אפשר להעביר לספינה אחרת או לתחנת חוף</div>
+            <div class="guide-item"><strong>שאלה 7:</strong> איך MRCC מרחיב חיפוש → באמצעות <code>NAVTEX</code></div>
+            <div class="guide-item"><strong>שאלה 8:</strong> זמינות מערכת EPIRB → לווייני LEOSAR חולפים כל שעה וחצי בערך</div>
+            <div class="guide-item"><strong>שאלה 9:</strong> השתקת הפרעות → <code>SEELONCE MAYDAY</code></div>
+            <div class="guide-item"><strong>שאלה 10:</strong> סיום הצלה של ספינה אחרת → <code>PRUDONCE</code></div>
+            <div class="guide-item"><strong>שאלה 11:</strong> ביטול התרעת שווא → <code>SEELONCE FEENEE</code></div>
+            <div class="guide-item"><strong>שאלה 12:</strong> מה לבקש מספינה שמגיבה → <code>WHAT IS YOUR DISTANCE AND ETA</code></div>
+            <div class="guide-item"><strong>שאלה 13:</strong> חזרה על מיקום לבקשת ספינה אחרת → <code>I REPEAT MY POSITION...</code></div>
+          </div>
+        </div>
+        
+        <div class="cheat-sheet-footer">
+          <h3>🎉 בהצלחה!</h3>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // הוספת CSS למודל
+  const style = document.createElement('style');
+  style.textContent = `
+    .cheat-sheet-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .cheat-sheet-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    .cheat-sheet-content {
+      position: relative;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 800px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .cheat-sheet-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .cheat-sheet-header h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .cheat-sheet-body {
+      padding: 20px;
+      overflow-y: auto;
+      max-height: calc(90vh - 80px);
+    }
+    
+    .cheat-sheet-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+    }
+    
+    .cheat-sheet-section h3 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    
+    .template-section {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+    }
+    
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.4;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+    
+    .data-table {
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+    
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .data-table th,
+    .data-table td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .data-table th {
+      background: #667eea;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .data-table tr:nth-child(even) {
+      background: #f7fafc;
+    }
+    
+    .data-table tr:hover {
+      background: #edf2f7;
+    }
+    
+    .special-cases {
+      display: grid;
+      gap: 20px;
+      margin: 15px 0;
+    }
+    
+    .special-case {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      border-left: 4px solid #f56565;
+    }
+    
+    .special-case h4 {
+      color: #e53e3e;
+      margin-top: 0;
+    }
+    
+    .section-b-guide {
+      display: grid;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .guide-item {
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 4px solid #48bb78;
+      font-size: 0.95em;
+    }
+    
+    .guide-item code {
+      background: #edf2f7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #2d3748;
+    }
+    
+    .cheat-sheet-footer {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      color: white;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .cheat-sheet-footer h3 {
+      margin: 0;
+      font-size: 1.3em;
+    }
+    
+    @media (max-width: 768px) {
+      .cheat-sheet-content {
+        width: 98vw;
+        max-height: 98vh;
+        margin: 10px;
+        border-radius: 8px;
+      }
+      
+      .cheat-sheet-header {
+        padding: 15px;
+      }
+      
+      .cheat-sheet-header h2 {
+        font-size: 1.2em;
+        line-height: 1.3;
+      }
+      
+      .cheat-sheet-body {
+        padding: 12px;
+        max-height: calc(98vh - 60px);
+      }
+      
+      .cheat-sheet-section {
+        margin-bottom: 20px;
+        padding: 15px;
+      }
+      
+      .cheat-sheet-section h3 {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+      }
+      
+      .template-section {
+        padding: 12px;
+        margin: 10px 0;
+      }
+      
+      .code-block {
+        padding: 12px;
+        font-size: 0.8em;
+        line-height: 1.3;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      .data-table {
+        font-size: 0.75em;
+        margin: 10px 0;
+      }
+      
+      .data-table table {
+        min-width: 600px;
+      }
+      
+      .data-table th,
+      .data-table td {
+        padding: 6px 3px;
+        font-size: 0.7em;
+      }
+      
+      .special-cases {
+        gap: 15px;
+        margin: 10px 0;
+      }
+      
+      .special-case {
+        padding: 12px;
+      }
+      
+      .special-case h4 {
+        font-size: 1em;
+        margin-bottom: 8px;
+      }
+      
+      .section-b-guide {
+        gap: 8px;
+        margin: 10px 0;
+      }
+      
+      .guide-item {
+        padding: 10px;
+        font-size: 0.9em;
+        line-height: 1.4;
+      }
+      
+      .guide-item code {
+        font-size: 0.85em;
+        padding: 1px 4px;
+      }
+      
+      .cheat-sheet-footer {
+        padding: 15px;
+        margin-top: 15px;
+      }
+      
+      .cheat-sheet-footer h3 {
+        font-size: 1.1em;
+      }
+      
+      .close-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .cheat-sheet-content {
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+      }
+      
+      .cheat-sheet-header {
+        padding: 12px;
+      }
+      
+      .cheat-sheet-header h2 {
+        font-size: 1.1em;
+      }
+      
+      .cheat-sheet-body {
+        padding: 10px;
+        max-height: calc(100vh - 50px);
+      }
+      
+      .cheat-sheet-section {
+        margin-bottom: 15px;
+        padding: 12px;
+      }
+      
+      .data-table {
+        font-size: 0.7em;
+      }
+      
+      .data-table table {
+        min-width: 500px;
+      }
+      
+      .data-table th,
+      .data-table td {
+        padding: 4px 2px;
+        font-size: 0.65em;
+      }
+      
+      .code-block {
+        font-size: 0.75em;
+        padding: 10px;
+      }
+      
+      .guide-item {
+        font-size: 0.85em;
+        padding: 8px;
+      }
+      
+      .guide-item code {
+        font-size: 0.8em;
+      }
+      
+      .cheat-sheet-btn {
+        width: 100% !important;
+        max-width: 300px !important;
+        font-size: 1em !important;
+        padding: 15px 20px !important;
+        margin: 10px auto !important;
+        display: block !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .cheat-sheet-btn {
+        width: 100% !important;
+        max-width: 280px !important;
+        font-size: 0.95em !important;
+        padding: 12px 18px !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// פונקציה לסגירת הצ'יט שיט
+function closeCheatSheet() {
+  const modal = document.querySelector('.cheat-sheet-modal');
+  if (modal) {
+    modal.remove();
+  }
+}
 
